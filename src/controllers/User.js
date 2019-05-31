@@ -28,8 +28,7 @@ const User = {
             req.body.surname,
             req.body.email,
             hashPassword,
-            req.body.phone_number || undefined,
-            req.body.birth_date || undefined
+            req.body.phone_number || undefined
         ];
 
         try {
