@@ -1,6 +1,6 @@
 import moment from "moment";
 import uuidv4 from "uuid/v4";
-import db from '../db';
+import db from '../db/index.js';
 import Helper from "./Helper";
 
 const User = {
@@ -18,8 +18,8 @@ const User = {
         const hashPassword = Helper.hashPassword(req.body.password);
 
         const query = `INSERT INTO
-        users(user_id, name, surname, email, password, phone_number, birth_date)
-        VALUES($1, $2, $3, $4, $5, $6, $7)
+        users(id, name, surname, email, password, phone_number)
+        VALUES($1, $2, $3, $4, $5, $6)
         returning *`;
 
         const values = [
@@ -33,8 +33,9 @@ const User = {
 
         try {
             const { rows } = await db.query(query, values);
-            const token = Helper.generateToken(rows[0].user_id);
-            return res.status(200).send({ token });
+            const token = Helper.generateToken(rows[0].id);
+            res.cookie('x-access-token', { token });
+            return res.status(200).send();
 
         } catch (err) {
             if (err.routine === '_bt_check_unique') {
@@ -63,9 +64,10 @@ const User = {
                 return res.status(400).send({'message': 'Password is invalid'})
             };
 
-            const token = Helper.generateToken(rows[0].user_id);
+            const token = Helper.generateToken(rows[0].id);
             
-            return res.status(200).send({ token });
+            res.cookie('x-access-token', { token });
+            return res.status(200).send();
         } catch (err) {
             return res.status(400).send(err);
         }

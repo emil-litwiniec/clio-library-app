@@ -3,8 +3,8 @@ import jwt from "jsonwebtoken";
 import db from "../db/index";
 
 const Auth = {
-    async verifyToken(req, res, next, isAdmin) {
-        const token = req.headers['x-access-token'];
+    async verifyToken(req, res, next) {
+        const { token } = req.cookies['x-access-token'];
 
         if(!token) {
             return res.status(400).send({'message': "Token is not provided"});
@@ -24,7 +24,7 @@ const Auth = {
         }
     },
 
-    async verifyAdminToken(req, res, next, isAdmin) {
+    async verifyAdminToken(req, res, next) {
         const token = req.headers['x-access-token'];
 
         if(!token) {
@@ -32,7 +32,7 @@ const Auth = {
         }
         try {
             const decoded = await jwt.verify(token, process.env.SECRET);
-            const text = 'SELECT * FROM admins WHERE id = $1';
+            const text = 'SELECT * FROM admins WHERE user_id = $1';
             const { rows } = await db.query(text, [decoded.userId]);
 
             if(!rows[0]) {
