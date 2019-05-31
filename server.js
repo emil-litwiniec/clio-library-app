@@ -21,6 +21,10 @@ app.post('/createUser', User.create);
 app.post('/login', User.login);
 app.get('/something', Auth.verifyToken, (req, res) => {
     res.status(200).send({"message": "authorization works"});
+});
+
+app.get('/admin', Auth.verifyAdminToken, (req, res) => {
+    res.status(200).send({'message': "admin works"})
 })
 
 // app.get('/admin', Auth.verifyAdminToken, (req, res) => {

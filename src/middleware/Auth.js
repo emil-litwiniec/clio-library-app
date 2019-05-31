@@ -25,7 +25,7 @@ const Auth = {
     },
 
     async verifyAdminToken(req, res, next) {
-        const token = req.headers['x-access-token'];
+        const { token } = req.cookies['x-access-token'];
 
         if(!token) {
             return res.status(400).send({'message': "Token is not provided"});
