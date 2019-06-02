@@ -10,6 +10,7 @@ import Auth from './src/middleware/Auth';
 
 import Search from "./src/controllers/Search";
 import Books from "./src/controllers/Books";
+import Authors from "./src/controllers/Authors";
 
 
 dotenv.config();
@@ -25,8 +26,11 @@ app.use(cookieParser());
 app.get('/search', Search.search);
 app.post('/user/create', User.create);
 
-app.put('/admin/insert', Books.insert);
-app.delete('/admin/remove', Books.remove);
+app.put('/admin/addBook', Books.insert);
+app.delete('/admin/removeBook', Books.remove);
+
+app.put('/admin/addAuthor', Authors.insert);
+// app.put('/admin/removeAuthor', Authors.remove);
 
 app.post('/user/prolong');
 app.post('/user/reservation');
