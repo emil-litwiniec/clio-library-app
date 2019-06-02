@@ -46,7 +46,7 @@ const Queries = {
         books(
             book_id UUID PRIMARY KEY,
             title VARCHAR(250) NOT NULL,
-            author_id INT,
+            author_id INT NOT NULL,
             series VARCHAR(250),
             edition VARCHAR(200),
             genre_id INT,
@@ -56,7 +56,9 @@ const Queries = {
             pub_year INT,
             translator_id INT,
             pub_id INT,
-            isbn VARCHAR NOT NULL
+            isbn VARCHAR NOT NULL,
+            create_date DATE,
+            last_update DATE
         )`,
 
         authors: `CREATE TABLE IF NOT EXISTS
@@ -94,13 +96,13 @@ const Queries = {
     },
 
     drop: {
-        users: 'DROP TABLE IF EXISTS users returning *',
-        admins: 'DROP TABLE IF EXISTS admins returning *',
-        books: 'DROP TABLE IF EXISTS books returning *',
-        authors: 'DROP TABLE IF EXISTS authors returning *',
-        publishers: 'DROP TABLE IF EXISTS publishers returning *',
-        translators: 'DROP TABLE IF EXISTS translators returning *',
-        borrows: 'DROP TABLE IF EXISTS borrows returning *'
+        users: 'DROP TABLE IF EXISTS users',
+        admins: 'DROP TABLE IF EXISTS admins',
+        books: 'DROP TABLE IF EXISTS books',
+        authors: 'DROP TABLE IF EXISTS authors',
+        publishers: 'DROP TABLE IF EXISTS publishers',
+        translators: 'DROP TABLE IF EXISTS translators',
+        borrows: 'DROP TABLE IF EXISTS borrows'
     }
 
 }
