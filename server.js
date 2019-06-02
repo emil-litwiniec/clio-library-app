@@ -26,6 +26,7 @@ app.get('/search', Search.search);
 app.post('/user/create', User.create);
 
 app.put('/admin/insert', Books.insert);
+app.delete('/admin/remove', Books.remove);
 
 app.post('/user/prolong');
 app.post('/user/reservation');

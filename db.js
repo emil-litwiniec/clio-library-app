@@ -29,8 +29,8 @@ const Queries = {
         users: `CREATE TABLE IF NOT EXISTS
         users(
             id UUID PRIMARY KEY,
-            name VARCHAR(30) NOT NULL,
-            surname VARCHAR(30) NOT NULL,
+            first_name VARCHAR(30) NOT NULL,
+            last_name VARCHAR(30) NOT NULL,
             email VARCHAR(128) UNIQUE NOT NULL,
             password VARCHAR(128) NOT NULL,
             phone_number VARCHAR(30) NOT NULL
@@ -46,16 +46,16 @@ const Queries = {
         books(
             book_id UUID PRIMARY KEY,
             title VARCHAR(250) NOT NULL,
-            author_id INT NOT NULL,
+            author_id INT NOT NULL REFERENCES authors (author_id),
             series VARCHAR(250),
             edition VARCHAR(200),
-            genre_id INT,
+            genre_id INT REFERENCES genres (genre_id),
             keywords VARCHAR[],
             ukd INT UNIQUE,
             lang VARCHAR(50) NOT NULL,
             pub_year INT,
-            translator_id INT,
-            pub_id INT,
+            translator_id INT REFERENCES translators (translator_id),
+            pub_id INT REFERENCES publishers (pub_id),
             isbn VARCHAR NOT NULL,
             create_date DATE,
             last_update DATE
@@ -88,10 +88,15 @@ const Queries = {
         borrows: `CREATE TABLE IF NOT EXISTS
         borrows(
             borrow_id UUID PRIMARY KEY,
-            user_id UUID NOT NULL,
-            book_id UUID NOT NULL,
+            user_id UUID NOT NULL REFERENCES users (id),
+            book_id UUID NOT NULL REFERENCES books (book_id),
             taken_date DATE NOT NULL,
             brought_date DATE
+        )`,
+        genres: `CREATE TABLE IF NOT EXISTS
+        genres(
+            genre_id SERIAL PRIMARY KEY,
+            genre_name VARCHAR(100) UNIQUE NOT NULL
         )`
     },
 
@@ -102,7 +107,8 @@ const Queries = {
         authors: 'DROP TABLE IF EXISTS authors',
         publishers: 'DROP TABLE IF EXISTS publishers',
         translators: 'DROP TABLE IF EXISTS translators',
-        borrows: 'DROP TABLE IF EXISTS borrows'
+        borrows: 'DROP TABLE IF EXISTS borrows',
+        genres: 'DROP TABLE IF EXISTS genres'
     }
 
 }
@@ -116,6 +122,7 @@ const createAuthorsTable = () => table('authors', Queries.create.authors);
 const createPublishersTable = () => table('publishers', Queries.create.publishers);
 const createTranslatorsTable = () => table('translators', Queries.create.translators);
 const createBorrowsTable = () => table('borrows', Queries.create.borrows);
+const createGenresTable = () => table('genres', Queries.create.genres);
 
 const dropUsersTable = () => table('users', Queries.drop.users);
 
@@ -126,6 +133,7 @@ const dropAuthorsTable = () => table('authors', Queries.drop.authors);
 const dropPublishersTable = () => table('publishers', Queries.drop.publishers);
 const dropTranslatorsTable = () => table('translators', Queries.drop.translators);
 const dropBorrowsTable = () => table('borrows', Queries.drop.borrows);
+const dropGenresTable = () => table('genres', Queries.drop.genres);
 
 
 const createAllTables = () => {
@@ -136,6 +144,7 @@ const createAllTables = () => {
     createPublishersTable();
     createTranslatorsTable();
     createBorrowsTable();
+    createGenresTable();
 };
 
 const dropAllTables = () => {
@@ -146,6 +155,7 @@ const dropAllTables = () => {
     dropPublishersTable();
     dropTranslatorsTable();
     dropBorrowsTable();
+    dropGenresTable();
 }
 
 pool.on('remove', () => {
@@ -162,6 +172,8 @@ module.exports = {
     createPublishersTable,
     createTranslatorsTable,
     createBorrowsTable,
+    createGenresTable,
+
     dropUsersTable,
     dropAdminsTable,
     dropBooksTable,
@@ -169,6 +181,8 @@ module.exports = {
     dropPublishersTable,
     dropTranslatorsTable,
     dropBorrowsTable,
+    dropGenresTable,
+
     createAllTables,
     dropAllTables
 };
