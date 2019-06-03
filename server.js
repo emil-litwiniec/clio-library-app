@@ -31,6 +31,7 @@ app.delete('/admin/removeBook', Books.remove);
 
 app.put('/admin/addAuthor', Authors.insert);
 app.delete('/admin/removeAuthor', Authors.remove);
+app.patch('/admin/updateAuthor', Authors.update);
 
 app.post('/user/prolong');
 app.post('/user/reservation');
