@@ -30,7 +30,7 @@ app.put('/admin/addBook', Books.insert);
 app.delete('/admin/removeBook', Books.remove);
 
 app.put('/admin/addAuthor', Authors.insert);
-// app.put('/admin/removeAuthor', Authors.remove);
+app.delete('/admin/removeAuthor', Authors.remove);
 
 app.post('/user/prolong');
 app.post('/user/reservation');
