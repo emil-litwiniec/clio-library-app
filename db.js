@@ -15,7 +15,7 @@ pool.on('connect', () => {
 const table = (table, query) => {
     pool.query(query).then(data => {
         console.log(data);
-        console.log(`${table} table created`);
+        console.log(`done`);
         pool.end();
     }).catch(err => {
         console.log(err);
@@ -90,9 +90,9 @@ const Queries = {
             borrow_id UUID PRIMARY KEY,
             user_id UUID NOT NULL REFERENCES users (id),
             book_id UUID NOT NULL REFERENCES books (book_id),
-            taken_date DATE NOT NULL,
-            exp_brought_date DATE NOT NULL,
-            brought_date DATE
+            taken_date TIMESTAMP NOT NULL,
+            exp_brought_date TIMESTAMP NOT NULL,
+            brought_date TIMESTAMP
         )`,
         genres: `CREATE TABLE IF NOT EXISTS
         genres(

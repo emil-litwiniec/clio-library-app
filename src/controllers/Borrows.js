@@ -16,7 +16,7 @@ const Borrows = {
              *      check if book is available to borrow
              */
 
-             
+
             const userQuery = `SELECT id FROM users WHERE id='${req.body.userId}'`; 
             const bookQuery = `SELECT book_id FROM books WHERE book_id='${req.body.bookId}'`; 
 
@@ -30,15 +30,16 @@ const Borrows = {
 
             
             const insertQuery = `INSERT INTO
-            borrows(borrow_id ,user_id, book_id, taken_date)
-            VALUES($1, $2, $3, $4)
+            borrows(borrow_id ,user_id, book_id, taken_date, exp_brought_date)
+            VALUES($1, $2, $3, $4, $5)
             RETURNING *`;
     
             const insertValues = [
                 uuidv4(),
                 req.body.userId,
                 req.body.bookId,
-                moment(new Date())
+                moment(new Date()),
+                moment(new Date()).add(3, 'weeks')
             ];
 
             const { rows: insertBorrow } = await db.query(insertQuery, insertValues);
@@ -51,7 +52,11 @@ const Borrows = {
         } catch (err) {
             return res.status(400).send(err);
         }
-    }
+    },
+    // async bookReturn(req, res) {
+    //     if(!req.body.borrowId)
+    // }
+    
 }
 
 export default Borrows;
