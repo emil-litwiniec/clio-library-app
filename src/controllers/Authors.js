@@ -1,5 +1,4 @@
 import db from "../db/index";
-import { updateLocale } from "moment";
 
 const Authors = {
     async insert(req, res) {

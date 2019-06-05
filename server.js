@@ -11,6 +11,7 @@ import Auth from './src/middleware/Auth';
 import Search from "./src/controllers/Search";
 import Books from "./src/controllers/Books";
 import Authors from "./src/controllers/Authors";
+import Borrows from "./src/controllers/Borrows";
 
 
 dotenv.config();
@@ -24,7 +25,7 @@ app.use(cookieParser());
 
 
 app.get('/search', Search.search);
-app.post('/user/create', User.create);
+app.put('/user/create', User.create);
 
 app.put('/admin/addBook', Books.insert);
 app.delete('/admin/removeBook', Books.remove);
@@ -33,8 +34,13 @@ app.put('/admin/addAuthor', Authors.insert);
 app.delete('/admin/removeAuthor', Authors.remove);
 app.patch('/admin/updateAuthor', Authors.update);
 
+app.put('/admin/createBorrow', Borrows.create);
+// app.put('/admin/returnBorrow', Borrows.return);
+// app.put('/admin/deleteBorrow', Borrows.delete);
+
 app.post('/user/prolong');
 app.post('/user/reservation');
+
 app.post('/login', User.login);
 app.get('/something', Auth.verifyToken, (req, res) => {
     res.status(200).send({ "message": "authorization works" });
