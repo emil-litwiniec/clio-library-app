@@ -91,6 +91,7 @@ const Queries = {
             user_id UUID NOT NULL REFERENCES users (id),
             book_id UUID NOT NULL REFERENCES books (book_id),
             taken_date DATE NOT NULL,
+            exp_brought_date DATE NOT NULL,
             brought_date DATE
         )`,
         genres: `CREATE TABLE IF NOT EXISTS
