@@ -34,9 +34,9 @@ app.put('/admin/addAuthor', Authors.insert);
 app.delete('/admin/removeAuthor', Authors.remove);
 app.patch('/admin/updateAuthor', Authors.update);
 
-app.put('/admin/createBorrow', Borrows.create);
+app.put('/admin/addBorrow', Borrows.add);
 app.patch('/admin/returnBook', Borrows.bookReturn);
-// app.put('/admin/deleteBorrow', Borrows.delete);
+app.delete('/admin/removeBorrow', Borrows.remove);
 
 app.post('/user/prolong');
 app.post('/user/reservation');

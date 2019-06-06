@@ -3,7 +3,7 @@ import uuidv4 from 'uuid/v4';
 import moment from 'moment';
 
 const Borrows = {
-    async create(req, res) {
+    async add(req, res) {
         if(!req.body.userId || !req.body.bookId) {
             return res.status(400).send({"message": `Please, provide
             user id and book id.`})
@@ -87,6 +87,27 @@ const Borrows = {
 
             return res.status(200).send(borrow[0]);
         } catch (err) {
+            return res.status(400).send(err);
+        }
+    },
+    async remove(req ,res) {
+        if(!req.body.borrowId) {
+            return res.status(400).send({"message": "Please, provide id of the borrow."})
+        }
+
+        const deleteQuery = `DELETE FROM borrows
+        WHERE borrow_id='${req.body.borrowId}'
+        RETURNING *`
+
+        try {
+            const { rows } = await db.query(deleteQuery);
+
+            if(!rows[0]) {
+                return res.status(400).send({"message": "Something wrong with the query."})
+            }
+
+            return res.status(200).send({'message': `Borrow ${req.body.borrowId} has been deleted.`})
+        } catch(err) { 
             return res.status(400).send(err);
         }
     }
