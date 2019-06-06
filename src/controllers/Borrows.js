@@ -53,9 +53,43 @@ const Borrows = {
             return res.status(400).send(err);
         }
     },
-    // async bookReturn(req, res) {
-    //     if(!req.body.borrowId)
-    // }
+    async bookReturn(req, res) {
+        if(!req.body.borrowId) {
+            return res.status(400).send({"message": "Please, provide id of the borrow."})
+        };
+
+        const findBroughtDate = `SELECT brought_date
+        FROM borrows
+        WHERE borrow_id='${req.body.borrowId}'`;
+
+
+
+        const query = `UPDATE borrows
+        SET brought_date='${moment(new Date()).format()}'
+        WHERE 
+            borrow_id='${req.body.borrowId}'
+        RETURNING *`;
+
+        try {
+
+            const {rows: isBrought} = await db.query(findBroughtDate);
+            
+            if(isBrought[0].brought_date !== null) {
+                return res.status(400).send({'message': "The book has already been returned."})
+            }
+            const { rows: borrow } = await db.query(query);
+
+
+
+            if(!borrow[0]) {
+                return res.status(404).send({"message": "There is no such borrow in the database."})
+            }
+
+            return res.status(200).send(borrow[0]);
+        } catch (err) {
+            return res.status(400).send(err);
+        }
+    }
     
 }
 

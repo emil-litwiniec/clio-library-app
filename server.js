@@ -35,7 +35,7 @@ app.delete('/admin/removeAuthor', Authors.remove);
 app.patch('/admin/updateAuthor', Authors.update);
 
 app.put('/admin/createBorrow', Borrows.create);
-// app.put('/admin/returnBorrow', Borrows.bookReturn);
+app.patch('/admin/returnBook', Borrows.bookReturn);
 // app.put('/admin/deleteBorrow', Borrows.delete);
 
 app.post('/user/prolong');
