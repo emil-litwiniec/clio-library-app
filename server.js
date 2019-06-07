@@ -12,6 +12,7 @@ import Search from "./src/controllers/Search";
 import Books from "./src/controllers/Books";
 import Authors from "./src/controllers/Authors";
 import Borrows from "./src/controllers/Borrows";
+import Genres from "./src/controllers/Genres";
 
 
 dotenv.config();
@@ -37,6 +38,8 @@ app.patch('/admin/updateAuthor', Authors.update);
 app.put('/admin/addBorrow', Borrows.add);
 app.patch('/admin/returnBook', Borrows.bookReturn);
 app.delete('/admin/removeBorrow', Borrows.remove);
+
+app.put('/admin/addGenre', Genres.add)
 
 app.post('/user/prolong');
 app.post('/user/reservation');
