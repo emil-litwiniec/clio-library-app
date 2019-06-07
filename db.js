@@ -46,16 +46,16 @@ const Queries = {
         books(
             book_id UUID PRIMARY KEY,
             title VARCHAR(250) NOT NULL,
-            author_id INT NOT NULL REFERENCES authors (author_id),
+            author_id INT REFERENCES authors (author_id) ON DELETE SET NULL,
             series VARCHAR(250),
             edition VARCHAR(200),
-            genre_id INT REFERENCES genres (genre_id),
+            genre_id INT REFERENCES genres (genre_id) ON DELETE SET NULL,
             keywords VARCHAR[],
             ukd INT UNIQUE,
             lang VARCHAR(50) NOT NULL,
             pub_year INT,
-            translator_id INT REFERENCES translators (translator_id),
-            pub_id INT REFERENCES publishers (pub_id),
+            translator_id INT REFERENCES translators (translator_id) ON DELETE SET NULL,
+            pub_id INT REFERENCES publishers (pub_id) ON DELETE SET NULL,
             isbn VARCHAR NOT NULL,
             create_date DATE,
             last_update DATE
@@ -102,14 +102,14 @@ const Queries = {
     },
 
     drop: {
-        users: 'DROP TABLE IF EXISTS users',
-        admins: 'DROP TABLE IF EXISTS admins',
-        books: 'DROP TABLE IF EXISTS books',
-        authors: 'DROP TABLE IF EXISTS authors',
-        publishers: 'DROP TABLE IF EXISTS publishers',
-        translators: 'DROP TABLE IF EXISTS translators',
-        borrows: 'DROP TABLE IF EXISTS borrows',
-        genres: 'DROP TABLE IF EXISTS genres'
+        users: 'DROP TABLE IF EXISTS users CASCADE',
+        admins: 'DROP TABLE IF EXISTS admins CASCADE',
+        books: 'DROP TABLE IF EXISTS books CASCADE',
+        authors: 'DROP TABLE IF EXISTS authors CASCADE',
+        publishers: 'DROP TABLE IF EXISTS publishers CASCADE',
+        translators: 'DROP TABLE IF EXISTS translators CASCADE',
+        borrows: 'DROP TABLE IF EXISTS borrows CASCADE',
+        genres: 'DROP TABLE IF EXISTS genres CASCADE'
     }
 
 }
