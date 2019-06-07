@@ -40,6 +40,7 @@ app.patch('/admin/returnBook', Borrows.bookReturn);
 app.delete('/admin/removeBorrow', Borrows.remove);
 
 app.put('/admin/addGenre', Genres.add)
+app.delete('/admin/removeGenre', Genres.remove)
 
 app.post('/user/prolong');
 app.post('/user/reservation');
