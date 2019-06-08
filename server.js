@@ -48,7 +48,7 @@ app.put('/admin/addPublisher', Publishers.add);
 app.delete('/admin/removePublisher', Publishers.remove)
 
 app.put('/admin/addTranslator', Translators.add);
-// app.delete('/admin/removeTranslator', Translators.remove)
+app.delete('/admin/removeTranslator', Translators.remove)
 
 app.post('/user/prolong');
 app.post('/user/reservation');

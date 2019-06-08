@@ -45,6 +45,28 @@ const Translators = {
         } catch (err) {
             return res.status(400).send(err);
         }
+    },
+    async remove(req, res) {
+        if(!req.body.translatorId) {
+            return res.status(400).send({"message": "Please, provide id of the translator to remove."})
+        }
+
+        const query = `DELETE FROM translators
+        WHERE translator_id = ${req.body.translatorId}
+        RETURNING *`;
+
+        try {
+            const { rows: removedTranslator } = await db.query(query);
+
+            if(!removedTranslator[0]) {
+                return res.status(404).send({"message": `Unable to find translator with id of: ${req.body.translatorId}`});
+
+            }
+
+            return res.status(200).send({"message": "Translator has been deleted."})
+        } catch (err) {
+            return res.status(400).send(err);
+        }
     }
 }
 
