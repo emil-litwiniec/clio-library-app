@@ -13,6 +13,7 @@ import Books from "./src/controllers/Books";
 import Authors from "./src/controllers/Authors";
 import Borrows from "./src/controllers/Borrows";
 import Genres from "./src/controllers/Genres";
+import Publishers from "./src/controllers/Publishers";
 
 
 dotenv.config();
@@ -41,6 +42,9 @@ app.delete('/admin/removeBorrow', Borrows.remove);
 
 app.put('/admin/addGenre', Genres.add)
 app.delete('/admin/removeGenre', Genres.remove)
+
+app.put('/admin/addPublisher', Publishers.add);
+// app.delete('/admin/removeGenre', Genres.remove)
 
 app.post('/user/prolong');
 app.post('/user/reservation');
