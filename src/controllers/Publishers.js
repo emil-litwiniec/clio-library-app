@@ -44,7 +44,29 @@ const Publishers = {
         } catch (err) {
             return res.status(400).send(err);
         } 
+    },
+
+    async remove(req, res) {
+        if(!req.body.pubId) {
+            return res.status(400).send({"message": "Please, provide id of the publisher to remove."})
+        }
+
+        const query = `DELETE FROM publishers
+        WHERE pub_id=${req.body.pubId}
+        RETURNING *`;
+
+        try {
+            const { rows: removedPub } = await db.query(query);
+            if(!removedPub[0]) {
+                return res.status(404).send({"message": `Unable to find publisher with id of: ${pubId}.` })
+            }
+
+            return res.status(200).send({"message": "Publisher has been deleted."});
+        } catch(err) {
+            return res.status(400).send(err);
+        }
     }
+
 }
 
 

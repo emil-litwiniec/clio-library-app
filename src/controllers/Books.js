@@ -58,9 +58,9 @@ const Books = {
                     req.body.keywords,
                     req.body.ukd,
                     req.body.lang,
-                    req.body.pub_year,
-                    req.body.translator_id,
-                    req.body.pub_id,
+                    req.body.pubYear,
+                    req.body.translatorId,
+                    req.body.pubId,
                     req.body.isbn,
                     moment(new Date())
                 ];
@@ -80,9 +80,9 @@ const Books = {
                 req.body.keywords,
                 req.body.ukd,
                 req.body.lang,
-                req.body.pub_year,
-                req.body.translator_id,
-                req.body.pub_id,
+                req.body.pubYear,
+                req.body.translatorId,
+                req.body.pubId,
                 req.body.isbn,
                 moment(new Date())
             ];

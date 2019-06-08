@@ -44,7 +44,7 @@ app.put('/admin/addGenre', Genres.add)
 app.delete('/admin/removeGenre', Genres.remove)
 
 app.put('/admin/addPublisher', Publishers.add);
-// app.delete('/admin/removeGenre', Genres.remove)
+app.delete('/admin/removePublisher', Publishers.remove)
 
 app.post('/user/prolong');
 app.post('/user/reservation');
