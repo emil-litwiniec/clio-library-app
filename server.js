@@ -43,6 +43,7 @@ app.delete('/admin/removeBorrow', Borrows.remove);
 
 app.put('/admin/addGenre', Genres.add)
 app.delete('/admin/removeGenre', Genres.remove)
+app.patch('/admin/updateGenre', Genres.update)
 
 app.put('/admin/addPublisher', Publishers.add);
 app.delete('/admin/removePublisher', Publishers.remove)

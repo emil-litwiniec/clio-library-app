@@ -60,6 +60,30 @@ const Genres = {
         } catch (err) {
             return res.status(400).send(err);
         }
+    },
+    async update(req, res) {
+        if(!req.body.genreId || !req.body.genreNewName) {
+            console.log(req.body.genreId, req.body.genreNewName)
+            return res.status(400).send({"message": "Please, provide id and new name for genre."})
+        }
+
+        const updateQuery = `UPDATE genres
+        SET genre_name = '${req.body.genreNewName}'
+        WHERE genre_id = ${req.body.genreId}
+        RETURNING *`
+        ;
+
+        try {
+            const { rows: genre } = await db.query(updateQuery);
+
+            if(!genre[0]){
+                return res.status(404).send({"message": `Unable to find genre with an id of: ${req.body.genreId}.`})
+            }
+
+            return res.status(200).send({"message": "Genre has been updated."})
+        } catch (err) { 
+            return res.status(400).send(err);
+        }
     }
 }
 
