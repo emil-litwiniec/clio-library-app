@@ -34,5 +34,4 @@ const columnNames = {
     }
 };
 
-
-export { columnNames };
+export { columnNames};
