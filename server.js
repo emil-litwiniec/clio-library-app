@@ -32,6 +32,7 @@ app.put('/user/create', User.create);
 
 app.put('/admin/addBook', Books.insert);
 app.delete('/admin/removeBook', Books.remove);
+app.patch('/admin/updateBook', Books.update);
 
 app.put('/admin/addAuthor', Authors.insert);
 app.delete('/admin/removeAuthor', Authors.remove);

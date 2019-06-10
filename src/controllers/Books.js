@@ -3,6 +3,9 @@ import uuidv4 from "uuid/v4";
 
 import db from "../db/index";
 
+import utils from "../utils/utils";
+import {columnNames} from "../utils/columnNames";
+
 
 const Books = {
     async insert(req, res) {
@@ -116,11 +119,21 @@ const Books = {
     },
 
     async update(req, res) {
-        if(!req.body.bookId) {
-            return res.status(400).send({'message': "Provide id of the book to update"})
-        }
+        // if(!req.body.bookId) {
+        //     return res.status(400).send({'message': "Provide id of the book to update"})
+        // }
 
-        const query = ``;
+
+        const dbColumns = utils.setColumnsNames(req, columnNames.books);
+        const values = utils.setValuesNames(req);
+        const setQueries = dbColumns.map((el, idx) => `${el} = ${values[idx]}`);
+
+        const query = `UPDATE books
+        SET last_update = '${moment(new Date()).format()}',
+            ${setQueries}
+        WHERE book_id = '${req.body.bookId}'
+        RETURNING *`;
+    
 
         try {
             const { rows } = await db.query(query);
@@ -132,6 +145,8 @@ const Books = {
         } catch (err) {
             return res.status(400).send(err);
         }
+
+        return res.status(200).send({'message': "Book has been updated"});
     }
 
 }
