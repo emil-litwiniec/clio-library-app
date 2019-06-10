@@ -50,7 +50,8 @@ app.put('/admin/addPublisher', Publishers.add);
 app.delete('/admin/removePublisher', Publishers.remove)
 
 app.put('/admin/addTranslator', Translators.add);
-app.delete('/admin/removeTranslator', Translators.remove)
+app.delete('/admin/removeTranslator', Translators.remove);
+app.patch('/admin/updateTranslator', Translators.update);
 
 app.post('/user/prolong');
 app.post('/user/reservation');

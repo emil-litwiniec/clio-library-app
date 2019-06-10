@@ -67,6 +67,31 @@ const Translators = {
         } catch (err) {
             return res.status(400).send(err);
         }
+    },
+    async update(req, res) {
+        if(!req.body.translatorId || !req.body.firstName || !req.body.lastName) {
+            return res.status(400).send({"message": "Please, provide translator's data."})
+        }
+
+        const updateQuery = `UPDATE translators
+        SET first_name = '${req.body.firstName}',
+            last_name = '${req.body.lastName}'
+        WHERE translator_id = ${req.body.translatorId}
+        RETURNING *`
+        ;
+
+        try {
+            const { rows: translator } = await db.query(updateQuery);
+
+            if(!translator[0]) {
+                return res.status(404).send({"message": "Unable to find the translator."})
+            }
+
+            return res.status(200).send({"message": "Translator has been updated."})
+
+        } catch (err) {
+            return res.status(400).send(err);
+        }
     }
 }
 
