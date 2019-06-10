@@ -32,6 +32,7 @@ const columnNames = {
                 return ;
         }
     }
-} 
+};
 
-export default columnNames;
+
+export { columnNames };

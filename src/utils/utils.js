@@ -1,9 +1,8 @@
 
 
 const utils = {
-    populateColsToSet(req, cb, strInit) {
+    setColumnsNames(req, cb) {
         const keys = Object.keys(req.body);
-        let str = strInit;
         const newKeys = keys.map(el => {
             return cb(el);
         });
@@ -13,7 +12,31 @@ const utils = {
             }
         });
 
-        return str;
+        let result = newKeys.filter(el => el !== undefined);
+
+
+        return result;
+    },
+    setValuesNames(req) {
+
+        const values = [
+            `'${req.body.title}'` || undefined,
+            req.body.authorId || undefined,
+            `'${req.body.series}'` || undefined,
+            `'${req.body.edition}'` || undefined,
+            req.body.genreId || undefined,
+            req.body.keywords || undefined,
+            req.body.ukd || undefined,
+            `'${req.body.lang}'` || undefined,
+            req.body.pubYear || undefined,
+            req.body.translatorId || undefined,
+            req.body.pubId || undefined,
+            `'${req.body.isbn}'` || undefined
+
+        ];
+        let result = values.filter(el => el !== undefined);
+
+        return result;
     }
 };
 
