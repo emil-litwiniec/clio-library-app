@@ -119,9 +119,9 @@ const Books = {
     },
 
     async update(req, res) {
-        // if(!req.body.bookId) {
-        //     return res.status(400).send({'message': "Provide id of the book to update"})
-        // }
+        if(!req.body.bookId) {
+            return res.status(400).send({'message': "Provide id of the book to update"})
+        }
 
 
         const dbColumns = utils.setColumnsNames(req, columnNames.books);
@@ -145,8 +145,6 @@ const Books = {
         } catch (err) {
             return res.status(400).send(err);
         }
-
-        return res.status(200).send({'message': "Book has been updated"});
     }
 
 }
