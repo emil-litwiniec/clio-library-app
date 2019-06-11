@@ -1,5 +1,8 @@
 import db from "../db/index";
 
+import utils from "../utils/utils";
+import {columnNames} from "../utils/columnNames";
+
 const Publishers = {
     async add(req, res) {
         if(!req.body.name){
@@ -62,6 +65,35 @@ const Publishers = {
             }
 
             return res.status(200).send({"message": "Publisher has been deleted."});
+        } catch(err) {
+            return res.status(400).send(err);
+        }
+    },
+    async update(req, res) {
+        if(!req.body.pubId) {
+            return res.status(400).send({"message": "Please, provide id of a publisher."})
+        }
+
+        const dbColumns = utils.setColumnsNames(req, columnNames.publishers);
+        const values = utils.setPublishersValuesNames(req);
+
+        const setQueries = utils.setQueries(dbColumns, values);
+        
+        console.log(setQueries);
+
+        const updateQuery = `UPDATE publishers
+        SET ${setQueries}
+        WHERE pub_id = ${req.body.pubId}
+        RETURNING *`
+        ;
+
+        try {
+
+            const {rows: publisher} = await db.query(updateQuery);
+            if(!publisher[0]) {
+                return res.status(404).send({"message": `Unable to find publisher with id of: ${req.body.pubId}.`})
+            }
+            return res.status(200).send({"message": "Publisher has been updated."})
         } catch(err) {
             return res.status(400).send(err);
         }

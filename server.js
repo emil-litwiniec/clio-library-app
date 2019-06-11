@@ -48,6 +48,7 @@ app.patch('/admin/updateGenre', Genres.update)
 
 app.put('/admin/addPublisher', Publishers.add);
 app.delete('/admin/removePublisher', Publishers.remove)
+app.patch('/admin/updatePublisher', Publishers.update)
 
 app.put('/admin/addTranslator', Translators.add);
 app.delete('/admin/removeTranslator', Translators.remove);

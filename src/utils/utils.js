@@ -1,6 +1,9 @@
 
 
 const utils = {
+    setQueries(dbColumns, newValues) {
+        return dbColumns.map((el, idx) => `${el} = ${newValues[idx]}`);
+    },
     setColumnsNames(req, cb) {
         const keys = Object.keys(req.body);
         const newKeys = keys.map(el => {
@@ -39,7 +42,7 @@ const utils = {
             req.body.name ?  `'${req.body.name}'` : undefined,
             req.body.estYear || undefined,
             req.body.address  ? `'${req.body.address}'` : undefined,
-            req.body.origin ? `'${req.body.origin}'` : undefined
+            req.body.origin ? `'${req.body.origin.toUpperCase()}'` : undefined
         ];
 
         let result = values.filter(el => el !== undefined);

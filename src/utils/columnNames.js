@@ -31,7 +31,21 @@ const columnNames = {
             default:
                 return ;
         }
+    },
+    publishers (val) {
+        switch(val) {
+            case 'name':
+                return 'name';
+            case 'estYear':
+                return 'est_year';
+            case 'address':
+                return 'address';
+            case 'origin':
+                return 'origin';
+            default:
+                return;
+        }
     }
 };
 
-export { columnNames};
+export { columnNames };
