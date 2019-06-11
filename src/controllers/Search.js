@@ -1,5 +1,7 @@
 import db from "../db/index";
 
+import searchQueries from "../utils/searchQueries";
+
 const Search = {
     async search(req, res) {
         const params = req.query;
@@ -9,11 +11,26 @@ const Search = {
         }
 
         console.log(params.name);
+        console.log(params);
+        function queryParam1(val) {
+            switch (val){
+                case 'b':
+                    return 'books';
+                case 'a':
+                    return 'authors';
+                default: 
+                    return 'books';
+            }
 
-        const query = `
-        SELECT *
-        FROM users
-        WHERE name='${params.name}'`;
+        }
+        const queryTable = queryParam1(params.query);
+
+
+        
+
+        const query = searchQueries.selectBook + `\n WHERE ${params.col} = '${params.value}'`;
+
+        console.log(query);
         
         try {
             const { rows } = await db.query(query);
