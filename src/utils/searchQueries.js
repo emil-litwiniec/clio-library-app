@@ -28,10 +28,16 @@ FROM authors`,
 
 const queryFormat = {
     whereClause(col, vals) {
+        if(typeof col === 'string' && typeof vals === 'string') {
+            col = [col];
+            vals = [vals]
+        }
         if(col.length == 1 && vals.length == 1) {
-            return `\n WHERE ${col[0]} = '${vals[0]}'`
+            console.log(typeof col, typeof vals)
+            return `\n WHERE ${col[0]} ~* '(\\m${vals[0]}\\M)'`
         } else if(col.length > 1 && vals.length > 1 ) {
-            let query = `\n WHERE ${col[0]} = '${vals[0]}'`;
+            console.log(typeof col, typeof vals)
+            let query = `\n WHERE ${col[0]} ~* '(\\m${vals[0]}\\M)'`;
             for(let i = 1; i < col.length; i++) {
                 let newCol = col[i];
 
@@ -49,7 +55,7 @@ const queryFormat = {
                         newCol = `CONCAT(E.first_name, ' ', E.last_name)`;
                         break;
                 }
-                query = query + `\n AND ${newCol} = '${vals[i]}'`;
+                query = query + `\n AND ${newCol} ~* '(\\m${vals[i]}\\M)'`;
             };
             return query;
         }
