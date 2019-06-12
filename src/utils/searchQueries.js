@@ -7,6 +7,7 @@ const searchQueries = {
     A.isbn,
     A.keywords,
     A.ukd,
+    A.pub_year AS year,
     CONCAT(B.first_name, ' ', B.last_name) AS author,
     C.name AS publisher,
     D.genre_name AS genre,
@@ -59,6 +60,36 @@ const queryFormat = {
             };
             return query;
         }
+    },
+    yearRange(obj, hasCols) {
+
+
+        let keys = Object.keys(obj);
+       if(keys.length === 0) {
+           return '';
+       }
+    //    console.log(keys.length);
+        if(keys.length === 1) {
+            // console.log(keys[0]);
+            if(keys[0] === 'yearStart') {
+                if(hasCols) {
+                    return `\n AND A.pub_year >= ${obj.yearStart} AND A.pub_year <= 3000`
+                }
+                return `\n WHERE A.pub_year >= ${obj.yearStart} AND A.pub_year <= 3000`;
+
+            } else if (keys[0] === 'yearEnd') {
+                if(hasCols) {
+                    return `\n AND A.pub_year >= 0 AND A.pub_year <= ${obj.yearEnd}`
+                }
+                return `\n WHERE A.pub_year >= 0 AND A.pub_year <= ${obj.yearEnd}`;
+            }
+        }
+
+        if(hasCols) {
+            return `\n AND A.pub_year >= ${obj.yearStart} AND A.pub_year <= ${obj.yearEnd}`
+        }
+
+        return `\n WHERE A.pub_year >= ${obj.yearStart} AND A.pub_year <= ${obj.yearEnd}`
     }
 }
 

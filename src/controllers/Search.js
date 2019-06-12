@@ -19,10 +19,29 @@ const Search = {
                     return 'books';
             }
         }
-        const queryTable = queryParam1(params.query);
-        const query = searchQueries.selectBook + queryFormat.whereClause(params.col, params.value);
+        let yearRange = {};
+        Object.entries(params).forEach(el => {
+            if(el[0] === 'yearStart') {
+                yearRange.yearStart = el[1];
+            } else if (el[0] === 'yearEnd') {
+                yearRange.yearEnd = el[1];
+            }
+        });
 
-        
+        const areYears = Object.keys(yearRange).length === 0 ? false : true;
+
+        console.log(areYears);
+        const hasCols = Object.keys(params).includes('col');
+        const whereClause = hasCols ? queryFormat.whereClause(params.col, params.value) : '';
+        const yearRangeClause = areYears ? queryFormat.yearRange(yearRange, hasCols) : '';
+
+        console.log(yearRangeClause);
+
+        const query = searchQueries.selectBook + whereClause
+            + yearRangeClause;
+
+            console.log(query);
+
         try {
             const { rows } = await db.query(query);
             if(!rows[0]) {
