@@ -1,6 +1,5 @@
 import db from "../db/index";
-
-import searchQueries from "../utils/searchQueries";
+import {searchQueries, queryFormat } from "../utils/searchQueries";
 
 const Search = {
     async search(req, res) {
@@ -10,8 +9,6 @@ const Search = {
             return res.status(400).send({"message": "Enter at least one value to search"});
         }
 
-        console.log(params.name);
-        console.log(params);
         function queryParam1(val) {
             switch (val){
                 case 'b':
@@ -21,16 +18,10 @@ const Search = {
                 default: 
                     return 'books';
             }
-
         }
         const queryTable = queryParam1(params.query);
+        const query = searchQueries.selectBook + queryFormat.whereClause(params.col, params.value);
 
-
-        
-
-        const query = searchQueries.selectBook + `\n WHERE ${params.col} = '${params.value}'`;
-
-        console.log(query);
         
         try {
             const { rows } = await db.query(query);
