@@ -18,44 +18,59 @@ LEFT JOIN publishers AS C ON A .pub_id = C.pub_id
 LEFT JOIN genres AS D ON A .genre_id = D.genre_id
 LEFT JOIN translators AS E ON A .translator_id = E.translator_id`,
 
-    selectAllAuthors: `SELECT CONCAT(first_name + ' ' + last_name) AS author,
+    selectAuthor: `SELECT CONCAT(first_name, ' ', last_name) AS author,
     origin
 FROM authors`,
-    selectAuthor: `SELECT CONCAT(first_name + ' ' + last_name) AS author,
-    origin
-    FROM authors
-    WHERE CONCAT(LOWER(first_name) + ' ' + LOWER(last_name)) = ''`
+
+    select (param) {
+        switch(param){
+            case 'b':
+                return this.selectBook;
+            case 'a':
+                return this.selectAuthor;
+            default:
+                return res.status(400).send({"message": "default query"})
+        }
+    }
 };
 
 const queryFormat = {
-    whereClause(col, vals) {
+    whereClause(col, vals, query) {
+
+        const colSwitch = (col, query) => {
+            switch(col) {
+                case 'author': 
+                if(query == 'b') {
+                    return `CONCAT(B.first_name, ' ', B.last_name)`;
+                } else if (query == 'a') {
+                    return `CONCAT(first_name, ' ', last_name)`
+                }
+                    break;
+                case 'genre':
+                    return `D.genre_name`;
+                case 'publisher':
+                    return `C.name`;
+                case 'translator':
+                    return `CONCAT(E.first_name, ' ', E.last_name)`;
+            }
+        }
+
         if(typeof col === 'string' && typeof vals === 'string') {
             col = [col];
             vals = [vals]
         }
         if(col.length == 1 && vals.length == 1) {
-            console.log(typeof col, typeof vals)
-            return `\n WHERE ${col[0]} ~* '(\\m${vals[0]}\\M)'`
+
+            let newCol = colSwitch(col[0], query);
+            return `\n WHERE ${newCol} ~* '(\\m${vals[0]}\\M)'`
+
         } else if(col.length > 1 && vals.length > 1 ) {
-            console.log(typeof col, typeof vals)
+
             let query = `\n WHERE ${col[0]} ~* '(\\m${vals[0]}\\M)'`;
             for(let i = 1; i < col.length; i++) {
                 let newCol = col[i];
 
-                switch(col[i]) {
-                    case 'author': 
-                        newCol = `CONCAT(B.first_name, ' ', B.last_name)`;
-                        break;
-                    case 'genre':
-                        newCol = `D.genre_name`;
-                        break;
-                    case 'publisher':
-                        newCol = `C.name`;
-                        break;
-                    case 'translator':
-                        newCol = `CONCAT(E.first_name, ' ', E.last_name)`;
-                        break;
-                }
+               
                 query = query + `\n AND ${newCol} ~* '(\\m${vals[i]}\\M)'`;
             };
             return query;
