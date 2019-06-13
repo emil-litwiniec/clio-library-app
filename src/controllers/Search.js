@@ -19,6 +19,8 @@ const Search = {
                     return 'books';
             }
         }
+
+        // build yearRange object depending on available query string parameters
         let yearRange = {};
         Object.entries(params).forEach(el => {
             if(el[0] === 'yearStart') {
@@ -28,19 +30,20 @@ const Search = {
             }
         });
 
+        // check query string for specific parameters
         const areYears = Object.keys(yearRange).length === 0 ? false : true;
-
-        console.log(areYears);
         const hasCols = Object.keys(params).includes('col');
-        const whereClause = hasCols ? queryFormat.whereClause(params.col, params.value) : '';
+        const whereClause = hasCols ? queryFormat.whereClause(params.col, params.value, params.query) : '';
         const yearRangeClause = areYears ? queryFormat.yearRange(yearRange, hasCols) : '';
+        
 
-        console.log(yearRangeClause);
+        
 
-        const query = searchQueries.selectBook + whereClause
+
+        const query = searchQueries.select(params.query) + whereClause
             + yearRangeClause;
 
-            console.log(query);
+            console.log('query: ', query);
 
         try {
             const { rows } = await db.query(query);
