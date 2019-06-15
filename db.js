@@ -98,6 +98,13 @@ const Queries = {
         genres(
             genre_id SERIAL PRIMARY KEY,
             genre_name VARCHAR(100) UNIQUE NOT NULL
+        )`,
+        reservations: `CREATE TABLE IF NOT EXISTS
+        reservations(
+            res_id UUID PRIMARY KEY,
+            user_id UUID NOT NULL REFERENCES users (id),
+            book_id UUID NOT NULL REFERENCES books (book_id),
+            res_date TIMESTAMP NOT NULL
         )`
     },
 
@@ -109,7 +116,8 @@ const Queries = {
         publishers: 'DROP TABLE IF EXISTS publishers CASCADE',
         translators: 'DROP TABLE IF EXISTS translators CASCADE',
         borrows: 'DROP TABLE IF EXISTS borrows CASCADE',
-        genres: 'DROP TABLE IF EXISTS genres CASCADE'
+        genres: 'DROP TABLE IF EXISTS genres CASCADE',
+        reservations: 'DROP TABLE IF EXISTS reservations CASCADE'
     }
 
 }
@@ -124,6 +132,7 @@ const createPublishersTable = () => table('publishers', Queries.create.publisher
 const createTranslatorsTable = () => table('translators', Queries.create.translators);
 const createBorrowsTable = () => table('borrows', Queries.create.borrows);
 const createGenresTable = () => table('genres', Queries.create.genres);
+const createReservationsTable = () => table('reservations', Queries.create.reservations);
 
 const dropUsersTable = () => table('users', Queries.drop.users);
 
@@ -135,27 +144,31 @@ const dropPublishersTable = () => table('publishers', Queries.drop.publishers);
 const dropTranslatorsTable = () => table('translators', Queries.drop.translators);
 const dropBorrowsTable = () => table('borrows', Queries.drop.borrows);
 const dropGenresTable = () => table('genres', Queries.drop.genres);
+const dropReservationsTable = () => table('reservations', Queries.drop.reservations);
 
 
 const createAllTables = () => {
-    createUsersTable();
-    createAdminsTable();
-    createBooksTable();
     createAuthorsTable();
     createPublishersTable();
     createTranslatorsTable();
     createBorrowsTable();
     createGenresTable();
+    createUsersTable();
+    createAdminsTable();
+    createBooksTable();
+    createReservationsTable();
+
 };
 
 const dropAllTables = () => {
     dropUsersTable();
-    dropAdminsTable();
     dropBooksTable();
+    dropBorrowsTable();
+    dropReservationsTable();
+    dropAdminsTable();
     dropAuthorsTable();
     dropPublishersTable();
     dropTranslatorsTable();
-    dropBorrowsTable();
     dropGenresTable();
 }
 
@@ -167,13 +180,14 @@ pool.on('remove', () => {
 
 module.exports = {
     createUsersTable,
-    createAdminsTable,
     createBooksTable,
+    createAdminsTable,
     createAuthorsTable,
     createPublishersTable,
     createTranslatorsTable,
     createBorrowsTable,
     createGenresTable,
+    createReservationsTable,
 
     dropUsersTable,
     dropAdminsTable,
@@ -183,6 +197,7 @@ module.exports = {
     dropTranslatorsTable,
     dropBorrowsTable,
     dropGenresTable,
+    dropReservationsTable,
 
     createAllTables,
     dropAllTables
