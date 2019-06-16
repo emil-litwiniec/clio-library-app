@@ -8,18 +8,7 @@ const Search = {
         if(Object.entries(params).length == 0) {
             return res.status(400).send({"message": "Enter at least one value to search"});
         }
-
-        function queryParam1(val) {
-            switch (val){
-                case 'b':
-                    return 'books';
-                case 'a':
-                    return 'authors';
-                default: 
-                    return 'books';
-            }
-        }
-
+        
         // build yearRange object depending on available query string parameters
         let yearRange = {};
         Object.entries(params).forEach(el => {

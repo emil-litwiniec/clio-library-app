@@ -58,9 +58,10 @@ const Borrows = {
             return res.status(400).send({"message": "Please, provide id of the borrow."})
         };
 
-        const findBroughtDate = `SELECT brought_date
+        const findBroughtDate = `SELECT *
         FROM borrows
         WHERE borrow_id='${req.body.borrowId}'`;
+        const testQuery = `SELECT * FROM borrows`;
 
 
 
@@ -73,6 +74,8 @@ const Borrows = {
         try {
 
             const {rows: isBrought} = await db.query(findBroughtDate);
+
+            // return res.status(200).send(isBrought[0]);
             
             if(isBrought[0].brought_date !== null) {
                 return res.status(400).send({'message': "The book has already been returned."})
@@ -84,8 +87,10 @@ const Borrows = {
             if(!borrow[0]) {
                 return res.status(404).send({"message": "There is no such borrow in the database."})
             }
-
-            return res.status(200).send(borrow[0]);
+            
+            
+            // return res.status(200).send(borrow[0]);
+            return res.status(200).send('hejka');
         } catch (err) {
             return res.status(400).send(err);
         }
