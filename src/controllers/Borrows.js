@@ -12,7 +12,7 @@ const Borrows = {
         try {
 
             // Check if book and user exist in the db
-            
+
             const userQuery = `SELECT id FROM users WHERE id='${req.body.userId}'`; 
             const bookQuery = `SELECT book_id FROM books WHERE book_id='${req.body.bookId}'`; 
 
@@ -123,6 +123,43 @@ const Borrows = {
 
             return res.status(200).send({'message': `Borrow ${req.body.borrowId} has been deleted.`})
         } catch(err) { 
+            return res.status(400).send(err);
+        }
+    },
+    async prolong(req, res) {
+        if(!req.body.borrowId) {
+            return res.status(400).send({"message": "Please, provide id of the borrow."})
+        }
+
+        const selectQuery = `SELECT prolongs, brought_date
+        FROM borrows
+        WHERE borrow_id = '${req.body.borrowId}'`;
+
+        const prolongQuery = `UPDATE borrows
+        SET prolongs = prolongs + 1
+        WHERE borrow_id = '${req.body.borrowId}'
+        RETURNING *`;
+
+        try {
+            const { rows: prolongAmount } = await db.query(selectQuery);
+            
+            if(prolongAmount[0].prolongs >= 3 ) {
+                return res.status(400).send({"message": "You have exceeded maximum amount of prolongs."})
+            }
+            if(prolongAmount[0].brought_date !== null) {
+                return res.status(400).send({"message" : "This book has already been returned."} )
+            }
+
+            const { rows: prolongs} = await db.query(prolongQuery);
+
+            if(!prolongs[0]) {
+                return res.status(404).send({"message": "Unable to find the borrow."})
+            }
+
+            return res.status(200).send(prolongs[0]);
+
+
+        } catch (err) {
             return res.status(400).send(err);
         }
     }

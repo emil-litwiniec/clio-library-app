@@ -54,7 +54,7 @@ app.put('/admin/addTranslator', Translators.add);
 app.delete('/admin/removeTranslator', Translators.remove);
 app.patch('/admin/updateTranslator', Translators.update);
 
-app.post('/user/prolong');
+app.post('/user/prolong', Borrows.prolong);
 app.post('/user/reservation');
 
 app.post('/login', User.login);
