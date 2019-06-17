@@ -11,24 +11,35 @@ const Borrows = {
 
         try {
 
-            /**
-             * TODO:
-             *      check if book is available to borrow
-             */
-
-
+            // Check if book and user exist in the db
+            
             const userQuery = `SELECT id FROM users WHERE id='${req.body.userId}'`; 
             const bookQuery = `SELECT book_id FROM books WHERE book_id='${req.body.bookId}'`; 
 
             const { rows: isUser } = await db.query(userQuery);
             const { rows: isBook } = await db.query(bookQuery);
 
+            console.log(isUser[0]);
+            console.log(isBook[0]);
+
             if(!isUser[0] || !isBook[0]) {
                 return res.status(404).send({'message': "Provided data doesn't exist in the database."});
             }
 
 
-            
+            // Check if book is already borrowed 
+
+            const borrowedQuery = `SELECT * 
+            FROM borrows
+            WHERE book_id = '${req.body.bookId}'
+                AND brought_date IS NULL`;
+
+            const { rows: isBorrowed } = await db.query(borrowedQuery);
+
+            if(isBorrowed[0]) {
+                return res.status(400).send({"message" : "The book is already borrowed."})
+            }
+
             const insertQuery = `INSERT INTO
             borrows(borrow_id ,user_id, book_id, taken_date, exp_brought_date)
             VALUES($1, $2, $3, $4, $5)
@@ -89,8 +100,7 @@ const Borrows = {
             }
             
             
-            // return res.status(200).send(borrow[0]);
-            return res.status(200).send('hejka');
+            return res.status(200).send(borrow[0]);
         } catch (err) {
             return res.status(400).send(err);
         }
