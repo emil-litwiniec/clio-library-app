@@ -92,7 +92,9 @@ const Queries = {
             book_id UUID NOT NULL REFERENCES books (book_id),
             taken_date TIMESTAMP NOT NULL,
             exp_brought_date TIMESTAMP NOT NULL,
-            brought_date TIMESTAMP
+            brought_date TIMESTAMP,
+            prolongs INTEGER
+
         )`,
         genres: `CREATE TABLE IF NOT EXISTS
         genres(
