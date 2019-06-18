@@ -131,14 +131,11 @@ const Borrows = {
             return res.status(400).send({"message": "Please, provide id of the borrow."})
         }
 
-        const selectQuery = `SELECT prolongs, brought_date
+        const selectQuery = `SELECT prolongs, brought_date, exp_brought_date
         FROM borrows
         WHERE borrow_id = '${req.body.borrowId}'`;
 
-        const prolongQuery = `UPDATE borrows
-        SET prolongs = prolongs + 1
-        WHERE borrow_id = '${req.body.borrowId}'
-        RETURNING *`;
+        
 
         try {
             const { rows: prolongAmount } = await db.query(selectQuery);
@@ -149,6 +146,20 @@ const Borrows = {
             if(prolongAmount[0].brought_date !== null) {
                 return res.status(400).send({"message" : "This book has already been returned."} )
             }
+            console.log(prolongAmount[0].exp_brought_date);
+            const expBroughtDate = prolongAmount[0].exp_brought_date;
+            const now = moment(new Date());
+
+            if(now.isAfter(expBroughtDate)) {
+                console.log('After!');
+                return res.status(400).send({"message": "Unable to prolong the book."});
+            }
+
+            const prolongQuery = `UPDATE borrows
+            SET prolongs = prolongs + 1,
+                exp_brought_date = '${moment(expBroughtDate).add(2, 'w').format()}'
+            WHERE borrow_id = '${req.body.borrowId}'
+            RETURNING *`;
 
             const { rows: prolongs} = await db.query(prolongQuery);
 
@@ -157,6 +168,8 @@ const Borrows = {
             }
 
             return res.status(200).send(prolongs[0]);
+
+            // return res.status(200).send("Done");
 
 
         } catch (err) {
