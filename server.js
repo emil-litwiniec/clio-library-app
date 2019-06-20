@@ -15,6 +15,8 @@ import Borrows from "./src/controllers/Borrows";
 import Genres from "./src/controllers/Genres";
 import Publishers from "./src/controllers/Publishers";
 import Translators from "./src/controllers/Translators";
+import Reservations from "./src/controllers/Reservations";
+
 
 
 dotenv.config();
@@ -54,8 +56,10 @@ app.put('/admin/addTranslator', Translators.add);
 app.delete('/admin/removeTranslator', Translators.remove);
 app.patch('/admin/updateTranslator', Translators.update);
 
+
 app.post('/user/prolong', Borrows.prolong);
-app.post('/user/reservation');
+app.post('/user/addReservation', Reservations.add);
+app.delete('/user/removeReservation', Reservations.remove)
 
 app.post('/login', User.login);
 app.get('/something', Auth.verifyToken, (req, res) => {

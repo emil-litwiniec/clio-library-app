@@ -146,12 +146,10 @@ const Borrows = {
             if(prolongAmount[0].brought_date !== null) {
                 return res.status(400).send({"message" : "This book has already been returned."} )
             }
-            console.log(prolongAmount[0].exp_brought_date);
             const expBroughtDate = prolongAmount[0].exp_brought_date;
             const now = moment(new Date());
 
             if(now.isAfter(expBroughtDate)) {
-                console.log('After!');
                 return res.status(400).send({"message": "Unable to prolong the book."});
             }
 
@@ -168,10 +166,6 @@ const Borrows = {
             }
 
             return res.status(200).send(prolongs[0]);
-
-            // return res.status(200).send("Done");
-
-
         } catch (err) {
             return res.status(400).send(err);
         }
