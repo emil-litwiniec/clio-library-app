@@ -1,7 +1,8 @@
-
+import moment from "moment";
 
 const searchQueries = {
-    selectBook: `SELECT A.title AS title, 
+    selectBook: `SELECT A.title AS title,
+	A.book_id,
     A.series,
     A.edition,
     A.isbn,
@@ -17,13 +18,25 @@ const searchQueries = {
     	ELSE
     	'false'
     	END  
-    	AS isBorrowed
+    	AS isBorrowed,
+    CASE WHEN G.res_date > timestamp '${moment(new Date()).format()}' THEN
+    	'true'
+   		ELSE 
+   		'false'
+   		END
+   		AS isReserved
 FROM books AS A
 LEFT JOIN authors AS B ON A .author_id = B.author_id
 LEFT JOIN publishers AS C ON A .pub_id = C.pub_id
 LEFT JOIN genres AS D ON A .genre_id = D.genre_id
 LEFT JOIN translators AS E ON A .translator_id = E.translator_id
-LEFT JOIN borrows AS F ON A .book_id = F.book_id`,
+LEFT JOIN (
+	SELECT borrow_id, book_id, exp_brought_date, brought_date
+	FROM borrows
+	WHERE brought_date IS NULL
+) 	AS F 
+	ON A.book_id = F.book_id
+LEFT JOIN reservations AS G ON A .book_id = G.book_id`,
 
     selectAuthor: `SELECT CONCAT(first_name, ' ', last_name) AS author,
     origin
