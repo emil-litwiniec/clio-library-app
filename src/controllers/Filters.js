@@ -12,11 +12,6 @@ const Filters = {
         FROM translators`;
 
         try{
-            // const { rows: genres } = await db.query(genresQuery);
-            // const { rows: authors } = await db.query(authorsQuery);
-            // const { rows: publishers } = await db.query(publishersQuery);
-            // const { rows: translators } = await db.query(translatorsQuery);
-
             const [
                 { rows: genres },
                 { rows: authors },
@@ -28,9 +23,6 @@ const Filters = {
                 db.query(publishersQuery),
                 db.query(translatorsQuery)
             ]);
-
-
-            // console.log(object);
 
             return res.status(200).send({
                 genres, 

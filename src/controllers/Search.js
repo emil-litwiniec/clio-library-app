@@ -32,7 +32,6 @@ const Search = {
         const query = searchQueries.select(params.query) + whereClause
             + yearRangeClause;
 
-            console.log('query: ', query);
 
         try {
             const { rows } = await db.query(query);

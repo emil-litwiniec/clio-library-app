@@ -79,8 +79,6 @@ const Publishers = {
 
         const setQueries = utils.setQueries(dbColumns, values);
         
-        console.log(setQueries);
-
         const updateQuery = `UPDATE publishers
         SET ${setQueries}
         WHERE pub_id = ${req.body.pubId}

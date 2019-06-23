@@ -36,6 +36,8 @@ app.use(cookieParser());
 
 app.get('/search', Search.search);
 app.put('/user/create', User.create);
+app.get('/user/getData', User.getData);
+
 
 app.put('/admin/addBook', Books.insert);
 app.delete('/admin/removeBook', Books.remove);
@@ -64,7 +66,7 @@ app.patch('/admin/updateTranslator', Translators.update);
 
 app.post('/user/prolong', Borrows.prolong);
 app.post('/user/addReservation', Reservations.add);
-app.delete('/user/removeReservation', Reservations.remove)
+app.delete('/user/removeReservation', Reservations.remove);
 
 app.get('/admin/filters', Filters.getAll);
 

@@ -127,7 +127,6 @@ const Books = {
         const dbColumns = utils.setColumnsNames(req, columnNames.books);
         const values = utils.setBooksValuesNames(req);
 
-        console.log(values);
         const setQueries = dbColumns.map((el, idx) => `${el} = ${values[idx]}`);
 
         const query = `UPDATE books
@@ -135,9 +134,6 @@ const Books = {
             ${setQueries}
         WHERE book_id = '${req.body.bookId}'
         RETURNING *`;
-
-        console.log(query);
-    
 
         try {
             const { rows } = await db.query(query);
