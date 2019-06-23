@@ -20,6 +20,7 @@ import Genres from "./src/controllers/Genres";
 import Publishers from "./src/controllers/Publishers";
 import Translators from "./src/controllers/Translators";
 import Reservations from "./src/controllers/Reservations";
+import Filters from "./src/controllers/Filters";
 
 
 
@@ -64,6 +65,8 @@ app.patch('/admin/updateTranslator', Translators.update);
 app.post('/user/prolong', Borrows.prolong);
 app.post('/user/addReservation', Reservations.add);
 app.delete('/user/removeReservation', Reservations.remove)
+
+app.get('/admin/filters', Filters.getAll);
 
 app.post('/login', User.login);
 app.get('/something', Auth.verifyToken, (req, res) => {
