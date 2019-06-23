@@ -78,6 +78,30 @@ const Reservations = {
         } catch(err) { 
             return res.status(400).send(err);
         }
+    },
+    async removeOutdated() {
+        const query =`DELETE FROM reservations
+        WHERE res_id IN (
+            SELECT res_id 
+            FROM reservations
+            WHERE res_date < timestamp '${moment(new Date()).format()}'
+        )
+        RETURNING *`;
+
+        try {
+            const { rows: deleted} = await db.query(query);
+
+            if (deleted[0]) {
+                console.log("Outdated reservations have been deleted.");
+                return
+            }
+            console.log("No outdated reservations.");
+            return
+            
+        } catch(err) {
+            console.log(err);
+            return
+        }
     }
     
 }

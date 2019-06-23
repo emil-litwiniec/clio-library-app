@@ -4,6 +4,10 @@ import '@babel/polyfill';
 
 import cookieParser from "cookie-parser";
 
+import cron from 'node-cron';
+
+// var cron = require('node-cron');
+
 import User from "./src/controllers/User";
 
 import Auth from './src/middleware/Auth';
@@ -74,6 +78,14 @@ app.get('/admin/', Auth.verifyAdminToken, (req, res) => {
 //     return res.status(200).send({"message": "You are on admin's route."})
 // });
 
+
+// check for outdated reservations every 6 hours
+cron.schedule('0 */6 * * *', () => {
+    Reservations.removeOutdated();
+})
+
 app.listen(3000);
+
+
 
 console.log('server is running on port', PORT);
