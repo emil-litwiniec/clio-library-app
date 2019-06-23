@@ -85,6 +85,77 @@ const User = {
         } catch (err) {
             return res.status(400).send(err)
         }
+    },
+    async getData (req, res) {
+
+        if(!req.body.userId) {
+            return res.status(400).send({"message": "Please, provide user id."})
+        }
+        const userQuery = `SELECT 
+        first_name, 
+        last_name, 
+        email, 
+        phone_number
+        FROM users
+        WHERE id = '${req.body.userId}'`;
+
+        const borrowsQuery = `SELECT
+            A.borrow_id,
+            A.taken_date,
+            A.exp_brought_date,
+            A.prolongs,
+            B.title,
+            CONCAT(C.first_name, ' ', C.last_name) AS author,
+            B.pub_year,
+            B.isbn
+        FROM
+            borrows AS A
+        LEFT JOIN books AS B ON
+            A.book_id = B.book_id
+        LEFT JOIN authors AS C ON
+            B.author_id = C.author_id
+        WHERE
+            A.user_id = '${req.body.userId}'
+            AND A.brought_date IS NULL`;
+
+        const reservationsQuery = `SELECT
+            A.res_id,
+            A.res_date,
+            B.title,
+            CONCAT(C.first_name, ' ', C.last_name) AS author,
+            B.pub_year,
+            B.isbn
+            FROM reservations AS A
+            LEFT JOIN books AS B ON
+            A.book_id = B.book_id
+        LEFT JOIN authors AS C ON
+            B.author_id = C.author_id
+        WHERE
+            A.user_id = '${req.body.userId}'`;
+
+        try {
+            const [
+                { rows: user },
+                { rows: borrows },
+                { rows: reservations }
+            ] = await Promise.all([
+                db.query(userQuery), 
+                db.query(borrowsQuery), 
+                db.query(reservationsQuery)
+            ]);
+
+            if(!user[0]) {
+                return res.status(400).send({"message": "Unable to find user with provided id."})
+            }
+
+            return res.status(200).send({
+                user: user[0],
+                borrows: borrows[0],
+                reservations: reservations[0]
+            })
+        } catch(err) {
+            return res.status(400).send(err);
+        }
     }
 
 }
