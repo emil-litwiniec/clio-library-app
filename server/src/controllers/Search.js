@@ -33,6 +33,7 @@ const Search = {
             + yearRangeClause;
 
 
+            console.log(query);
         try {
             const { rows } = await db.query(query);
             if(!rows[0]) {

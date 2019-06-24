@@ -12,7 +12,7 @@ const Search = () => {
             url: 'http://localhost:3000/search',
             params: {
                 query: values.query,
-                col: "author",
+                col: values.searchBy,
                 value: values.value
             }
         
@@ -35,7 +35,8 @@ const Search = () => {
             <Formik
                 initialValues={{
                     value: "",
-                    query: "b"
+                    query: "b",
+                    searchBy: "title"
                 }}
                 onSubmit={(values, actions) => {
                     alert(JSON.stringify(values, null, 2));
@@ -54,6 +55,21 @@ const Search = () => {
                         {props.errors.name && (
                             <div id="feedback">{props.errors.name}</div>
                         )}
+                         <label>Search by:</label>
+                        <select
+                            name="searchBy"
+                            value={props.values.searchBy}
+                            onChange={props.handleChange}
+                            onBlur={props.handleBlur}
+                            style={{ display: "block" }}
+                        >
+                            <option value="title" label="Title">
+                                Title
+                            </option>
+                            <option value="authors" label="Author">
+                                Author
+                            </option>
+                        </select>
 
                         <label>Search in:</label>
                         <select

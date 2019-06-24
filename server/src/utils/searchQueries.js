@@ -59,6 +59,8 @@ const queryFormat = {
 
         const colSwitch = (col, query) => {
             switch(col) {
+                case 'title':
+                    return 'A.title';
                 case 'author': 
                 if(query == 'b') {
                     return `CONCAT(B.first_name, ' ', B.last_name)`;
