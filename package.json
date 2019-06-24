@@ -4,20 +4,38 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build:dev": "webpack",
+    "build:prod": "webpack -p --env production",
+    "dev-server": "webpack-dev-server",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": " babel server.js --out-dir build",
-    "start": "babel-watch server.js"
+    "start": "babel-watch server/server.js"
   },
   "author": "Emil Litwiniec",
   "license": "ISC",
   "devDependencies": {
     "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.5",
+    "@babel/plugin-proposal-class-properties": "^7.3.4",
+    "@babel/plugin-syntax-object-rest-spread": "^7.2.0",
     "@babel/preset-env": "^7.4.5",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.6",
+    "babel-polyfill": "^6.26.0",
     "babel-watch": "^7.0.0",
+    "css-loader": "^3.0.0",
     "dotenv": "^8.0.0",
     "make-runnable": "^1.3.6",
-    "pg": "^7.11.0"
+    "mini-css-extract-plugin": "^0.7.0",
+    "pg": "^7.11.0",
+    "react": "^16.8.3",
+    "react-dom": "^16.8.3",
+    "react-router-dom": "4.2.2",
+    "sass-loader": "^7.1.0",
+    "style-loader": "0.18.2",
+    "webpack": "^4.35.0",
+    "webpack-cli": "^3.3.5",
+    "webpack-dev-server": "^3.7.2"
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
@@ -27,6 +45,7 @@
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.24.0",
     "node-cron": "^2.0.3",
+    "node-sass": "^4.12.0",
     "uuid": "^3.3.2",
     "validator": "^11.0.0"
   }

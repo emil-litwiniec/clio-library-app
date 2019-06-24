@@ -6,8 +6,6 @@ import cookieParser from "cookie-parser";
 
 import cron from 'node-cron';
 
-// var cron = require('node-cron');
-
 import User from "./src/controllers/User";
 
 import Auth from './src/middleware/Auth';
@@ -71,18 +69,10 @@ app.delete('/user/removeReservation', Reservations.remove);
 app.get('/admin/filters', Filters.getAll);
 
 app.post('/login', User.login);
-app.get('/something', Auth.verifyToken, (req, res) => {
-    res.status(200).send({ "message": "authorization works" });
-});
 
 app.get('/admin/', Auth.verifyAdminToken, (req, res) => {
     res.status(200).send({ 'message': "admin works" })
-})
-
-// app.get('/admin', Auth.verifyAdminToken, (req, res) => {
-//     return res.status(200).send({"message": "You are on admin's route."})
-// });
-
+});
 
 // check for outdated reservations every 6 hours
 cron.schedule('0 */6 * * *', () => {
