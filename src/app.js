@@ -4,9 +4,10 @@ import ReactDOM from "react-dom";
 import "./styles/styles.scss";
 
 import LoadingPage from "./components/LoadingPage";
+import AppRouter from "./routers/AppRouter";
 
 const jsx = (
-        <h1>Hello World</h1>
+        < AppRouter/>
 );
 
 ReactDOM.render(jsx, document.getElementById("app"));

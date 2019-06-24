@@ -89,7 +89,7 @@ const User = {
     async getData (req, res) {
 
         if(!req.body.userId) {
-            return res.status(400).send({"message": "Please, provide user id."})
+            return res.status(200).send({"message": "Please, provide user id."})
         }
         const userQuery = `SELECT 
         first_name, 
@@ -145,7 +145,7 @@ const User = {
             ]);
 
             if(!user[0]) {
-                return res.status(400).send({"message": "Unable to find user with provided id."})
+                return res.status(200).send({"message": "Unable to find user with provided id."})
             }
 
             return res.status(200).send({
@@ -154,7 +154,7 @@ const User = {
                 reservations: reservations[0]
             })
         } catch(err) {
-            return res.status(400).send(err);
+            return res.status(200).send(err);
         }
     }
 

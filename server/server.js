@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import '@babel/polyfill';
+import cors from "cors";
 
 import cookieParser from "cookie-parser";
 
@@ -26,6 +27,7 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false}));
 app.use(cookieParser());
@@ -34,7 +36,7 @@ app.use(cookieParser());
 
 app.get('/search', Search.search);
 app.put('/user/create', User.create);
-app.get('/user/getData', User.getData);
+app.post('/user/getData', User.getData);
 
 
 app.put('/admin/addBook', Books.insert);

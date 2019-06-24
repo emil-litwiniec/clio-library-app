@@ -6,7 +6,7 @@ const Search = {
         const params = req.query;
 
         if(Object.entries(params).length == 0) {
-            return res.status(400).send({"message": "Enter at least one value to search"});
+            return res.status(200).send({"message": "Enter at least one value to search"});
         }
         
         // build yearRange object depending on available query string parameters
@@ -36,11 +36,11 @@ const Search = {
         try {
             const { rows } = await db.query(query);
             if(!rows[0]) {
-                return res.status(404).send({"message": "Book not found"})
+                return res.status(200).send({"message": "Book not found"})
             }
             return res.status(200).send(rows);
         } catch(err) {
-            return res.status(400).send({"message": "something went wrong with search"});
+            return res.status(200).send({"message": "something went wrong with search"});
         }
 
 
