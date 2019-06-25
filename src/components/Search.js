@@ -1,50 +1,25 @@
 import React from "react";
 import { Formik } from "formik";
-import axios from "axios";
 
-const Search = () => {
-
-    const handleSubmit = (values) => {
-          
-
-          axios({
-            method: 'get',
-            url: 'http://localhost:3000/search',
-            params: {
-                query: values.query,
-                col: values.searchBy,
-                value: values.value
-            }
-        
-          })
-            .then((res) => {
-
-                alert(JSON.stringify(res, null ,2 ));
-               
-            })
-            .catch(err => {
-                alert(JSON.stringify(err, null ,2 ))
-            
-            }
-            )
-
-    }
+const Search = (props) => {
     return (
         <div>
             <h3>Search:</h3>
             <Formik
                 initialValues={{
                     value: "",
-                    query: "b",
+                    searchIn: "b",
                     searchBy: "title"
                 }}
                 onSubmit={(values, actions) => {
-                    alert(JSON.stringify(values, null, 2));
-                    handleSubmit(values);
+                    props.handleSubmit(values);
                     actions.setSubmitting(false);
+                    
                 }}
+                
                 render={props => (
                     <form onSubmit={props.handleSubmit}>
+                        
                         <input
                             type="text"
                             onChange={props.handleChange}
@@ -62,6 +37,7 @@ const Search = () => {
                             onChange={props.handleChange}
                             onBlur={props.handleBlur}
                             style={{ display: "block" }}
+                            disabled={props.values.searchIn === 'a' ? true : false}
                         >
                             <option value="title" label="Title">
                                 Title
@@ -73,8 +49,8 @@ const Search = () => {
 
                         <label>Search in:</label>
                         <select
-                            name="query"
-                            value={props.values.query}
+                            name="searchIn"
+                            value={props.values.searchIn}
                             onChange={props.handleChange}
                             onBlur={props.handleBlur}
                             style={{ display: "block" }}

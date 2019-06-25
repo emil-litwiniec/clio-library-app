@@ -8,28 +8,25 @@ const MainPage = () => {
     const [results, setResults] = useState();
 
     const handleSubmit = (values) => {
+        let searchBy = values.searchIn === 'a' ? 'author' : values.searchBy
         axios({
           method: 'get',
           url: 'http://localhost:3000/search',
           params: {
-              query: values.query,
-              col: values.searchBy,
+              query: values.searchIn,
+              col: searchBy,
               value: values.value
           }
       
         })
           .then((res) => {
             setResults(res.data);
-            //   alert(JSON.stringify(res, null ,2 ));
-             
           })
           .catch(err => {
               alert(JSON.stringify(err, null ,2 ))
           
           }
           )
-        console.log('heya!');
-        console.log('vals:', values)
   }
 return (
     <>
@@ -37,12 +34,6 @@ return (
 
         <Search handleSubmit={handleSubmit} />
         <Results results={results}/>
-        {/* {results &&
-            results.map((result, idx) => (
-                <p key={idx}>
-                    {idx + 1}, {result.title}, {result.author}
-                </p>
-            ))} */}
     </>
 );
 }
