@@ -25,15 +25,25 @@ const Search = {
         const whereClause = hasCols ? queryFormat.whereClause(params.col, params.value, params.query) : '';
 
         // check if years data is supplied and if it's not searching in authors - 'a'
-        const yearRangeClause = areYears && !params.query === 'a' ? queryFormat.yearRange(yearRange, hasCols) : '';
+        const yearRangeClause = areYears ? queryFormat.yearRange(yearRange, hasCols) : '';
+        const yearRangeClauseFn = () => {
+            if(areYears) {
+                if(params.query === 'a') {
+                    return ''
+                } else {
+                    return queryFormat.yearRange(yearRange, hasCols)
+                }
+            }
+            return ''
+        }
 
         
 
-        
+        // console.log(yearRangeClauseFn());
 
 
         const query = searchQueries.select(params.query) + whereClause
-            + yearRangeClause;
+            + yearRangeClauseFn();
 
 
             console.log(query);

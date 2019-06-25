@@ -70,6 +70,8 @@ const Search = (props) => {
                             onBlur={props.handleBlur}
                             value={props.values.yearStart}
                             name="yearStart"
+                            disabled={props.values.searchIn === 'a' ? true : false}
+
                         />
                         <input
                             type="text"
@@ -77,6 +79,8 @@ const Search = (props) => {
                             onBlur={props.handleBlur}
                             value={props.values.yearEnd}
                             name="yearEnd"
+                            disabled={props.values.searchIn === 'a' ? true : false}
+
                         />
                         <button type="submit">Submit</button>
                     </form>

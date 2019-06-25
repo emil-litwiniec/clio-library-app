@@ -24,7 +24,7 @@ const MainPage = () => {
         })
           .then((res) => {
               console.log(res);
-            if(res.config.params.query === 'a') {
+            if(res.config.params.query === 'a' && res.data.message) {
                 setResults({message: 'Author not found'});
             } else {
                 setResults(res.data);
