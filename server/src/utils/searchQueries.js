@@ -63,9 +63,9 @@ const queryFormat = {
                     return 'A.title';
                 case 'author': 
                 if(query == 'b') {
-                    return `CONCAT(B.first_name, ' ', B.last_name)`;
+                    return ['B.first_name', 'B.last_name']
                 } else if (query == 'a') {
-                    return `CONCAT(first_name, ' ', last_name)`
+                    return ['first_name', 'last_name']
                 }
                     break;
                 case 'genre':
@@ -82,20 +82,32 @@ const queryFormat = {
             vals = [vals]
         }
         if(col.length == 1 && vals.length == 1) {
-
             let newCol = colSwitch(col[0], query);
-            return `\n WHERE ${newCol} ~* '(\\m${vals[0]}\\M)'`
+            console.log('newCol:', newCol);
+            if(col[0] === 'author') {
+                return `\n WHERE ${newCol[0]} ~* '(\\m${vals[0]}\)'
+                 OR ${newCol[1]} ~* '(\\m${vals[0]}\)'`
+            }
+
+            return `\n WHERE ${newCol} ~* '(\\m${vals[0]}\)'`
 
         } else if(col.length > 1 && vals.length > 1 ) {
 
-            let query = `\n WHERE ${col[0]} ~* '(\\m${vals[0]}\\M)'`;
+            let newQuery = col[0] == 'author' ? `\n WHERE ${col[0]} ~* '(\\m${vals[0]}\)'` :
+             `\n WHERE ${colSwitch(col[0], query)[0]} ~* '(\\m${vals[0]}\)' 
+             OR ${colSwitch(col[0],query)[1]} ~* '(\\m${vals[0]}\)'`;
             for(let i = 1; i < col.length; i++) {
                 let newCol = col[i];
+                let nextQuery = `\n AND ${newCol} ~* '(\\m${vals[i]}\)'`
+                if(col[i] === 'author') {
+                    nextQuery = `\n AND ${newCol[0]} ~* '(\\m${vals[0]}\)'
+                     OR ${newCol[1]} ~* '(\\m${vals[0]}\)'`
+                }
 
                
-                query = query + `\n AND ${newCol} ~* '(\\m${vals[i]}\\M)'`;
+                newQuery = newQuery + nextQuery;
             };
-            return query;
+            return newQuery;
         }
     },
     yearRange(obj, hasCols) {

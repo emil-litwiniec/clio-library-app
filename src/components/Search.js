@@ -66,7 +66,7 @@ const Search = () => {
                             <option value="title" label="Title">
                                 Title
                             </option>
-                            <option value="authors" label="Author">
+                            <option value="author" label="Author">
                                 Author
                             </option>
                         </select>
