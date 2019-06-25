@@ -9,12 +9,14 @@ const Search = (props) => {
                 initialValues={{
                     value: "",
                     searchIn: "b",
-                    searchBy: "title"
+                    searchBy: "title",
+                    yearStart: 1920,
+                    yearEnd: 2019
                 }}
                 onSubmit={(values, actions) => {
                     props.handleSubmit(values);
                     actions.setSubmitting(false);
-                    
+                    alert(JSON.stringify(values));
                 }}
                 
                 render={props => (
@@ -62,6 +64,20 @@ const Search = (props) => {
                                 Authors
                             </option>
                         </select>
+                        <input
+                            type="text"
+                            onChange={props.handleChange}
+                            onBlur={props.handleBlur}
+                            value={props.values.yearStart}
+                            name="yearStart"
+                        />
+                        <input
+                            type="text"
+                            onChange={props.handleChange}
+                            onBlur={props.handleBlur}
+                            value={props.values.yearEnd}
+                            name="yearEnd"
+                        />
                         <button type="submit">Submit</button>
                     </form>
                 )}
