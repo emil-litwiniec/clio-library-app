@@ -23,9 +23,9 @@ const Search = {
         const areYears = Object.keys(yearRange).length === 0 ? false : true;
         const hasCols = Object.keys(params).includes('col');
         const whereClause = hasCols ? queryFormat.whereClause(params.col, params.value, params.query) : '';
+        const orderQuery =  params.order && queryFormat.orderBy(params.order);
 
         // check if years data is supplied and if it's not searching in authors - 'a'
-        const yearRangeClause = areYears ? queryFormat.yearRange(yearRange, hasCols) : '';
         const yearRangeClauseFn = () => {
             if(areYears) {
                 if(params.query === 'a') {
@@ -37,16 +37,11 @@ const Search = {
             return ''
         }
 
-        
-
-        // console.log(yearRangeClauseFn());
-
-
         const query = searchQueries.select(params.query) + whereClause
-            + yearRangeClauseFn();
+            + yearRangeClauseFn() + orderQuery;
 
+        console.log(query);
 
-            console.log(query);
         try {
             const { rows } = await db.query(query);
             if(!rows[0]) {

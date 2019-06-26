@@ -8,8 +8,9 @@ const MainPage = () => {
     const [results, setResults] = useState();
 
     const handleSubmit = (values) => {
-        let searchBy = values.searchIn === 'a' ? 'author' : values.searchBy;
-        // let yearStart = values.searchIn === 'a' ? 
+        const isSearchInAuthors = values.searchIn === 'a' ? true : false;
+        const searchBy = isSearchInAuthors ? 'author' : values.searchBy;
+        const order = isSearchInAuthors ? values.authorsOrderBy : values.titlesOrderBy ;
         axios({
           method: 'get',
           url: 'http://localhost:3000/search',
@@ -18,10 +19,10 @@ const MainPage = () => {
               col: searchBy,
               value: values.value,
               yearStart: values.yearStart,
-              yearEnd: values.yearEnd
-          }
+              yearEnd: values.yearEnd,
+              order: order
       
-        })
+        }})
           .then((res) => {
               console.log(res);
             if(res.config.params.query === 'a' && res.data.message) {

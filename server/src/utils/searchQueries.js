@@ -83,7 +83,6 @@ const queryFormat = {
         }
         if(col.length == 1 && vals.length == 1) {
             let newCol = colSwitch(col[0], query);
-            console.log('newCol:', newCol);
             if(col[0] === 'author') {
                 return `\n WHERE ${newCol[0]} ~* '(\\m${vals[0]}\)'
                  OR ${newCol[1]} ~* '(\\m${vals[0]}\)'`
@@ -139,6 +138,21 @@ const queryFormat = {
         }
 
         return `\n WHERE A.pub_year >= ${obj.yearStart} AND A.pub_year <= ${obj.yearEnd}`
+    },
+    orderBy(orderParam) {
+        switch (orderParam) {
+            case 'titleAsc':
+                return '\n ORDER BY title ASC';
+            case 'titleDesc':
+                return '\n ORDER BY title DESC';
+            case 'authorAsc':
+                return '\n ORDER BY author ASC';
+            case 'authorDesc':
+                return '\n ORDER BY author DESC';
+            default:
+                return '';
+                break;
+        }
     }
 }
 
