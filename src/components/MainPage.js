@@ -24,7 +24,6 @@ const MainPage = () => {
       
         }})
           .then((res) => {
-              console.log(res);
             if(res.config.params.query === 'a' && res.data.message) {
                 setResults({message: 'Author not found'});
             } else {
@@ -40,7 +39,7 @@ const MainPage = () => {
 
 return (
     <>
-        <h2>Clio LIbrary App</h2>
+        <h2>Clio Library App</h2>
 
         <Search handleSubmit={handleSubmit} />
         <Results results={results}/>

@@ -1,7 +1,70 @@
 import React from "react";
 import { Formik } from "formik";
 
+import Select from './Select';
+
 const Search = (props) => {
+    const selectOptions = {
+        titles: [
+            {
+                value: "authorAsc",
+                label: "authorAsc",
+                name: "authors ascending"
+            },
+            {
+                value: "authorDesc",
+                label: "authorDesc",
+                name: "authors descending"
+            },
+            {
+                value: "titleAsc",
+                label: "titleAsc",
+                name: "titles ascending"
+            },
+            {
+                value: "titleDesc",
+                label: "titleDesc",
+                name: "titles descending"
+            }
+        ],
+        authors: [
+            
+            {
+                value: "authorDesc",
+                label: "authorDesc",
+                name: "authors descending"
+            },
+            {
+                value: "authorAsc",
+                label: "authorAsc",
+                name: "authors ascending"
+            }
+        ],
+        searchIn: [
+            {
+                value: "b",
+                label: "books",
+                name: "books"
+            },
+            {
+                value: "a",
+                label: "Authors",
+                name: "authors"
+            }
+        ],
+        searchBy: [
+            {
+                value: "title",
+                label: "Title",
+                name: "Title"
+            },
+            {
+                value: "author",
+                label: "Author",
+                name: "Author"
+            }
+        ]
+    };
     return (
         <div>
             <h3>Search:</h3>
@@ -14,7 +77,7 @@ const Search = (props) => {
                     yearStart: 1920,
                     yearEnd: 2019,
                     titlesOrderBy: "titleAsc",
-                    authorsOrderBy: "authorAsc"
+                    authorsOrderBy: "authorDesc"
                 }}
                 onSubmit={(values, actions) => {
                     props.handleSubmit(values);
@@ -32,40 +95,22 @@ const Search = (props) => {
                         {props.errors.name && (
                             <div id="feedback">{props.errors.name}</div>
                         )}
-                        <label>Search by:</label>
-                        <select
-                            name="searchBy"
-                            value={props.values.searchBy}
-                            onChange={props.handleChange}
-                            onBlur={props.handleBlur}
-                            style={{ display: "block" }}
-                            disabled={
-                                props.values.searchIn === "a" ? true : false
-                            }
-                        >
-                            <option value="title" label="Title">
-                                Title
-                            </option>
-                            <option value="author" label="Author">
-                                Author
-                            </option>
-                        </select>
 
-                        <label>Search in:</label>
-                        <select
+                        <Select
+                            label="Search by:"
+                            name="searchBy"
+                            value="searchBy"
+                            options={selectOptions.searchBy}
+                            formikProps={props}
+                            disabled={props.values.searchIn === "a" ? true : false}
+                        />
+                        <Select
+                            label="Search in:"
                             name="searchIn"
-                            value={props.values.searchIn}
-                            onChange={props.handleChange}
-                            onBlur={props.handleBlur}
-                            style={{ display: "block" }}
-                        >
-                            <option value="b" label="Books">
-                                Books
-                            </option>
-                            <option value="a" label="Authors">
-                                Authors
-                            </option>
-                        </select>
+                            value="searchIn"
+                            options={selectOptions.searchIn}
+                            formikProps={props}
+                        />
                         <input
                             type="text"
                             onChange={props.handleChange}
@@ -86,69 +131,24 @@ const Search = (props) => {
                                 props.values.searchIn === "a" ? true : false
                             }
                         />
-
                         {props.values.searchIn !== "a" && (
-                            <>
-                                <label>Order by:</label>
-                                <select
-                                    name="titlesOrderBy"
-                                    value={props.values.titlesOrderBy}
-                                    onChange={props.handleChange}
-                                    onBlur={props.handleBlur}
-                                    style={{ display: "block" }}
-                                >
-                                    <option
-                                        value="authorAsc"
-                                        label="authorAsc"
-                                    >
-                                        authors ascending
-                                    </option>
-                                    <option
-                                        value="authorDesc"
-                                        label="authorDesc"
-                                    >
-                                        authors descending
-                                    </option>
-                                    <option
-                                        value="titleAsc"
-                                        label="titleAsc"
-                                    >
-                                        titles ascending
-                                    </option>
-                                    <option
-                                        value="titleDesc"
-                                        label="titleDesc"
-                                    >
-                                        titles descending
-                                    </option>
-                                </select>
-                            </>
+                            <Select
+                                label="Order by:"
+                                name="titlesOrderBy"
+                                value="titlesOrderBy"
+                                options={selectOptions.titles}
+                                formikProps={props}
+                            />
                         )}
 
                         {props.values.searchIn === "a" && (
-                            <>
-                                <label>Order by:</label>
-                                <select
-                                    name="authorsOrderBy"
-                                    value={props.values.authorsOrderBy}
-                                    onChange={props.handleChange}
-                                    onBlur={props.handleBlur}
-                                    style={{ display: "block" }}
-                                >
-                                    <option
-                                        value="authorAsc"
-                                        label="authorAsc"
-                                    >
-                                        authors ascending
-                                    </option>
-                                    <option
-                                        value="authorDesc"
-                                        label="authorDesc"
-                                    >
-                                        authors descending
-                                    </option>
-                                </select>
-                            </>
+                            <Select
+                                label="Order by:"
+                                name="authorsOrderBy"
+                                value="authorsOrderBy"
+                                options={selectOptions.authors}
+                                formikProps={props}
+                            />
                         )}
 
                         <button type="submit">Submit</button>
