@@ -1,6 +1,8 @@
 import React from "react";
 import axios from "axios";
 
+import ResultDetail from "./ResultDetail";
+
 
 class ResultDetailPage extends React.Component {
     constructor(props) {
@@ -22,10 +24,8 @@ class ResultDetailPage extends React.Component {
         })
         .then(res => {
             this.setState((state, props) => {
-                console.log(state);
                 return {...state, results: {...res}}
             })
-            console.log(this.state)
         })
         .catch(err => {
             this.setState((state, props) => {
@@ -38,7 +38,7 @@ class ResultDetailPage extends React.Component {
         return (
             <div>
             <h3>Hello, detail result page!</h3>
-            <p>{JSON.stringify(this.state.results.data, null, 2)}</p>
+            <ResultDetail {...this.state.results.data}/>
         </div>
         )
     }
