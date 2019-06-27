@@ -1,4 +1,4 @@
-import moment, { updateLocale } from "moment";
+import moment from "moment";
 import uuidv4 from "uuid/v4";
 
 import db from "../db/index";
