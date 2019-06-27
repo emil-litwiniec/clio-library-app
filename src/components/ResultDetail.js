@@ -2,7 +2,6 @@ import React from "react";
 
 
 const ResultDetail = (props) => {
-    console.log(props)
     const {
         title,
         series,

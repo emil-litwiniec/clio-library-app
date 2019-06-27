@@ -1,24 +1,77 @@
-import React, { useState } from "react";
+import React, { Component } from "react";
 import axios from "axios";
 
 import Search from "../components/Search";
 import Results from "../components/Results";
 import { connect } from "react-redux";
 
-const MainPage = ({ actualQuery }) => {
-    const [results, setResults] = useState();
-    console.log('redux actualQuery: ',actualQuery);
+class MainPage extends Component {
+    constructor(props) {
+        super(props);
 
-    const handleSubmit = (values) => {
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.state = { results: {
+            hojwe: 'koko'
+        }};
+    }
+
+    componentDidMount() {
+        if(this.props.actualQuery.query) {
+            const {
+                value,
+                searchIn,
+                searchBy,
+                yearStart,
+                yearEnd,
+                titlesOrderBy,
+                authorsOrderBy
+            } = this.props.actualQuery.query;
+            const isSearchInAuthors = searchIn === 'a' ? true : false;
+        const searchByParam = isSearchInAuthors ? 'author' : searchBy;
+        const order = isSearchInAuthors ? authorsOrderBy : titlesOrderBy ;
+        axios({
+          method: 'get',
+          url: 'http://localhost:3000/search',
+          params: {
+              query: searchIn,
+              col: searchByParam,
+              value: value,
+              yearStart: yearStart,
+              yearEnd: yearEnd,
+              order: order
+      
+        }}, [])
+        .then((res) => {
+            if(res.config.params.query === 'a' && res.data.message) {
+                this.setState((state) => 
+                ({message: 'Author not found'}));
+            } else {
+                this.setState(state => {
+                    return {
+                        ...state,
+                        results: res.data
+                    }
+                });
+            }
+          })
+          .catch(err => {
+            //   setResults({error: 'Book not found'})
+          
+          })
+        }
+    }
+
+    handleSubmit(values) {
+
         const isSearchInAuthors = values.searchIn === 'a' ? true : false;
-        const searchBy = isSearchInAuthors ? 'author' : values.searchBy;
+        const searchByParam = isSearchInAuthors ? 'author' : values.searchBy;
         const order = isSearchInAuthors ? values.authorsOrderBy : values.titlesOrderBy ;
         axios({
           method: 'get',
           url: 'http://localhost:3000/search',
           params: {
               query: values.searchIn,
-              col: searchBy,
+              col: searchByParam,
               value: values.value,
               yearStart: values.yearStart,
               yearEnd: values.yearEnd,
@@ -27,30 +80,38 @@ const MainPage = ({ actualQuery }) => {
         }})
           .then((res) => {
             if(res.config.params.query === 'a' && res.data.message) {
-                setResults({message: 'Author not found'});
+                this.setState((state) => 
+                ({message: 'Author not found'}));
             } else {
-                setResults(res.data);
-
+                this.setState(state => {
+                    return {
+                        ...state,
+                        results: res.data
+                    }
+                });
             }
           })
           .catch(err => {
-              setResults({error: 'Book not found'})
+            //   setResults({error: 'Book not found'})
           
           })
-  }
+    }
 
-return (
-    <>
-        <h2>Clio Library App</h2>
+    render() {
+        return (
+            <>
+                <h2>Clio Library App</h2>
 
-        <Search handleSubmit={handleSubmit} />
-        <Results results={results}/>
-    </>
-)
+                <Search
+                    handleSubmit={this.handleSubmit}
+                />
+                <Results results={Array.isArray(this.state.results) && this.state.results} />
+            </>
+        );
+             }
 }
-
 const mapStateToProps = state => ({
     actualQuery: state.actualQuery
-})
+});
 
-export default connect(mapStateToProps)(MainPage);
+export default connect(mapStateToProps, undefined)(MainPage);

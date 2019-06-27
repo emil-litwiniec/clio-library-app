@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 
 
 const Results = ({ results } = props) => {
@@ -9,9 +9,8 @@ const Results = ({ results } = props) => {
             return <p>{results.message}</p>
         } else if (results && !results.error) {
             return results.map((result, idx) => (
-                <div>
-                    <p key={idx}>
-                        {console.log(result)}
+                <div key={idx}>
+                    <p >
                         {idx + 1}, title: {result.title}, author: {result.author}, year: {result.year}
                         borrowed: {result.isborrowed}
                     </p>
