@@ -95,6 +95,22 @@ const Publishers = {
         } catch(err) {
             return res.status(400).send(err);
         }
+    },
+    async getAll(req, res) {
+       const getAllPublishersQuery = `SELECT pub_id, name FROM publishers`;
+
+       try {
+        const { rows: allPublishers } = await db.query(getAllPublishersQuery);
+
+
+        if(!allPublishers[0]) {
+            return res.status(200).send({"message": "Unable to serve publishers data."})
+        }
+
+        return res.status(200).send(allPublishers)
+       } catch (err) {
+           return res.status(400).send(err);
+       }
     }
 
 }
