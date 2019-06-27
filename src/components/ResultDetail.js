@@ -2,6 +2,7 @@ import React from "react";
 
 
 const ResultDetail = (props) => {
+    console.log(props)
     const {
         title,
         series,
@@ -37,6 +38,8 @@ const ResultDetail = (props) => {
             <p>isbn: {isbn}</p>
 
             <p>available: {isAvailable()}</p>
+
+            <a href=""></a>
         </>
     );
 

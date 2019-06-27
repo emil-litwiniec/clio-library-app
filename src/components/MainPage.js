@@ -3,9 +3,11 @@ import axios from "axios";
 
 import Search from "../components/Search";
 import Results from "../components/Results";
+import { connect } from "react-redux";
 
-const MainPage = () => {
+const MainPage = ({ actualQuery }) => {
     const [results, setResults] = useState();
+    console.log('redux actualQuery: ',actualQuery);
 
     const handleSubmit = (values) => {
         const isSearchInAuthors = values.searchIn === 'a' ? true : false;
@@ -47,4 +49,8 @@ return (
 )
 }
 
-export default MainPage;
+const mapStateToProps = state => ({
+    actualQuery: state.actualQuery
+})
+
+export default connect(mapStateToProps)(MainPage);

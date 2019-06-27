@@ -1,7 +1,9 @@
 import React from "react";
 import { Formik } from "formik";
+import { connect } from "react-redux";
 
 import Select from './Select';
+import {setActualQuery} from "../actions/actualQuery"
 
 const Search = (props) => {
     const selectOptions = {
@@ -81,6 +83,8 @@ const Search = (props) => {
                 }}
                 onSubmit={(values, actions) => {
                     props.handleSubmit(values);
+                    props.setActualQuery(values);
+
                     actions.setSubmitting(false);
                 }}
                 render={props => (
@@ -159,4 +163,8 @@ const Search = (props) => {
     );
 }
 
-export default Search;
+const mapDispatchToProps = (dispatch) => ({
+    setActualQuery: (query) => dispatch(setActualQuery(query))
+})
+
+export default connect(undefined, mapDispatchToProps)(Search);
