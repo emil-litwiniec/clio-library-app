@@ -5,6 +5,7 @@ import db from "../db/index";
 
 import utils from "../utils/utils";
 import {columnNames} from "../utils/columnNames";
+import { searchQueries } from "../utils/searchQueries";
 
 
 const Books = {
@@ -142,6 +143,25 @@ const Books = {
                 return res.status(404).send({'message': "book not found"});
             }
             return res.status(200).send({'message': "The book has beed updated."})
+        } catch (err) {
+            return res.status(400).send(err);
+        }
+    },
+    async getBook(req, res) {
+        if(!req.body.bookId) {
+            return res.status(200).send({"message": "Please, provide id of the book."})
+        }
+        const getBookQuery = searchQueries.selectBook + `\n WHERE A.book_id = '${req.body.bookId}'`
+
+        console.log(getBookQuery);
+        try {
+            const { rows: book } = await db.query(getBookQuery);
+
+            if(!book[0]) {
+                return res.status(404).send()
+            }
+
+            return res.status(200).send(book[0]);
         } catch (err) {
             return res.status(400).send(err);
         }
