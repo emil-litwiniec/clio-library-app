@@ -142,8 +142,6 @@ const Authors = {
 
         const getBooksQuery = searchQueries.selectBook + `\n WHERE A.author_id = '${req.body.authorId}'`;
 
-
-        console.log(getBooksQuery);
         try {
             const [
                 { rows: author },

@@ -2,21 +2,9 @@ import React from "react";
 import {Formik} from 'formik';
 import axios from 'axios'
 import Select from "../components/Select";
+import utils from "../utils/utils";
 
 
-// TODO => place this function from some helper object outside
-const convertToSelectOptions = (arr) => {
-    // tranform response data array of objects to meet
-    // with input crieteria of Select component
-    if (Array.isArray(arr)){
-        return  arr.map(obj => ({ 
-             value: obj.pub_id,
-             label: obj.name,
-             name: obj.name }))
-    } else {
-        return []
-    }
-};
 
 class AddBookForm extends React.Component {
     constructor(props) {
@@ -73,11 +61,11 @@ class AddBookForm extends React.Component {
                                 value={props.values.title}
                                 name="title"
                             />
-                            {props.errors.name && (
+                            {/* {props.errors.name && (
                                 <div id="feedback">
                                     {props.errors.name}
                                 </div>
-                            )}
+                            )} */}
                             <label>Author first name:</label>
                             <input
                                 type="text"
@@ -150,7 +138,7 @@ class AddBookForm extends React.Component {
                             /> */}
 
 
-// UKD change type in SQL Database
+{/* UKD change type in SQL Database */}
                             <label>UKD:</label>
                             <input
                                 type="text"
@@ -188,7 +176,7 @@ class AddBookForm extends React.Component {
                                 value="pubId"
                                 options={
                                     this.state.publishers &&
-                                    convertToSelectOptions(
+                                    utils.convertToSelectOptions(
                                         this.state.publishers
                                     )
                                 }

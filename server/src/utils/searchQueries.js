@@ -39,7 +39,7 @@ LEFT JOIN (
 LEFT JOIN reservations AS G ON A .book_id = G.book_id`,
 
     selectAuthor: `SELECT CONCAT(first_name, ' ', last_name) AS author,
-    origin
+    origin, author_id
 FROM authors`,
 
     select (param) {

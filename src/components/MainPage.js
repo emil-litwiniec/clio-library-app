@@ -10,11 +10,9 @@ class MainPage extends Component {
         super(props);
 
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.state = { results: {
-            hojwe: 'koko'
-        }};
+        this.state = { results: {},
+                        query: ''};
     }
-
     componentDidMount() {
         if(this.props.actualQuery.query) {
             const {
@@ -49,7 +47,8 @@ class MainPage extends Component {
                 this.setState(state => {
                     return {
                         ...state,
-                        results: res.data
+                        results: res.data,
+                        query: res.config.params.query
                     }
                 });
             }
@@ -83,6 +82,7 @@ class MainPage extends Component {
                 this.setState((state) => 
                 ({message: 'Author not found'}));
             } else {
+                console.log(res);
                 this.setState(state => {
                     return {
                         ...state,

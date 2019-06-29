@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 
 import {history} from "../routers/AppRouter"
+import { connect } from 'react-redux';
 
 import ResultDetail from "./ResultDetail";
 
@@ -21,38 +22,44 @@ class ResultDetailPage extends React.Component {
     }
     componentDidMount() {
         const { match } = this.props;
-        // console.log(this.props.location)
-        // // console.log(history)
-        // setTimeout(() => {
-        //     history.goBack();
-        // }, 3000);
-        axios({
-            method:"post",
-            url: 'http://localhost:3000/getBook/',
-            data: {
-                bookId: match.params.bookId
-            }
-        })
-        .then(res => {
-            this.setState((state) => {
-                return {...state, results: {...res}}
-            })
-        })
-        .catch(err => {
-            this.setState((state) => {
-                return {...state, error: {err}}
-            })
-        })
 
-    }
+            axios({
+                method:"post",
+                url: 'http://localhost:3000/getBook/',
+                data: {
+                    bookId: match.params.id
+                }
+            })
+            .then(res => {
+                this.setState((state) => {
+                    return {...state, results: {...res}}
+                })
+            })
+            .catch(err => {
+                this.setState((state) => {
+                    return {...state, error: {err}}
+                })
+            })
+        }
+
+        
+
+    
+
     render() {
         return (
             <div>
             <h3>Hello, detail result page!</h3>
-            <ResultDetail {...this.state.results.data} handleGoBack={this.handleGoBack}/>
+                <ResultDetail {...this.state.results.data} handleGoBack={this.handleGoBack}/>
+            
         </div>
         )
     }
 }
 
-export default ResultDetailPage;
+
+const mapStateToProps = (state) => ({
+    actualQuery: state.actualQuery
+})
+
+export default connect(mapStateToProps)(ResultDetailPage);
