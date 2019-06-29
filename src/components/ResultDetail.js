@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 
 const ResultDetail = (props) => {
@@ -7,6 +8,7 @@ const ResultDetail = (props) => {
         series,
         edition,
         isbn,
+        author_id: authorId,
         keywords,
         ukd,
         year,
@@ -28,7 +30,7 @@ const ResultDetail = (props) => {
             <p>title: {title}</p>
             <p>series: {series}</p>
             <p>edition: {edition}</p>
-            <p>author: {author}</p>
+            <p>author: <Link to={`/author/${authorId}`}>{author}</Link></p>
             <p>publisher: {publisher}</p>
             <p>translator: {translator}</p>
             <p>genre: {genre}</p>
@@ -38,7 +40,6 @@ const ResultDetail = (props) => {
 
             <p>available: {isAvailable()}</p>
 
-            <a href=""></a>
         </>
     );
 

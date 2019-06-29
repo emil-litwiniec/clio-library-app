@@ -2,7 +2,8 @@ import moment from "moment";
 
 const searchQueries = {
     selectBook: `SELECT A.title AS title,
-	A.book_id,
+    A.book_id,
+    A.author_id,
     A.series,
     A.edition,
     A.isbn,
