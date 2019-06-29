@@ -1,9 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { connect } from "react-redux";
 
 
-const Results = ({ results, actualQuery } = props) => {
+const Results = ({ results} = props) => {
 
     
 
@@ -31,10 +30,14 @@ const Results = ({ results, actualQuery } = props) => {
                         <Link to={`/author/${result.author_id}`}>See details</Link>
                     </>
                 )
+
+                const isSearchInBooks = results[0].book_id ? true : false;
+                const isSearchInAuthors = Object.keys(results[0]).includes('origin') &&  Object.keys(results[0]).includes('author')? true : false;
+
                 return (
                     <div key={idx} >
-                    {actualQuery.query.searchIn == 'b' && bookResult}
-                    {actualQuery.query.searchIn == 'a' && authorResult}
+                    {isSearchInBooks && bookResult}
+                    {isSearchInAuthors && authorResult}
 
                 </div>
             )})
@@ -47,10 +50,4 @@ const Results = ({ results, actualQuery } = props) => {
     )
 }
 
-const mapStateToProps = state => ({
-    actualQuery: state.actualQuery
-})
-
-
-
-export default connect(mapStateToProps)(Results);
+export default Results;

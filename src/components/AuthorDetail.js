@@ -1,14 +1,18 @@
 import React from 'react';
 
 
-const AuthorDetail = (props) => {
+import Results from "./Results";
+
+const AuthorDetail = ({author, books} = props) => {
     return (
         <div>
-            <p>{JSON.stringify(props)}</p>
+            {author && <>  <h3>{author[0].first_name} {author[0].last_name}</h3>
+            <p>Origin: {author[0].origin}</p></>}
+           
+            {books && <Results results={Array.isArray(books) && books}/>}
         </div>
     )
 }
-
 
 
 export default AuthorDetail;
