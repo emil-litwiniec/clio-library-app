@@ -84,6 +84,17 @@ const Genres = {
         } catch (err) { 
             return res.status(400).send(err);
         }
+    },
+    async getAll(req, res) {
+        const getAllQuery = 'SELECT * FROM genres';
+
+        try  {
+            const { rows: allGenres } = await db.query(getAllQuery);
+            return res.status(200).send(allGenres);
+            
+        } catch(err) {
+            return res.status(400).send(err);
+        }
     }
 }
 

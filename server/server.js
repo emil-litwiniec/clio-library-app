@@ -55,9 +55,10 @@ app.put('/admin/addBorrow', Borrows.add);
 app.patch('/admin/returnBook', Borrows.bookReturn);
 app.delete('/admin/removeBorrow', Borrows.remove);
 
-app.put('/admin/addGenre', Genres.add)
-app.delete('/admin/removeGenre', Genres.remove)
-app.patch('/admin/updateGenre', Genres.update)
+app.put('/admin/addGenre', Genres.add);
+app.delete('/admin/removeGenre', Genres.remove);
+app.patch('/admin/updateGenre', Genres.update);
+app.get('/getAllGenres', Genres.getAll);
 
 app.put('/admin/addPublisher', Publishers.add);
 app.delete('/admin/removePublisher', Publishers.remove)
