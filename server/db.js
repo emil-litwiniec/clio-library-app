@@ -51,7 +51,7 @@ const Queries = {
             edition VARCHAR(200),
             genre_id INT REFERENCES genres (genre_id) ON DELETE SET NULL,
             keywords VARCHAR[],
-            ukd INT UNIQUE,
+            ukd VARCHAR(50),
             lang VARCHAR(50) NOT NULL,
             pub_year INT,
             translator_id INT REFERENCES translators (translator_id) ON DELETE SET NULL,
