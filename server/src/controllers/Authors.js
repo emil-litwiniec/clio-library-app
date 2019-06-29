@@ -1,5 +1,8 @@
 import db from "../db/index";
 
+import { searchQueries }  from "../utils/searchQueries";
+
+
 const Authors = {
     async insert(req, res) {
         if(!req.body.firstName || !req.body.lastName) {
@@ -108,6 +111,55 @@ const Authors = {
         }
 
 
+    },
+    async getAuthor(req, res) {
+        if(!req.body.authorId) {
+            return res.status(200).send({"message": "Please, provide author's id."})
+        }
+
+        const getAuthorQuery = `SELECT * FROM authors
+        WHERE author_id = '${req.body.authorId}'`;
+
+        try {
+            const { rows: authorResult } = await db.query(getAuthorQuery);
+
+            if(!authorResult[0]) {
+                return res.status(200).send({"message": "Author not found"})
+            }
+
+            return res.status(200).send(authorResult)
+        } catch (err) {
+            return res.status(400).send(err)
+        }
+    },
+    async getAuthorAndBooks(req, res) {
+        if(!req.body.authorId) {
+            return res.status(200).send({"message": "Please, provide author's id."})
+        }
+
+        const getAuthorQuery = `SELECT * FROM authors
+        WHERE author_id = '${req.body.authorId}'`;
+
+        const getBooksQuery = searchQueries.selectBook + `\n WHERE A.author_id = '${req.body.authorId}'`;
+
+
+        console.log(getBooksQuery);
+        try {
+            const [
+                { rows: author },
+                { rows: books}
+            ] = await Promise.all([
+                db.query(getAuthorQuery),
+                db.query(getBooksQuery)
+            ]);
+
+            return res.status(200).send({
+                author,
+                books
+            })
+        } catch(err) {
+            return res.status(400).send(err);
+        }
     }
 }
 
