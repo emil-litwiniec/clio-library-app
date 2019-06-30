@@ -176,7 +176,7 @@ class AddBookForm extends React.Component {
                                 value="pubId"
                                 options={
                                     this.state.publishers &&
-                                    utils.convertToSelectOptions(
+                                    utils.convertToSelectOptions.publishers(
                                         this.state.publishers
                                     )
                                 }

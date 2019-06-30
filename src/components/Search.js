@@ -1,11 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik } from "formik";
 import { connect } from "react-redux";
 
 import Select from './Select';
 import {setActualQuery} from "../actions/actualQuery"
+import utils from "../utils/utils";
+
 
 const Search = (props) => {
+    const [ genres, setGenres ] = useState({
+        genres: [{
+            genre_id: 'all',
+            genre_name: 'all'
+        }],
+        done: false
+    });
+    if(props.genreSelectOptions.length > 0 && !genres.done) {
+        setGenres({
+            genres: [...props.genreSelectOptions, ...genres.genres],
+            done: true
+        });
+
+
+    }
+    // console.log('selectOptionss', utils.convertToSelectOptions.genres(props.genreSelectOptions))
     const selectOptions = {
         titles: [
             {
@@ -79,7 +97,8 @@ const Search = (props) => {
                     yearStart: 1920,
                     yearEnd: 2019,
                     titlesOrderBy: "titleAsc",
-                    authorsOrderBy: "authorDesc"
+                    authorsOrderBy: "authorDesc",
+                    genre: "all"
                 }}
                 onSubmit={(values, actions) => {
                     props.handleSubmit(values);
@@ -135,6 +154,17 @@ const Search = (props) => {
                                 props.values.searchIn === "a" ? true : false
                             }
                         />
+                        
+                        <Select
+                                label="Genre:"
+                                name="genre"
+                                value="genre"
+                                options={utils.convertToSelectOptions.genres(genres.genres)}
+                                formikProps={props}
+                                disabled={props.values.searchIn === "a" ? true : false}
+                            />
+                        
+
                         {props.values.searchIn !== "a" && (
                             <Select
                                 label="Order by:"

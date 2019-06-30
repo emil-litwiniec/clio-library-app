@@ -11,9 +11,31 @@ class MainPage extends Component {
 
         this.handleSubmit = this.handleSubmit.bind(this);
         this.state = { results: {},
-                        query: ''};
+                        query: '',
+                        genres: [],
+                        error: {}};
     }
     componentDidMount() {
+
+        axios({
+            method: 'GET',
+            url: "http://localhost:3000/getAllGenres"
+        })
+        .then(res => {
+            this.setState(state => ({
+                ...state,
+                genres: res.data
+            }));
+
+        })
+        .then(err => {
+            this.setState(state => ({
+                ...state,
+                error: {...state.error, err}
+            })) 
+        })
+
+
         if(this.props.actualQuery.query) {
             const {
                 value,
@@ -36,13 +58,13 @@ class MainPage extends Component {
               value: value,
               yearStart: yearStart,
               yearEnd: yearEnd,
-              order: order
+              order: order,
       
         }}, [])
         .then((res) => {
             if(res.config.params.query === 'a' && res.data.message) {
                 this.setState((state) => 
-                ({message: 'Author not found'}));
+                ({...state, message: 'Author not found'}));
             } else {
                 this.setState(state => {
                     return {
@@ -61,7 +83,13 @@ class MainPage extends Component {
     }
 
     handleSubmit(values) {
-
+        const genreCol =
+            values.genre === "all" || values.searchIn === "a"
+                ? {}
+                : {
+                      col: "genre",
+                      value: values.genre
+                  };
         const isSearchInAuthors = values.searchIn === 'a' ? true : false;
         const searchByParam = isSearchInAuthors ? 'author' : values.searchBy;
         const order = isSearchInAuthors ? values.authorsOrderBy : values.titlesOrderBy ;
@@ -74,7 +102,9 @@ class MainPage extends Component {
               value: values.value,
               yearStart: values.yearStart,
               yearEnd: values.yearEnd,
-              order: order
+              order: order,
+              ...genreCol
+
       
         }})
           .then((res) => {
@@ -82,7 +112,6 @@ class MainPage extends Component {
                 this.setState((state) => 
                 ({message: 'Author not found'}));
             } else {
-                console.log(res);
                 this.setState(state => {
                     return {
                         ...state,
@@ -104,8 +133,10 @@ class MainPage extends Component {
 
                 <Search
                     handleSubmit={this.handleSubmit}
+                    genreSelectOptions={this.state.genres}
                 />
-                <Results results={Array.isArray(this.state.results) && this.state.results} />
+                <Results results={Array.isArray(this.state.results) && this.state.results} 
+                    />
             </>
         );
              }
