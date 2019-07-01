@@ -5,8 +5,9 @@ import { createBrowserHistory } from 'history';
 import AuthorDetailPage from "../components/AuthorDetailPage";
 import MainPage from "../components/MainPage.js";
 import ResultDetailPage from "../components/ResultDetailPage.js";
-import AdminPanelPage from "../components/AdminPanelPage";
+import AddBookPage from "../components/AddBookPage";
 import UserPage from "../components/UserPage";
+import UpdateBookPage from "../components/UpdateBookPage";
 
 export const history = createBrowserHistory();
 
@@ -17,7 +18,8 @@ const AppRouter = () => (
                 <Route exact path="/" component={MainPage} />
                 <Route path="/result/:id" component={ResultDetailPage} />
                 <Route path="/author/:authorId" component={AuthorDetailPage} />
-                <Route path="/admin" component={AdminPanelPage} />
+                <Route path="/addBook" component={AddBookPage} />
+                <Route path="/updateBook/:bookId" component={UpdateBookPage} />
                 <Route path="/user" component={UserPage} />
             </Switch>
         </div>

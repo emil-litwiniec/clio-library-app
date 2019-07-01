@@ -9,7 +9,8 @@ const Select = (props) => {
             <label>{label}</label>
             <select
                 name={name}
-                value={formikProps.values[`${value}`]}
+                // value={formikProps.values[`${value}`]}
+                value={value}
                 onChange={formikProps.handleChange}
                 onBlur={formikProps.handleBlur}
                 style={{ display: "block" }}
