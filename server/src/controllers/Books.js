@@ -19,7 +19,7 @@ const Books = {
         FROM authors
         WHERE LOWER(first_name) = '${req.body.authorFirst.toLowerCase()}'
         AND
-            LOWER(last_name) = '${req.body.authorLast.toLowerCase()}'`;;
+            LOWER(last_name) = '${req.body.authorLast.toLowerCase()}'`;
 
             
             try {
@@ -124,6 +124,62 @@ const Books = {
             return res.status(400).send({'message': "Provide id of the book to update"})
         }
 
+        
+
+        if(req.body.authorLast && req.body.authorFirst) {
+            const searchAuthorQuery = `SELECT author_id
+            FROM authors
+            WHERE LOWER(first_name) = '${req.body.authorFirst.toLowerCase()}'
+            AND
+                LOWER(last_name) = '${req.body.authorLast.toLowerCase()}'`;
+
+            try {
+                const { rows: authorId } = await db.query(searchAuthorQuery);
+    
+                if(!authorId[0]) {
+                    const query = `INSERT INTO
+                    authors(first_name, last_name, origin)
+                    VALUES($1, $2, $3)
+                    RETURNING *`;
+    
+                    const values = [
+                        req.body.authorFirst,
+                        req.body.authorLast,
+                        req.body.authorOrigin || null
+                    ];
+    
+                    const authorResponse = await db.query(query, values);
+    
+                    if(!authorResponse.rows[0]) {
+                        return res.status(200).send({"message": "Something went wrong with adding author to the database."})
+                    }
+                }
+
+            const dbColumns = utils.setColumnsNames(req, columnNames.books);
+            const values = utils.setBooksValuesNames(req);
+
+            const setQueries = dbColumns.map((el, idx) => `${el} = ${values[idx]}`);
+            setQueries.push(`author_id = ${authorId[0].author_id}`);
+
+
+            const query = `UPDATE books
+        SET last_update = '${moment(new Date()).format()}',
+            ${setQueries}
+        WHERE book_id = '${req.body.bookId}'
+        RETURNING *`;
+
+        const { rows } = await db.query(query);
+
+        if(!rows[0]) {
+            return res.status(404).send({'message': "book not found"});
+        }
+        return res.status(200).send({'message': "The book has beed updated."})
+            } catch (err) {
+                return res.status(400).send(err);
+            }
+        }
+
+
 
         const dbColumns = utils.setColumnsNames(req, columnNames.books);
         const values = utils.setBooksValuesNames(req);
@@ -153,7 +209,6 @@ const Books = {
         }
         const getBookQuery = searchQueries.selectBook + `\n WHERE A.book_id = '${req.body.bookId}'`
 
-        console.log(getBookQuery);
         try {
             const { rows: book } = await db.query(getBookQuery);
 
