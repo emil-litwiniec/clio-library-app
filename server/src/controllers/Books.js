@@ -121,10 +121,8 @@ const Books = {
 
     async update(req, res) {
         if(!req.body.bookId) {
-            return res.status(400).send({'message': "Provide id of the book to update"})
+            return res.status(200).send({'message': "Provide id of the book to update"})
         }
-
-        
 
         if(req.body.authorLast && req.body.authorFirst) {
             const searchAuthorQuery = `SELECT author_id
@@ -154,13 +152,20 @@ const Books = {
                         return res.status(200).send({"message": "Something went wrong with adding author to the database."})
                     }
                 }
+            const filteredRequestEntries = Object.entries(req.body)
+                .filter(entry => {
+                    if(entry[0] === "bookId" || entry[0] === "authorFirst" || entry[0] === "authorLast") {
+                        return false
+                    }else {
+                        return true
+                    }
+                })
 
-            const dbColumns = utils.setColumnsNames(req, columnNames.books);
-            const values = utils.setBooksValuesNames(req);
+            const dbColumnsEntries = utils.setColumnsNamesFromEntries(filteredRequestEntries, columnNames.books);
+           
 
-            const setQueries = dbColumns.map((el, idx) => `${el} = ${values[idx]}`);
+            const setQueries = dbColumnsEntries.map(el => `${el[0]} = ${el[1]}`);
             setQueries.push(`author_id = ${authorId[0].author_id}`);
-
 
             const query = `UPDATE books
         SET last_update = '${moment(new Date()).format()}',
@@ -171,20 +176,23 @@ const Books = {
         const { rows } = await db.query(query);
 
         if(!rows[0]) {
-            return res.status(404).send({'message': "book not found"});
+            return res.status(200).send({'message': "book not found"});
         }
         return res.status(200).send({'message': "The book has beed updated."})
             } catch (err) {
-                return res.status(400).send(err);
+                return res.status(200).send(err);
             }
         }
 
+        const dbColumnsEntries = utils.setColumnsNamesFromEntries(
+            filteredRequestEntries,
+            columnNames.books
+        );
 
+        const setQueries = dbColumnsEntries.map(
+            el => `${el[0]} = ${el[1]}`
+        );
 
-        const dbColumns = utils.setColumnsNames(req, columnNames.books);
-        const values = utils.setBooksValuesNames(req);
-
-        const setQueries = dbColumns.map((el, idx) => `${el} = ${values[idx]}`);
 
         const query = `UPDATE books
         SET last_update = '${moment(new Date()).format()}',
@@ -196,11 +204,11 @@ const Books = {
             const { rows } = await db.query(query);
 
             if(!rows[0]) {
-                return res.status(404).send({'message': "book not found"});
+                return res.status(200).send({'message': "book not found"});
             }
             return res.status(200).send({'message': "The book has beed updated."})
         } catch (err) {
-            return res.status(400).send(err);
+            return res.status(200).send(err);
         }
     },
     async getBook(req, res) {

@@ -11,8 +11,11 @@ const searchQueries = {
     A.ukd,
     A.pub_year AS year,
     CONCAT(B.first_name, ' ', B.last_name) AS author,
+    B.first_name,
+    B.last_name,
     C.name AS publisher,
     D.genre_name AS genre,
+    D.genre_id,
     CONCAT(E.first_name, ' ', E.last_name) AS translator,
     CASE WHEN F.brought_date IS NULL AND F.borrow_id IS NOT NULL THEN
     	'true'
