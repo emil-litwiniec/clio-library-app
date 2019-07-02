@@ -8,6 +8,7 @@ import ResultDetailPage from "../components/ResultDetailPage.js";
 import AddBookPage from "../components/AddBookPage";
 import UserPage from "../components/UserPage";
 import UpdateBookPage from "../components/UpdateBookPage";
+import GenresControl from "../components/GenresControl";
 
 export const history = createBrowserHistory();
 
@@ -21,6 +22,7 @@ const AppRouter = () => (
                 <Route path="/addBook" component={AddBookPage} />
                 <Route path="/updateBook/:bookId" component={UpdateBookPage} />
                 <Route path="/user" component={UserPage} />
+                <Route path="/modify" component={GenresControl} />
             </Switch>
         </div>
     </Router>
