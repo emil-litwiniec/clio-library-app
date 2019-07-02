@@ -158,6 +158,21 @@ const Authors = {
         } catch(err) {
             return res.status(400).send(err);
         }
+    },
+    async getAllAuthors(req, res) {
+        const getAllAuthors = 'SELECT * FROM authors';
+
+        try {
+            const { rows: authors } = await db.query(getAllAuthors);
+
+            if(!authors[0]) {
+                return res.status(200).send({"message": "Unable to get authors."})
+            }
+
+            return res.status(200).send(authors);
+        } catch(err) {
+            return res.status(400).send(err);
+        }
     }
 }
 

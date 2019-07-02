@@ -48,6 +48,7 @@ app.put('/admin/addAuthor', Authors.insert);
 app.delete('/admin/removeAuthor', Authors.remove);
 app.patch('/admin/updateAuthor', Authors.update);
 app.post('/getAuthor', Authors.getAuthor);
+app.get('/getAllAuthors', Authors.getAllAuthors);
 app.post('/getAuthorAndBooks', Authors.getAuthorAndBooks);
 
 
