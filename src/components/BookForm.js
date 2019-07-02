@@ -51,7 +51,7 @@ class AddBookForm extends React.Component {
                 <Formik
                     enableReinitialize
                     initialValues={{
-                        title: this.state.results.title || '',
+                        title: this.props.values ? this.state.results.title : '',
                         authorFirst: this.props.values ? this.state.results.first_name : "",
                         authorLast: this.props.values ? this.state.results.last_name : "",
                         pubYear: this.props.values ? this.state.results.year : "",

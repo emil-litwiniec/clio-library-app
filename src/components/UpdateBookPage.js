@@ -9,6 +9,7 @@ class UpdateBookPage extends React.Component  {
         super(props);
 
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
         this.state = {
             done: false,
             results: {},
@@ -68,6 +69,24 @@ class UpdateBookPage extends React.Component  {
         })
     }
 
+
+    handleDelete() {
+
+        // TODO: confirm delete
+        axios({
+            // method: "DELETE",
+            // url: "http://localhost:3000/admin/removeBook",
+            // data: {
+            //     bookId: this.props.match.params.bookId
+            // }
+        })
+        .then(res => {
+            // TO DO: history?? take us back 
+
+        })
+        console.log('book deleted!')
+    }
+
     render() {
         return (
             <>
@@ -76,6 +95,9 @@ class UpdateBookPage extends React.Component  {
             {this.state.done && 
             <BookForm values={this.state.results} handleSubmit={this.handleSubmit}/>
             }
+
+
+            <button onClick={this.handleDelete}>Delete book</button>
             </>
         )
     }
