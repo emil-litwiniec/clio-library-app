@@ -74,11 +74,18 @@ const Publishers = {
             return res.status(400).send({"message": "Please, provide id of a publisher."})
         }
 
-        const dbColumns = utils.setColumnsNames(req, columnNames.publishers);
-        const values = utils.setPublishersValuesNames(req);
+        const filteredRequestEntries = Object.entries(req.body)
+                .filter(entry => {
+                    if(entry[0] === "pubId") {
+                        return false
+                    }else {
+                        return true
+                    }
+                })
+        const dbColumnsEntries = utils.setColumnsNamesFromEntries(filteredRequestEntries, columnNames.publishers);
 
-        const setQueries = utils.setQueries(dbColumns, values);
-        
+        const setQueries = dbColumnsEntries.map(el => `${el[0]} = ${el[1]}`);
+
         const updateQuery = `UPDATE publishers
         SET ${setQueries}
         WHERE pub_id = ${req.body.pubId}
@@ -97,7 +104,7 @@ const Publishers = {
         }
     },
     async getAll(req, res) {
-       const getAllPublishersQuery = `SELECT pub_id, name FROM publishers`;
+       const getAllPublishersQuery = `SELECT * FROM publishers`;
 
        try {
         const { rows: allPublishers } = await db.query(getAllPublishersQuery);
