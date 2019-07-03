@@ -69,7 +69,7 @@ app.get('/getAllPubs', Publishers.getAll);
 app.put('/admin/addTranslator', Translators.add);
 app.delete('/admin/removeTranslator', Translators.remove);
 app.patch('/admin/updateTranslator', Translators.update);
-
+app.get('/getAllTranslators', Translators.getAll);
 
 app.post('/user/prolong', Borrows.prolong);
 app.post('/user/addReservation', Reservations.add);

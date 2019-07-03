@@ -92,6 +92,17 @@ const Translators = {
         } catch (err) {
             return res.status(400).send(err);
         }
+    },
+    async getAll(req, res) {
+        const translatorsQuery = 'SELECT * FROM translators';
+
+        try {
+            const { rows: translators } = await db.query(translatorsQuery);
+
+            return res.status(200).send(translators)
+        } catch (err) {
+            return res.status(400).send(err);
+        }
     }
 }
 
