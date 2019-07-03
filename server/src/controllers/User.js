@@ -156,6 +156,24 @@ const User = {
         } catch(err) {
             return res.status(200).send(err);
         }
+    },
+    async searchUsers(req, res) {
+        const { userId } = req.query;
+
+        console.log(userId);
+
+        const searchQuery = `SELECT id 
+        FROM users
+        WHERE id::text LIKE '${userId}%'
+        LIMIT 10`;
+
+        try {
+            const { rows: users } = await db.query(searchQuery);
+
+            return res.status(200).send(users);
+        } catch (err) {
+            return res.statsu(400).send(err);
+        }
     }
 
 }

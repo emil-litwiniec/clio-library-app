@@ -75,6 +75,8 @@ app.post('/user/prolong', Borrows.prolong);
 app.post('/user/addReservation', Reservations.add);
 app.delete('/user/removeReservation', Reservations.remove);
 
+app.get('/searchUsers', User.searchUsers)
+
 app.get('/admin/filters', Filters.getAll);
 
 app.post('/login', User.login);
