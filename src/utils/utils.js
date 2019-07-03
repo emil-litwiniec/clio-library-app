@@ -24,6 +24,17 @@ const utils = {
             } else {
                 return [];
             }
+        },
+        authors(arr) {
+            if(Array.isArray(arr)) {
+                return arr.map(obj => ({
+                    value: obj.author_id,
+                    label: `${obj.last_name}, ${obj.first_name} |${obj.origin}`,
+                    name: `${obj.last_name}, ${obj.first_name} | ${obj.origin}`
+                }))
+            } else {
+                return [];
+            }
         }
     }
 }; 
