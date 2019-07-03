@@ -9,6 +9,7 @@ import AddBookPage from "../components/AddBookPage";
 import UserPage from "../components/UserPage";
 import UpdateBookPage from "../components/UpdateBookPage";
 import ModifyPage from "../components/ModifyPage";
+import SearchUser from "../components/SearchUser";
 
 export const history = createBrowserHistory();
 
@@ -23,6 +24,7 @@ const AppRouter = () => (
                 <Route path="/updateBook/:bookId" component={UpdateBookPage} />
                 <Route path="/user" component={UserPage} />
                 <Route path="/modify" component={ModifyPage} />
+                <Route path="/searchUser" component={SearchUser} />
             </Switch>
         </div>
     </Router>

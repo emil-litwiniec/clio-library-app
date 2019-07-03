@@ -35,6 +35,17 @@ const utils = {
             } else {
                 return [];
             }
+        },
+        translators(arr) {
+            if(Array.isArray(arr)) {
+                return arr.map(obj => ({
+                    value: obj.translator_id,
+                    label: `${obj.last_name}, ${obj.first_name}`,
+                    name: `${obj.last_name}, ${obj.first_name}`
+                }))
+            } else {
+                return [];
+            }
         }
     }
 }; 

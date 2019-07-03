@@ -2,6 +2,8 @@ import React from "react";
 
 import GenresControl from "./GenresControl";
 import AuthorsControl from "./AuthorsControl";
+import TranslatorsControl from "./TranslatorsControl";
+import PublishersControl from "./PublishersControl";
 
 
 
@@ -10,6 +12,8 @@ const ModifyPage = () => {
         <div>
             <GenresControl />
             <AuthorsControl />
+            <TranslatorsControl />
+            <PublishersControl />
         </div>
     )
 }

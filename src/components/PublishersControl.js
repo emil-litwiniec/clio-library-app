@@ -3,10 +3,9 @@ import { Formik } from "formik";
 import axios from "axios";
 
 import Select from "./Select";
-import utils from "../utils/utils"
+import utils from "../utils/utils";
 
-
-class AuthorControl extends React.Component {
+class PublishersControl extends React.Component {
     constructor(props) {
         super(props);
 
@@ -15,12 +14,12 @@ class AuthorControl extends React.Component {
         this.updateState = this.updateState.bind(this);
         this.handleCreate = this.handleCreate.bind(this);
         this.handleUpdate = this.handleUpdate.bind(this);
-
+        
         this.state = { 
             phase: 1,
             done: false,
             message: '',
-            authors: [],
+            publishers: [],
             error: ''
         };
     }
@@ -28,12 +27,12 @@ class AuthorControl extends React.Component {
     updateState() {
         axios({
             method: "GET",
-            url: "http://localhost:3000/getAllAuthors"
+            url: "http://localhost:3000/getAllPubs"
         })
         .then(res => {
             this.setState(state => ({
                 ...state,
-                authors: res.data, 
+                publishers: res.data, 
                 done: true
             }))
         })
@@ -47,15 +46,17 @@ class AuthorControl extends React.Component {
 
 
     handleUpdate(values) {
+        console.log('vals: ',values)
         axios({
             method: "PATCH",
-            url: "http://localhost:3000/admin/updateAuthor",
+            url: "http://localhost:3000/admin/updatePublisher",
             data: {
-                authorId: values.authorId,
-                ...(values.firstName && {
-                    firstName: values.firstName
+                pubId: values.pubId,
+                ...(values.name && {
+                    name: values.name
                 }),
-                ...(values.lastName && { lastName: values.lastName }),
+                ...(values.estYear && { estYear: values.estYear }),
+                ...(values.address && { address: values.address }),
                 ...(values.origin && { origin: values.origin })
             }
         })
@@ -80,11 +81,14 @@ class AuthorControl extends React.Component {
     handleCreate(values) {
         axios({
             method: "PUT",
-            url: "http://localhost:3000/admin/addAuthor",
+            url: "http://localhost:3000/admin/addPublisher",
             data: {
-                ...(values.firstName && {firstName: values.firstName}),
-                ...(values.lastName && {lastName: values.lastName}),
-                ...(values.origin && {origin: values.origin})
+                ...(values.name && {
+                    name: values.name
+                }),
+                ...(values.estYear && { estYear: values.estYear }),
+                ...(values.address && { address: values.address }),
+                ...(values.origin && { origin: values.origin })
             }
 
         })
@@ -114,9 +118,9 @@ class AuthorControl extends React.Component {
     handleDelete(value) {
         axios({
             method: "DELETE",
-            url: "http://localhost:3000/admin/removeAuthor",
+            url: "http://localhost:3000/admin/removePublisher",
             data: {
-                authorId: value
+                pubId: value
             }
         })
         .then(res => {
@@ -140,6 +144,8 @@ class AuthorControl extends React.Component {
             this.handleCreate(values);
             
         } else if(this.state.phase === 2) {
+            console.log('udpate')
+            console.log(values)
             // UPDATE
             this.handleUpdate(values)
             
@@ -155,9 +161,10 @@ class AuthorControl extends React.Component {
                 <Formik
                     enableReinitialize
                     initialValues={{
-                        authorId: '1',
-                        firstName: '',
-                        lastName: '',
+                        pubId: '1',
+                        name: '',
+                        estYear: '',
+                        address: '',
                         origin: ''
                     }}
                     onSubmit={(values, actions) => {
@@ -169,29 +176,31 @@ class AuthorControl extends React.Component {
                             {this.state.phase === 1 && (
                                 <>
                                     <Select
-                                        label="Author:"
-                                        name="authorId"
+                                        label="Publishers:"
+                                        name="pubId"
                                         
-                                        value={props.values.authorId}
-                                        options={utils.convertToSelectOptions.authors(
-                                            this.state.authors
+                                        value={props.values.pubId}
+
+                                        options={utils.convertToSelectOptions.publishers(
+                                            this.state.publishers
                                         )}
                                         formikProps={props}
                                     />
 
                                     <button type="button" onClick={() => {
                                         console.log(props.values)
-                                        console.log(this.state.authors)
+                                        console.log(this.state.publishers)
 
-                                        const findAuthorsData = (arr, id, data) => {
-                                            return arr.find(el => el.author_id == id)[`${data}`]
+                                        const findData = (arr, id, data) => {
+                                            return arr.find(el => el.pub_id == id)[`${data}`]
                                         }
 
                                         props.setValues({
-                                            firstName: findAuthorsData(this.state.authors, props.values.authorId, 'first_name') || '', 
-                                            lastName: findAuthorsData(this.state.authors, props.values.authorId, 'last_name') || '', 
-                                            origin: findAuthorsData(this.state.authors, props.values.authorId, 'origin') || '', 
-                                            authorId: props.values.authorId
+                                            name: findData(this.state.publishers, props.values.pubId, 'name') || '', 
+                                            estYear: findData(this.state.publishers, props.values.pubId, 'est_year') || '', 
+                                            address: findData(this.state.publishers, props.values.pubId, 'address') || '', 
+                                            origin: findData(this.state.publishers, props.values.pubId, 'origin') || '', 
+                                            pubId: props.values.pubId
                                         })
                                             this.setState(state => ({...state, phase: 2}));
                                 
@@ -208,10 +217,11 @@ class AuthorControl extends React.Component {
                                         type="button"
                                         onClick={() => {
                                             props.setValues({
-                                                firstName: '',
-                                                lastName: '',
+                                                name: '',
+                                                estYear: '',
+                                                address: '',
                                                 origin: '',
-                                                authorId: props.values.authorId
+                                                pubId: props.values.pubId
                                             })
 
                                             this.setState(state => ({...state, phase: 4}))
@@ -224,26 +234,38 @@ class AuthorControl extends React.Component {
                             )}
                             {this.state.phase === 2 && 
                             <>
-                            <label>First name: </label>
+                            <label>Name:</label>
                             <input
                                 type="text"
-                                id="firstName"
+                                id="name"
                                 onChange={props.handleChange}
                                 onBlur={props.handleBlur}
-                                value={props.values.firstName}
-                                name="firstName"
+                                value={props.values.name}
+                                name="name"
                             />
 
-                            <label>Last name:</label>
+                            <label>Est year:</label>
                             <input
                                 type="text"
-                                id="lastName"
+                                id="estYear"
                                 onChange={props.handleChange}
                                 onBlur={props.handleBlur}
-                                value={props.values.lastName}
-                                name="lastName"
+                                value={props.values.estYear}
+                                name="estYear"
                             />
-                            <label>Origin:</label>
+
+                            <label>Address:</label>
+                            <input
+                                type="text"
+                                id="address"
+                                onChange={props.handleChange}
+                                onBlur={props.handleBlur}
+                                value={props.values.address}
+                                name="address"
+                            />
+
+
+                            <label>origin:</label>
                             <input
                                 type="text"
                                 id="origin"
@@ -252,6 +274,7 @@ class AuthorControl extends React.Component {
                                 value={props.values.origin}
                                 name="origin"
                             />
+
                             <button type="submit">Submit</button>
                             <button type="button" onClick={() => this.setState(state => ({ ...state, phase: 1}))}>Back</button>
                             </>}
@@ -260,32 +283,44 @@ class AuthorControl extends React.Component {
                             // CONFIRM DELETE PHASE
                             <>
                             <p>Are you sure?</p>
-                            <button onClick={() => this.handleDelete(props.values.authorId)}>Yes</button>
+                            <button onClick={() => this.handleDelete(props.values.pubId)}>Yes</button>
                             <button onClick={() => this.setState(state => ({...state, phase: 1}))}>No</button>
                             </>}
 
                             {this.state.phase === 4 && 
                             <>
-                            <label>First name: </label>
+                            <label>Name:</label>
                             <input
                                 type="text"
-                                id="firstName"
+                                id="name"
                                 onChange={props.handleChange}
                                 onBlur={props.handleBlur}
-                                value={props.values.firstName}
-                                name="firstName"
+                                value={props.values.name}
+                                name="name"
                             />
 
-                            <label>Last name:</label>
+                            <label>Est year:</label>
                             <input
                                 type="text"
-                                id="lastName"
+                                id="estYear"
                                 onChange={props.handleChange}
                                 onBlur={props.handleBlur}
-                                value={props.values.lastName}
-                                name="lastName"
+                                value={props.values.estYear}
+                                name="estYear"
                             />
-                            <label>Origin:</label>
+
+                            <label>Address:</label>
+                            <input
+                                type="text"
+                                id="address"
+                                onChange={props.handleChange}
+                                onBlur={props.handleBlur}
+                                value={props.values.address}
+                                name="address"
+                            />
+
+
+                            <label>origin:</label>
                             <input
                                 type="text"
                                 id="origin"
@@ -294,6 +329,7 @@ class AuthorControl extends React.Component {
                                 value={props.values.origin}
                                 name="origin"
                             />
+                            
                             <button type="submit">Submit</button>
                             <button type="button" onClick={() => this.setState(state => ({ ...state, phase: 1}))}>Back</button>
                             </>}
@@ -307,4 +343,4 @@ class AuthorControl extends React.Component {
     }
 }
 
-export default AuthorControl;
+export default PublishersControl;
