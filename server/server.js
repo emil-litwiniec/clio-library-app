@@ -43,6 +43,7 @@ app.put('/admin/addBook', Books.insert);
 app.delete('/admin/removeBook', Books.remove);
 app.patch('/admin/updateBook', Books.update);
 app.post('/getBook', Books.getBook);
+app.get('/searchBookId', Books.searchBookId);
 
 app.put('/admin/addAuthor', Authors.insert);
 app.delete('/admin/removeAuthor', Authors.remove);
@@ -71,7 +72,7 @@ app.delete('/admin/removeTranslator', Translators.remove);
 app.patch('/admin/updateTranslator', Translators.update);
 app.get('/getAllTranslators', Translators.getAll);
 
-app.post('/user/prolong', Borrows.prolong);
+app.patch('/user/prolong', Borrows.prolong);
 app.post('/user/addReservation', Reservations.add);
 app.delete('/user/removeReservation', Reservations.remove);
 

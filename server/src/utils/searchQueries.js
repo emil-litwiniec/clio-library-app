@@ -37,7 +37,6 @@ LEFT JOIN translators AS E ON A .translator_id = E.translator_id
 LEFT JOIN (
 	SELECT borrow_id, book_id, exp_brought_date, brought_date
 	FROM borrows
-	WHERE brought_date IS NULL
 ) 	AS F 
 	ON A.book_id = F.book_id
 LEFT JOIN reservations AS G ON A .book_id = G.book_id`,

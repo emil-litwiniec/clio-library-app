@@ -228,6 +228,41 @@ const Books = {
         } catch (err) {
             return res.status(400).send(err);
         }
+    },
+    async searchBookId(req,res) {
+        const { bookId } = req.query;
+
+        const searchQuery = `	
+        SELECT DISTINCT
+            A.book_id
+        FROM books AS A
+        LEFT JOIN (
+        SELECT
+            B.book_id,
+            CASE WHEN F.brought_date IS NULL AND F.borrow_id IS NOT NULL THEN
+                'true'
+                ELSE
+                'false'
+                END  
+                AS isBorrowed
+        FROM books AS B
+        LEFT JOIN (
+            SELECT borrow_id, book_id, exp_brought_date, brought_date
+            FROM borrows
+        ) 	AS F 
+            ON B.book_id = F.book_id
+        ) AS C
+        ON A.book_id = C.book_id
+        WHERE C.isBorrowed = 'false'
+            AND A.book_id::text LIKE '${bookId}%';`;
+
+        try {
+            const { rows: books } = await db.query(searchQuery);
+
+            return res.status(200).send(books);
+        } catch (err) {
+            return res.status(400).send(err);
+        }
     }
 
 }
