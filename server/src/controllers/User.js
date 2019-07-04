@@ -87,8 +87,8 @@ const User = {
         }
     },
     async getData (req, res) {
-
-        if(!req.body.userId) {
+        console.log(req.query)
+        if(!req.query.userId) {
             return res.status(200).send({"message": "Please, provide user id."})
         }
         const userQuery = `SELECT 
@@ -97,7 +97,7 @@ const User = {
         email, 
         phone_number
         FROM users
-        WHERE id = '${req.body.userId}'`;
+        WHERE id::text = '${req.query.userId}'`;
 
         const borrowsQuery = `SELECT
             A.borrow_id,
@@ -115,8 +115,28 @@ const User = {
         LEFT JOIN authors AS C ON
             B.author_id = C.author_id
         WHERE
-            A.user_id = '${req.body.userId}'
+            A.user_id::text = '${req.query.userId}'
             AND A.brought_date IS NULL`;
+
+        const borrowsHistoryQuery = `SELECT
+        A.borrow_id,
+        A.taken_date,
+        A.exp_brought_date,
+        A.brought_date,
+        A.prolongs,
+        B.title,
+        CONCAT(C.first_name, ' ', C.last_name) AS author,
+        B.pub_year,
+        B.isbn
+    FROM
+        borrows AS A
+    LEFT JOIN books AS B ON
+        A.book_id = B.book_id
+    LEFT JOIN authors AS C ON
+        B.author_id = C.author_id
+    WHERE
+        A.user_id::text = '${req.query.userId}'
+        AND A.brought_date IS NOT NULL`
 
         const reservationsQuery = `SELECT
             A.res_id,
@@ -131,16 +151,18 @@ const User = {
         LEFT JOIN authors AS C ON
             B.author_id = C.author_id
         WHERE
-            A.user_id = '${req.body.userId}'`;
+            A.user_id::text = '${req.query.userId}'`;
 
         try {
             const [
                 { rows: user },
                 { rows: borrows },
+                { rows: borrowsHistory },
                 { rows: reservations }
             ] = await Promise.all([
                 db.query(userQuery), 
                 db.query(borrowsQuery), 
+                db.query(borrowsHistoryQuery),
                 db.query(reservationsQuery)
             ]);
 
@@ -150,8 +172,9 @@ const User = {
 
             return res.status(200).send({
                 user: user[0],
-                borrows: borrows[0],
-                reservations: reservations[0]
+                borrows,
+                borrowsHistory,
+                reservations
             })
         } catch(err) {
             return res.status(200).send(err);

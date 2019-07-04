@@ -36,7 +36,7 @@ app.use(cookieParser());
 
 app.get('/search', Search.search);
 app.put('/user/create', User.create);
-app.post('/user/getData', User.getData);
+app.get('/user/getData', User.getData);
 
 
 app.put('/admin/addBook', Books.insert);
