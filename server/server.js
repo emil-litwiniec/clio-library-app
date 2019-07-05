@@ -38,6 +38,7 @@ app.get('/search', Search.search);
 app.put('/createUser', User.create);
 app.get('/user/getData', User.getData);
 app.patch('/updateUser', User.update);
+app.get("/getUser", User.getUser);
 
 
 app.put('/admin/addBook', Books.insert);

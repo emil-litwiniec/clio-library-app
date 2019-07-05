@@ -245,6 +245,32 @@ const User = {
         } catch (err) {
             return res.statsu(400).send(err);
         }
+    },
+    async getUser(req, res) {
+        if(!req.query.userId) {
+            return res.status(400).send({"message": "Please, provide id of the user."})
+        }
+
+        const getUserQuery = `SELECT 
+        first_name,
+        last_name,
+        email,
+        phone_number
+        FROM users
+        WHERE id::text = '${req.query.userId}'`;
+
+        try {
+            const { rows: user } = await db.query(getUserQuery);
+            if(!user[0]) {
+                return res.status(400).send({'message': "Unable to find user."})
+            }
+
+            return res.status(200).send(user[0]);
+        } catch(err) {
+
+            return res.status(400).send(err);
+
+        }
     }
 
 }
