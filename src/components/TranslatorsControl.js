@@ -1,9 +1,17 @@
 import React from 'react';
 import { Formik } from "formik";
 import axios from "axios";
+import * as Yup from "yup";
 
 import Select from "./Select";
+import ShowMessageAndError from "./ShowMessageAndError";
 import utils from "../utils/utils";
+
+
+const TranslatorSchema = Yup.object().shape({
+    firstName: Yup.string().required(),
+    lastName: Yup.string().required()
+})
 
 class TranslatorsControl extends React.Component {
     constructor(props) {
@@ -22,6 +30,22 @@ class TranslatorsControl extends React.Component {
             translators: [],
             error: ''
         };
+    }
+
+    componentDidMount(){
+        this.updateState();
+    }
+
+    componentDidUpdate(prevProps, prevState){
+        prevState.message && setTimeout(() => this.setState((state) =>({
+            ...state,
+            message: ''
+        })), 4000);
+
+        prevState.error && setTimeout(() => this.setState((state) => ({
+            ...state,
+            error: ''
+        })), 4000)
     }
 
     updateState() {
@@ -46,7 +70,6 @@ class TranslatorsControl extends React.Component {
 
 
     handleUpdate(values) {
-        console.log('vals: ',values)
         axios({
             method: "PATCH",
             url: "http://localhost:3000/admin/updateTranslator",
@@ -104,9 +127,7 @@ class TranslatorsControl extends React.Component {
 
     }
 
-    componentDidMount(){
-        this.updateState();
-    }
+    
 
 
     handleDelete(value) {
@@ -118,7 +139,11 @@ class TranslatorsControl extends React.Component {
             }
         })
         .then(res => {
-            this.setState(state => ({...state , phase: 1}));
+            this.setState(state => ({
+                ...state,
+                 phase: 1,
+                 ...(res.data.message && {message: res.data.message})
+                }));
             this.updateState()
 
         })
@@ -138,8 +163,6 @@ class TranslatorsControl extends React.Component {
             this.handleCreate(values);
             
         } else if(this.state.phase === 2) {
-            console.log('udpate')
-            console.log(values)
             // UPDATE
             this.handleUpdate(values)
             
@@ -155,10 +178,11 @@ class TranslatorsControl extends React.Component {
                 <Formik
                     enableReinitialize
                     initialValues={{
-                        translatorId: '1',
+                        translatorId: this.state.translators[0].translator_id,
                         firstName: '',
                         lastName: ''
                     }}
+                    validationSchema={TranslatorSchema}
                     onSubmit={(values, actions) => {
                         this.handleSubmit(values);
                         actions.setSubmitting(false);
@@ -180,8 +204,7 @@ class TranslatorsControl extends React.Component {
                                     />
 
                                     <button type="button" onClick={() => {
-                                        console.log(props.values)
-                                        console.log(this.state.translators)
+                                       
 
                                         const findData = (arr, id, data) => {
                                             return arr.find(el => el.translator_id == id)[`${data}`]
@@ -231,6 +254,11 @@ class TranslatorsControl extends React.Component {
                                 value={props.values.firstName}
                                 name="firstName"
                             />
+                            {props.errors.firstName && props.touched.firstName ? (
+                                <div id="feedback">
+                                    {props.errors.firstName}
+                                </div>
+                            ) : null} 
 
                             <label>Last name:</label>
                             <input
@@ -241,6 +269,13 @@ class TranslatorsControl extends React.Component {
                                 value={props.values.lastName}
                                 name="lastName"
                             />
+
+                            {props.errors.lastName && props.touched.lastName ?(
+                                <div id="feedback">
+                                    {props.errors.lastName}
+                                </div>
+                            ) : null} 
+
                             <button type="submit">Submit</button>
                             <button type="button" onClick={() => this.setState(state => ({ ...state, phase: 1}))}>Back</button>
                             </>}
@@ -264,6 +299,11 @@ class TranslatorsControl extends React.Component {
                                 value={props.values.firstName}
                                 name="firstName"
                             />
+                            {props.errors.firstName && props.touched.firstName ?(
+                                <div id="feedback">
+                                    {props.errors.firstName}
+                                </div>
+                            ) : null} 
 
                             <label>Last name:</label>
                             <input
@@ -274,10 +314,16 @@ class TranslatorsControl extends React.Component {
                                 value={props.values.lastName}
                                 name="lastName"
                             />
+                            {props.errors.lastName && props.touched.lastName ?(
+                                <div id="feedback">
+                                    {props.errors.lastName}
+                                </div>
+                            ) : null} 
                             
                             <button type="submit">Submit</button>
                             <button type="button" onClick={() => this.setState(state => ({ ...state, phase: 1}))}>Back</button>
                             </>}
+                            <ShowMessageAndError state={this.state}/>
 
                         </form>
                     )}
@@ -287,5 +333,7 @@ class TranslatorsControl extends React.Component {
         );
     }
 }
+
+
 
 export default TranslatorsControl;

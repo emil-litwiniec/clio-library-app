@@ -25,7 +25,7 @@ const Authors = {
             const { rows } = await db.query(searchQuery); 
 
             if(rows[0]) {
-                return res.status(409).send({'message': 'This author already exists.'})
+                return res.status(400).send({'message': 'This author already exists.'})
             }
             const values = [
                 req.body.firstName,
@@ -35,7 +35,7 @@ const Authors = {
 
             const response = await db.query(query, values);
 
-            return res.status(200).send(response.rows[0]);
+            return res.status(201).send({"message": "Author has been created"});
         } catch (err) {
             return res.status(400).send(err);
         }
@@ -105,7 +105,7 @@ const Authors = {
             
             const response = await db.query(updateQuery);
 
-            return res.status(200).send(response.rows[0]);
+            return res.status(200).send({"message": "Author has been updated."});
         } catch (err) {
             return res.status(400).send(err);
         }

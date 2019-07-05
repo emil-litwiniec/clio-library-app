@@ -13,12 +13,19 @@ class ModifyUser extends React.Component {
         this.state = { 
             phase: 1,
             error: '',
-            
+            user: {}
         };
     }
 
     componentDidMount(){
+        // axios({
+        //     method: "GET",
+        //     url: "http://localhost:3000/getUser",
+        //     params: {
 
+        //     }
+
+        // })
     }
 
 

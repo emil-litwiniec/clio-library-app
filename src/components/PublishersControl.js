@@ -1,9 +1,19 @@
 import React from 'react';
 import { Formik } from "formik";
 import axios from "axios";
+import * as Yup from "yup";
 
 import Select from "./Select";
+import ShowMessageAndError from "./ShowMessageAndError";
 import utils from "../utils/utils";
+
+const PublisherSchema = Yup.object().shape({
+    name: Yup.string().required(),
+    estYear: Yup.string().matches(/^[12][0-9]{3}$/, 'Enter year in 4-digit format.' ).notRequired(),
+    address: Yup.string().notRequired(),
+    origin: Yup.string().matches(/^[A-Z|a-z]{2}$/, 'Enter two-letter country code.').required()
+
+})
 
 class PublishersControl extends React.Component {
     constructor(props) {
@@ -22,6 +32,22 @@ class PublishersControl extends React.Component {
             publishers: [],
             error: ''
         };
+    }
+
+    componentDidMount(){
+        this.updateState();
+    }
+
+    componentDidUpdate(prevProps, prevState){
+        prevState.message && setTimeout(() => this.setState((state) =>({
+            ...state,
+            message: ''
+        })), 4000);
+
+        prevState.error && setTimeout(() => this.setState((state) => ({
+            ...state,
+            error: ''
+        })), 4000)
     }
 
     updateState() {
@@ -46,7 +72,6 @@ class PublishersControl extends React.Component {
 
 
     handleUpdate(values) {
-        console.log('vals: ',values)
         axios({
             method: "PATCH",
             url: "http://localhost:3000/admin/updatePublisher",
@@ -110,9 +135,7 @@ class PublishersControl extends React.Component {
 
     }
 
-    componentDidMount(){
-        this.updateState();
-    }
+   
 
 
     handleDelete(value) {
@@ -124,7 +147,11 @@ class PublishersControl extends React.Component {
             }
         })
         .then(res => {
-            this.setState(state => ({...state , phase: 1}));
+            this.setState(state => ({
+                ...state,
+                 phase: 1,
+                 ...(res.data.message && {message: res.data.message})
+                }));
             this.updateState()
 
         })
@@ -144,8 +171,6 @@ class PublishersControl extends React.Component {
             this.handleCreate(values);
             
         } else if(this.state.phase === 2) {
-            console.log('udpate')
-            console.log(values)
             // UPDATE
             this.handleUpdate(values)
             
@@ -161,12 +186,13 @@ class PublishersControl extends React.Component {
                 <Formik
                     enableReinitialize
                     initialValues={{
-                        pubId: '1',
+                        pubId: this.state.publishers[0].pub_id,
                         name: '',
                         estYear: '',
                         address: '',
                         origin: ''
                     }}
+                    validationSchema={PublisherSchema}
                     onSubmit={(values, actions) => {
                         this.handleSubmit(values);
                         actions.setSubmitting(false);
@@ -188,8 +214,6 @@ class PublishersControl extends React.Component {
                                     />
 
                                     <button type="button" onClick={() => {
-                                        console.log(props.values)
-                                        console.log(this.state.publishers)
 
                                         const findData = (arr, id, data) => {
                                             return arr.find(el => el.pub_id == id)[`${data}`]
@@ -243,6 +267,11 @@ class PublishersControl extends React.Component {
                                 value={props.values.name}
                                 name="name"
                             />
+                            {props.errors.name && props.touched.name ?(
+                                <div id="feedback">
+                                    {props.errors.name}
+                                </div>
+                            ) : null} 
 
                             <label>Est year:</label>
                             <input
@@ -253,6 +282,11 @@ class PublishersControl extends React.Component {
                                 value={props.values.estYear}
                                 name="estYear"
                             />
+                            {props.errors.estYear && props.touched.estYear ?(
+                                <div id="feedback">
+                                    {props.errors.estYear}
+                                </div>
+                            ) : null} 
 
                             <label>Address:</label>
                             <input
@@ -263,6 +297,11 @@ class PublishersControl extends React.Component {
                                 value={props.values.address}
                                 name="address"
                             />
+                            {props.errors.address && props.touched.address ?(
+                                <div id="feedback">
+                                    {props.errors.address}
+                                </div>
+                            ) : null} 
 
 
                             <label>origin:</label>
@@ -274,6 +313,11 @@ class PublishersControl extends React.Component {
                                 value={props.values.origin}
                                 name="origin"
                             />
+                            {props.errors.origin && props.touched.origin ?(
+                                <div id="feedback">
+                                    {props.errors.origin}
+                                </div>
+                            ) : null} 
 
                             <button type="submit">Submit</button>
                             <button type="button" onClick={() => this.setState(state => ({ ...state, phase: 1}))}>Back</button>
@@ -298,6 +342,11 @@ class PublishersControl extends React.Component {
                                 value={props.values.name}
                                 name="name"
                             />
+                            {props.errors.name && props.touched.name ?(
+                                <div id="feedback">
+                                    {props.errors.name}
+                                </div>
+                            ) : null} 
 
                             <label>Est year:</label>
                             <input
@@ -308,6 +357,11 @@ class PublishersControl extends React.Component {
                                 value={props.values.estYear}
                                 name="estYear"
                             />
+                            {props.errors.estYear && props.touched.estYear ?(
+                                <div id="feedback">
+                                    {props.errors.estYear}
+                                </div>
+                            ) : null} 
 
                             <label>Address:</label>
                             <input
@@ -318,6 +372,11 @@ class PublishersControl extends React.Component {
                                 value={props.values.address}
                                 name="address"
                             />
+                            {props.errors.address && props.touched.address ?(
+                                <div id="feedback">
+                                    {props.errors.address}
+                                </div>
+                            ) : null} 
 
 
                             <label>origin:</label>
@@ -329,10 +388,17 @@ class PublishersControl extends React.Component {
                                 value={props.values.origin}
                                 name="origin"
                             />
+                            {props.errors.origin && props.touched.origin ?(
+                                <div id="feedback">
+                                    {props.errors.origin}
+                                </div>
+                            ) : null} 
                             
                             <button type="submit">Submit</button>
                             <button type="button" onClick={() => this.setState(state => ({ ...state, phase: 1}))}>Back</button>
                             </>}
+
+                            <ShowMessageAndError state={this.state} />
 
                         </form>
                     )}

@@ -9,7 +9,7 @@ const User = {
 
     async create(req, res) {
        
-        if(!req.body.name || !req.body.surname ||!req.body.email || !req.body.password) {
+        if(!req.body.firstName || !req.body.lastName ||!req.body.email || !req.body.password) {
             return res.status(400).send({"message": "Please, provide all required values"})
         }
 
@@ -26,8 +26,8 @@ const User = {
 
         const values = [
             uuidv4(),
-            req.body.name,
-            req.body.surname,
+            req.body.firstName,
+            req.body.lastName,
             req.body.email,
             hashPassword,
             req.body.phoneNumber || undefined
@@ -37,7 +37,7 @@ const User = {
             const { rows } = await db.query(query, values);
             // const token = Helper.generateToken(rows[0].id);
             // res.cookie('x-access-token', { token });
-            return res.status(200).send();
+            return res.status(200).send({"message": "User has been created"});
 
         } catch (err) {
             if (err.routine === '_bt_check_unique') {

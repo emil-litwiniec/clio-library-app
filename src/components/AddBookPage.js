@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
 import BookForm from "./BookForm";
@@ -8,28 +8,34 @@ import BookForm from "./BookForm";
 
 const AddBookPage = () => {
 
+    const [message, setMessage] = useState();
+
     const handleSubmit = (values) => {
-        console.log(values.pubYear);
         axios({
             method: "PUT",
             url: "http://localhost:3000/admin/addBook",
             data: {
-                title: values.title,
-                authorFirst: values.authorFirst,
-                authorLast: values.authorLast,
-                lang: values.lang,
-                isbn: values.isbn,
-                pubYear: values.pubYear,
-                edition: values.edition,
-                series: values.series,
-                ukd: values.ukd
+                ...(values.title && {title: values.title}),
+                ...(values.authorFirst && {authorFirst: values.authorFirst}),
+                ...(values.authorLast && {authorLast: values.authorLast}),
+                ...(values.lang && {lang: values.lang}),
+                ...(values.isbn && {isbn: values.isbn}),
+                ...(values.pubYear && {pubYear: values.pubYear}),
+                ...(values.edition && {edition: values.edition}),
+                ...(values.series && {series: values.series}),
+                ...(values.ukd && {ukd: values.ukd}),
+                ...(values.genreId && {genreId: values.genreId}),
+                ...(values.pubId && {pubId: values.pubId})
+
             }
         })
         .then((res) => {
-            console.log(res);
+            if(res.status === 201) {
+                setMessage('Book has been successfully created.')
+            }
         })
         .catch(err => {
-            console.log(err);
+            setMessage('Something went wrong...')
         })
     }
 
@@ -39,6 +45,10 @@ const AddBookPage = () => {
         <h1>This is add book page!</h1>
 
         <BookForm handleSubmit={handleSubmit}/>
+        {message &&
+        <div>
+            {message}
+        </div>}
 
         </>
 

@@ -1,9 +1,15 @@
 import React from 'react';
 import { Formik } from "formik";
 import axios from "axios";
+import * as Yup from 'yup';
 
 import Select from "./Select";
 import utils from "../utils/utils"
+import ShowMessageAndError from "./ShowMessageAndError";
+
+const GenreSchema = Yup.object().shape({
+    genreName: Yup.string().required(),
+})
 
 
 class GenresControl extends React.Component {
@@ -12,16 +18,35 @@ class GenresControl extends React.Component {
 
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleDelete = this.handleDelete.bind(this);
-        this.updateGenresState = this.updateGenresState.bind(this);
+        this.updateState = this.updateState.bind(this);
         this.handleCreate = this.handleCreate.bind(this);
         this.handleUpdate = this.handleUpdate.bind(this);
         this.state = { 
             phase: 1,
-            done: false
+            done: false,
+            genres: [],
+            message: '',
+            error: ''
         };
     }
 
-    updateGenresState() {
+    componentDidMount(){
+        this.updateState();
+    }
+
+    componentDidUpdate(prevProps, prevState){
+        prevState.message && setTimeout(() => this.setState((state) =>({
+            ...state,
+            message: ''
+        })), 4000);
+
+        prevState.error && setTimeout(() => this.setState((state) => ({
+            ...state,
+            error: ''
+        })), 4000)
+    }
+
+    updateState() {
         axios({
             method: "GET",
             url: "http://localhost:3000/getAllGenres"
@@ -33,6 +58,12 @@ class GenresControl extends React.Component {
                 done: true
             }))
         })
+        .catch(err => {
+            this.setState(state => ({
+                ...state,
+                error: err
+            }))
+        });
     }
     handleUpdate(values) {
         axios({
@@ -46,12 +77,21 @@ class GenresControl extends React.Component {
         })
         .then(res => {
 
-            this.setState(state => ({...state , phase: 1}));
-            this.updateGenresState();
+            this.setState(state => ({
+                ...state,
+                 phase: 1,
+                 ...(res.data.message && {
+                    message: res.data.message
+                })
+                }));
+            this.updateState();
         })
-        .catch( err => 
-            console.log(err)
-            )
+        .catch(err => {
+            this.setState(state => ({
+                ...state,
+                error: err
+            }))
+        });
     }
 
     handleCreate(values) {
@@ -64,20 +104,23 @@ class GenresControl extends React.Component {
 
         })
         .then(res => {
-            
-            this.setState(state => ({...state , phase: 1}));
-            this.updateGenresState();
+            this.setState(state => ({
+                ...state,
+                phase: 1,
+                ...(res.data.message && {
+                    message: res.data.message
+                })
+            }));
+            this.updateState();
         })
         .catch(err => {
-            console.log(err)
-        })
+            this.setState(state => ({
+                ...state,
+                error: err
+            }))
+        });
 
     }
-
-    componentDidMount(){
-        this.updateGenresState();
-    }
-
 
     handleDelete(value) {
         axios({
@@ -88,10 +131,21 @@ class GenresControl extends React.Component {
             }
         })
         .then(res => {
-            this.setState(state => ({...state , phase: 1}));
-            this.updateGenresState()
-
+            this.setState(state => ({
+                ...state,
+                phase: 1,
+                ...(res.data.message && {
+                    message: res.data.message
+                })
+            }));
+            this.updateState();
         })
+        .catch(err => {
+            this.setState(state => ({
+                ...state,
+                error: err
+            }))
+        });
 
     }
 
@@ -117,9 +171,10 @@ class GenresControl extends React.Component {
                 <Formik
                     enableReinitialize
                     initialValues={{
-                        genreId: '1',
+                        genreId: this.state.genres[0].genre_id,
                         genreName: ''
                     }}
+                    validationSchema={GenreSchema}
                     onSubmit={(values, actions) => {
                         this.handleSubmit(values);
                         actions.setSubmitting(false);
@@ -141,12 +196,12 @@ class GenresControl extends React.Component {
 
                                     <button type="button" onClick={() => {
 
-                                        const findGenreName = (arr, id) => {
-                                            return arr.find(el => el.genre_id == id).genre_name
+                                        const findData = (arr, id, data) => {
+                                            return arr.find(el => el.genre_id == id)[`${data}`]
                                         }
 
                                         props.setValues({
-                                            genreName: findGenreName(this.state.genres, props.values.genreId), 
+                                            genreName: findData(this.state.genres, props.values.genreId, 'genre_name'), 
                                             genreId: props.values.genreId
                                         })
                                             this.setState(state => ({...state, phase: 2}));
@@ -162,7 +217,13 @@ class GenresControl extends React.Component {
 
                                     <button
                                         type="button"
-                                        onClick={() => this.setState(state => ({...state, phase: 4}))}>
+                                        onClick={() => {
+                                            props.setValues({
+                                                genreName: '', 
+                                                genreId: props.values.genreId
+                                            })
+                                            this.setState(state => ({...state, phase: 4}))}
+                                            }>
                                             Create
                                     </button>
                                 </>
@@ -178,6 +239,12 @@ class GenresControl extends React.Component {
                                 value={props.values.genreName}
                                 name="genreName"
                             />
+                            {props.errors.genreName && props.touched.genreName ?(
+                                <div id="feedback">
+                                    {props.errors.genreName}
+                                </div>
+                            ) : null} 
+
                             <button type="submit">Submit</button>
                             <button type="button" onClick={() => this.setState(state => ({ ...state, phase: 1}))}>Back</button>
                             </>}
@@ -201,9 +268,17 @@ class GenresControl extends React.Component {
                                 value={props.values.genreName}
                                 name="genreName"
                             />
+                            {props.errors.genreName && props.touched.genreName ?(
+                                <div id="feedback">
+                                    {props.errors.genreName}
+                                </div>
+                            ) : null} 
+
                             <button type="submit">Submit</button>
                             <button type="button" onClick={() => this.setState(state => ({ ...state, phase: 1}))}>Back</button>
                             </>}
+                            <ShowMessageAndError state={this.state}/>
+
 
                         </form>
                     )}

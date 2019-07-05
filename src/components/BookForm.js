@@ -3,6 +3,22 @@ import {Formik} from 'formik';
 import axios from 'axios'
 import Select from "./Select";
 import utils from "../utils/utils";
+import * as Yup from "yup";
+
+const Schema = Yup.object().shape({
+    title: Yup.string().required(),
+    authorFirst: Yup.string().required(),
+    authorLast: Yup.string().required(),
+    pubYear: Yup.string().matches(/^[12][0-9]{3}$/, 'Enter year in 4-digit format.' ).required(),
+    lang: Yup.string().matches(/^[A-Z|a-z]{2}$/, 'Enter two-letter language code.').required(),
+    isbn: Yup.string().required(),
+    genreId: Yup.number().required(),
+    series: Yup.string().notRequired(),
+    edition: Yup.string().notRequired(),
+    ukd: Yup.string().notRequired(),
+    pubId: Yup.number().notRequired()
+
+})
 
 
 
@@ -47,7 +63,6 @@ class AddBookForm extends React.Component {
         
         return (
             <div>
-                {console.log(this.state.results)}
                 <Formik
                     enableReinitialize
                     initialValues={{
@@ -65,14 +80,14 @@ class AddBookForm extends React.Component {
                         keywords: this.props.values ? this.state.results.keywords : "",
                         ukd: this.props.values ? this.state.results.ukd : ""
                     }}
+                    validationSchema={Schema}
                     onSubmit={(values, actions) => {
                         this.props.handleSubmit(values);
                         actions.setSubmitting(false);
+                        actions.resetForm();
                     }}
                     render={props => (
-                        // TODO => form validation, mandatory fields
                         <form onSubmit={props.handleSubmit}>
-                            {console.log(props.values.genreId)}
                             <label>Title:</label>
                             <input
                                 type="text"
@@ -81,11 +96,11 @@ class AddBookForm extends React.Component {
                                 value={props.values.title}
                                 name="title"
                             />
-                            {/* {props.errors.name && (
+                            {props.errors.title && props.touched.title ?(
                                 <div id="feedback">
-                                    {props.errors.name}
+                                    {props.errors.title}
                                 </div>
-                            )} */}
+                            ) : null} 
                             <label>Author first name:</label>
                             <input
                                 type="text"
@@ -94,6 +109,11 @@ class AddBookForm extends React.Component {
                                 value={props.values.authorFirst}
                                 name="authorFirst"
                             />
+                            {props.errors.authorFirst && props.touched.authorFirst ?(
+                                <div id="feedback">
+                                    {props.errors.authorFirst}
+                                </div>
+                            ) : null} 
 
                             <label>Author last name:</label>
                             <input
@@ -103,6 +123,11 @@ class AddBookForm extends React.Component {
                                 value={props.values.authorLast}
                                 name="authorLast"
                             />
+                            {props.errors.authorLast && props.touched.authorLast ?(
+                                <div id="feedback">
+                                    {props.errors.authorLast}
+                                </div>
+                            ) : null} 
 
                             <label>Publication year:</label>
                             <input
@@ -112,6 +137,11 @@ class AddBookForm extends React.Component {
                                 value={props.values.pubYear}
                                 name="pubYear"
                             />
+                            {props.errors.pubYear && props.touched.pubYear ?(
+                                <div id="feedback">
+                                    {props.errors.pubYear}
+                                </div>
+                            ) : null} 
                             <label>Series:</label>
                             <input
                                 type="text"
@@ -136,6 +166,11 @@ class AddBookForm extends React.Component {
                                 value={props.values.isbn}
                                 name="isbn"
                             />
+                            {props.errors.isbn && props.touched.isbn ?(
+                                <div id="feedback">
+                                    {props.errors.isbn}
+                                </div>
+                            ) : null} 
 
                             {/* <label>Keywords:</label>
                             <input
@@ -176,18 +211,26 @@ class AddBookForm extends React.Component {
                                 value={props.values.lang}
                                 name="lang"
                             />
+                            {props.errors.lang && props.touched.lang ?(
+                                <div id="feedback">
+                                    {props.errors.lang}
+                                </div>
+                            ) : null} 
 
-                            {/* {console.log(props)} */}
                             <Select
                                 label="Genre:"
                                 name="genreId"
                                 value={props.values.genreId}
-                                // value='3'
                                 options={
                                     utils.convertToSelectOptions.genres(this.state.genres)
                                 }
                                 formikProps={props}
                             />
+                            {props.errors.genreId && props.touched.genreId ?(
+                                <div id="feedback">
+                                    {props.errors.genreId}
+                                </div>
+                            ) : null} 
 
                             <Select
                                 label="Publisher:"

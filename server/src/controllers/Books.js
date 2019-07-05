@@ -68,8 +68,6 @@ const Books = {
                     req.body.isbn,
                     moment(new Date())
                 ];
-
-                
                 const { rows } = await db.query(insertQuery, insertValuesAlt);
                 return res.status(201).send(rows[0]);
 

@@ -1,9 +1,18 @@
 import React from 'react';
 import { Formik } from "formik";
 import axios from "axios";
+import * as Yup from "yup";
+
 
 import Select from "./Select";
+import ShowMessageAndError from "./ShowMessageAndError";
 import utils from "../utils/utils"
+
+const AuthorSchema = Yup.object().shape({
+    firstName: Yup.string().required(),
+    lastName: Yup.string().required(),
+    origin: Yup.string().matches(/^[A-Z|a-z]{2}$/, 'Enter two-letter country code.').required()
+})
 
 
 class AuthorControl extends React.Component {
@@ -23,6 +32,22 @@ class AuthorControl extends React.Component {
             authors: [],
             error: ''
         };
+    }
+
+    componentDidMount(){
+        this.updateState();
+    }
+
+    componentDidUpdate(prevProps, prevState){
+        prevState.message && setTimeout(() => this.setState((state) =>({
+            ...state,
+            message: ''
+        })), 4000);
+
+        prevState.error && setTimeout(() => this.setState((state) => ({
+            ...state,
+            error: ''
+        })), 4000)
     }
 
     updateState() {
@@ -106,10 +131,6 @@ class AuthorControl extends React.Component {
 
     }
 
-    componentDidMount(){
-        this.updateState();
-    }
-
 
     handleDelete(value) {
         axios({
@@ -120,9 +141,13 @@ class AuthorControl extends React.Component {
             }
         })
         .then(res => {
-            this.setState(state => ({...state , phase: 1}));
-            this.updateState()
-
+            this.setState(state => ({
+                ...state ,
+                phase: 1,
+                ...(res.data.message && {message: res.data.message})    
+            }
+                ));
+            this.updateState();
         })
         .catch(err => {
             this.setState(state => ({
@@ -155,11 +180,12 @@ class AuthorControl extends React.Component {
                 <Formik
                     enableReinitialize
                     initialValues={{
-                        authorId: '1',
+                        authorId: this.state.authors[0].author_id,
                         firstName: '',
                         lastName: '',
                         origin: ''
                     }}
+                    validationSchema={AuthorSchema}
                     onSubmit={(values, actions) => {
                         this.handleSubmit(values);
                         actions.setSubmitting(false);
@@ -180,17 +206,15 @@ class AuthorControl extends React.Component {
                                     />
 
                                     <button type="button" onClick={() => {
-                                        console.log(props.values)
-                                        console.log(this.state.authors)
 
-                                        const findAuthorsData = (arr, id, data) => {
+                                        const findData = (arr, id, data) => {
                                             return arr.find(el => el.author_id == id)[`${data}`]
                                         }
 
                                         props.setValues({
-                                            firstName: findAuthorsData(this.state.authors, props.values.authorId, 'first_name') || '', 
-                                            lastName: findAuthorsData(this.state.authors, props.values.authorId, 'last_name') || '', 
-                                            origin: findAuthorsData(this.state.authors, props.values.authorId, 'origin') || '', 
+                                            firstName: findData(this.state.authors, props.values.authorId, 'first_name') || '', 
+                                            lastName: findData(this.state.authors, props.values.authorId, 'last_name') || '', 
+                                            origin: findData(this.state.authors, props.values.authorId, 'origin') || '', 
                                             authorId: props.values.authorId
                                         })
                                             this.setState(state => ({...state, phase: 2}));
@@ -233,6 +257,11 @@ class AuthorControl extends React.Component {
                                 value={props.values.firstName}
                                 name="firstName"
                             />
+                            {props.errors.firstName && props.touched.firstName ? (
+                                <div id="feedback">
+                                    {props.errors.firstName}
+                                </div>
+                            ) : null} 
 
                             <label>Last name:</label>
                             <input
@@ -243,6 +272,12 @@ class AuthorControl extends React.Component {
                                 value={props.values.lastName}
                                 name="lastName"
                             />
+                            {props.errors.lastName && props.touched.lastName ? (
+                                <div id="feedback">
+                                    {props.errors.lastName}
+                                </div>
+                            ) : null} 
+
                             <label>Origin:</label>
                             <input
                                 type="text"
@@ -252,6 +287,12 @@ class AuthorControl extends React.Component {
                                 value={props.values.origin}
                                 name="origin"
                             />
+                            {props.errors.origin && props.touched.origin ? (
+                                <div id="feedback">
+                                    {props.errors.origin}
+                                </div>
+                            ) : null} 
+
                             <button type="submit">Submit</button>
                             <button type="button" onClick={() => this.setState(state => ({ ...state, phase: 1}))}>Back</button>
                             </>}
@@ -275,6 +316,11 @@ class AuthorControl extends React.Component {
                                 value={props.values.firstName}
                                 name="firstName"
                             />
+                            {props.errors.firstName && props.touched.firstName ? (
+                                <div id="feedback">
+                                    {props.errors.firstName}
+                                </div>
+                            ) : null} 
 
                             <label>Last name:</label>
                             <input
@@ -285,6 +331,12 @@ class AuthorControl extends React.Component {
                                 value={props.values.lastName}
                                 name="lastName"
                             />
+                            {props.errors.lastName && props.touched.lastName ? (
+                                <div id="feedback">
+                                    {props.errors.lastName}
+                                </div>
+                            ) : null} 
+
                             <label>Origin:</label>
                             <input
                                 type="text"
@@ -294,9 +346,16 @@ class AuthorControl extends React.Component {
                                 value={props.values.origin}
                                 name="origin"
                             />
+                            {props.errors.origin && props.touched.origin ? (
+                                <div id="feedback">
+                                    {props.errors.origin}
+                                </div>
+                            ) : null} 
+
                             <button type="submit">Submit</button>
                             <button type="button" onClick={() => this.setState(state => ({ ...state, phase: 1}))}>Back</button>
                             </>}
+                            <ShowMessageAndError state={this.state}/>
 
                         </form>
                     )}
