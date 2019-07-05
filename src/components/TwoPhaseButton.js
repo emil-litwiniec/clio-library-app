@@ -5,7 +5,7 @@ const TwoPhaseButton = ({
     handleSubmit,
     id,
     btnName,
-    confirmMessage = "Are you sure"
+    confirmMessage = "Are you sure?"
 }) => {
     const [phase, setPhase] = useState(1);
 

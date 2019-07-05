@@ -1,11 +1,8 @@
 import React from "react";
-import axios from "axios";
 
 import TwoPhaseButton from "./TwoPhaseButton";
 
-
 const UserBorrows = ({borrows, handleProlong, handleReturn}) => {
-    console.log('borrows',borrows);
     
     return (
         <div>
@@ -21,18 +18,24 @@ const UserBorrows = ({borrows, handleProlong, handleReturn}) => {
                         <p>taken date: {borrow.taken_date}</p>
                         <p>expected brought date: {borrow.exp_brought_date}</p>
                         <p>prolongs: {borrow.prolongs}</p>
-                        <TwoPhaseButton 
-                            handleSubmit={handleReturn} 
-                            id={borrow.borrow_id}
-                            btnName="Return"
-                            confirmMessage="Are you sure?"
-                        />
-                        <TwoPhaseButton 
-                            handleSubmit={handleProlong} 
-                            id={borrow.borrow_id}
-                            btnName="Prolong"
-                            confirmMessage="Are you sure?"
-                        />
+
+                        {handleReturn &&
+                            <TwoPhaseButton 
+                                handleSubmit={handleReturn} 
+                                id={borrow.borrow_id}
+                                btnName="Return"
+                                confirmMessage="Are you sure?"
+                            />
+                        }
+                        
+                        {handleProlong &&
+                            <TwoPhaseButton 
+                                handleSubmit={handleProlong} 
+                                id={borrow.borrow_id}
+                                btnName="Prolong"
+                                confirmMessage="Are you sure?"
+                            />
+                        }
                     </div>
                 )
             })}

@@ -1,11 +1,6 @@
 import React from "react";
-import axios from "axios";
-
-import TwoPhaseButton from "./TwoPhaseButton";
-
 
 const UserBorrows = ({borrowsHistory}) => {
-    console.log('borrows history',borrowsHistory);
     
     return (
         <div>

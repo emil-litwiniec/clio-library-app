@@ -1,6 +1,5 @@
 import React from "react";
 import axios from "axios";
-// import {history} from  "../routers/AppRouter";
 
 import Autosuggest from 'react-autosuggest';
 
@@ -75,7 +74,7 @@ class SearchUser extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.history.push(`/${this.state.value}`);
+    this.props.history.push(`/user/${this.state.value}`);
 
   }
   render() {

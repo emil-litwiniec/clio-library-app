@@ -6,10 +6,12 @@ import AuthorDetailPage from "../components/AuthorDetailPage";
 import MainPage from "../components/MainPage.js";
 import ResultDetailPage from "../components/ResultDetailPage.js";
 import AddBookPage from "../components/AddBookPage";
-import UserPage from "../components/UserPage";
+import UserOverviewPage from "../components/UserOverviewPage";
 import UpdateBookPage from "../components/UpdateBookPage";
 import ModifyPage from "../components/ModifyPage";
 import SearchUser from "../components/SearchUser";
+import PublicUserOverviewPage from "../components/PublicUserOverviewPage";
+import CreateUser from "../components/CreateUser";
 
 export const history = createBrowserHistory();
 
@@ -22,7 +24,10 @@ const AppRouter = () => (
                 <Route path="/author/:authorId" component={AuthorDetailPage} />
                 <Route path="/addBook" component={AddBookPage} />
                 <Route path="/updateBook/:bookId" component={UpdateBookPage} />
-                <Route path="/user" component={UserPage} />
+                <Route path="/user/:userId" component={UserOverviewPage} />
+                <Route path="/publicUser/:userId" component={PublicUserOverviewPage} />
+                <Route path="/createUser" component={CreateUser} />
+
                 <Route path="/modify" component={ModifyPage} />
                 <Route path="/searchUser" component={SearchUser} />
             </Switch>
