@@ -2,6 +2,8 @@ import moment from "moment";
 import uuidv4 from "uuid/v4";
 import db from '../db/index.js';
 import Helper from "./Helper";
+import { columnNames } from "../utils/columnNames";
+import utils from "../utils/utils";
 
 const User = {
 
@@ -28,23 +30,73 @@ const User = {
             req.body.surname,
             req.body.email,
             hashPassword,
-            req.body.phone_number || undefined
+            req.body.phoneNumber || undefined
         ];
 
         try {
             const { rows } = await db.query(query, values);
-            const token = Helper.generateToken(rows[0].id);
-            res.cookie('x-access-token', { token });
+            // const token = Helper.generateToken(rows[0].id);
+            // res.cookie('x-access-token', { token });
             return res.status(200).send();
 
         } catch (err) {
             if (err.routine === '_bt_check_unique') {
-                return res.status(400).send({'message': "This email is already taken."})
+                return res.status(200).send({'message': "This email is already taken."})
             }
             return res.status(400).send(err);
         }
     },
+    async update(req, res) {
+        if(!req.body.userId) {
+            return res.status(400).send({"message" : "Please, provide id of the user."})
+        }
 
+       
+        const hashPassword = Helper.hashPassword(req.body.password);
+
+        let filteredRequestEntries = Object.entries(req.body).filter(
+            entry => {
+                if (entry[0] === "userId") {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        );
+        if (req.body.password) {
+            filteredRequestEntries.map(entry => {
+                if (entry[0] === "password") {
+                    entry[1] = hashPassword;
+                }
+            });
+        }
+
+        const dbColumnsEntries = utils.setColumnsNamesFromEntries(
+            filteredRequestEntries,
+            columnNames.users
+        );
+        const setQueries = dbColumnsEntries.map(
+            el => `${el[0]} = ${el[1]}`
+        );
+
+        const updateQuery = `UPDATE users
+        SET ${setQueries}
+        WHERE id::text = '${req.body.userId}'
+        RETURNING *`;
+
+        try {
+            const { rows: user } = await db.query(updateQuery);
+
+            if(!user[0]) {
+                return res.status(400).send({"message": "Unable to find user."})
+            }
+
+            return res.status(200).send({"message": "User data updated"})
+        } catch (err) {
+            return res.status(400).send(err);
+        }
+
+    },
     async login(req, res) {
         if(!req.body.email || !req.body.password) {
             return res.status(400).send({"message": "Please provide all required values"})
@@ -71,9 +123,7 @@ const User = {
         } catch (err) {
             return res.status(400).send(err);
         }
-    },
-
-    async delete(req, res) {
+    }, async delete(req, res) {
 
         const query = "DELETE FROM users WHERE user_id=$1 returning *";
         try {
@@ -87,7 +137,6 @@ const User = {
         }
     },
     async getData (req, res) {
-        console.log(req.query)
         if(!req.query.userId) {
             return res.status(200).send({"message": "Please, provide user id."})
         }
@@ -183,7 +232,6 @@ const User = {
     async searchUsers(req, res) {
         const { userId } = req.query;
 
-        console.log(userId);
 
         const searchQuery = `SELECT id 
         FROM users

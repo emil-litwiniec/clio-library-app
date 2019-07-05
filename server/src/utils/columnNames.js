@@ -45,6 +45,21 @@ const columnNames = {
             default:
                 return;
         }
+    },
+    users(val) {
+        switch(val) {
+            case 'firstName':
+                return 'first_name';
+            case 'lastName':
+                return 'last_name';
+            case 'email':
+                return 'email';
+            case 'phoneNumber':
+                return "phone_number";
+            case 'password':
+                return 'password';
+            
+        }
     }
 };
 
