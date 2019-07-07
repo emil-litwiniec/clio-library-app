@@ -34,9 +34,11 @@ const User = {
         ];
 
         try {
-            const { rows } = await db.query(query, values);
-            // const token = Helper.generateToken(rows[0].id);
-            // res.cookie('x-access-token', { token });
+            const { rows: user } = await db.query(query, values);
+
+            if(!user[0]) {
+                return res.status(400).send({"message": "Unable to create user."})
+            }
             return res.status(200).send({"message": "User has been created"});
 
         } catch (err) {
@@ -216,7 +218,7 @@ const User = {
             ]);
 
             if(!user[0]) {
-                return res.status(200).send({"message": "Unable to find user with provided id."})
+                return res.status(404).send({"message": "Unable to find user with provided id."})
             }
 
             return res.status(200).send({
@@ -226,7 +228,7 @@ const User = {
                 reservations
             })
         } catch(err) {
-            return res.status(200).send(err);
+            return res.status(400).send(err);
         }
     },
     async searchUsers(req, res) {
@@ -262,7 +264,7 @@ const User = {
         try {
             const { rows: user } = await db.query(getUserQuery);
             if(!user[0]) {
-                return res.status(400).send({'message': "Unable to find user."})
+                return res.status(404).send({'message': "Unable to find user."})
             }
 
             return res.status(200).send(user[0]);

@@ -111,7 +111,7 @@ const Publishers = {
 
 
         if(!allPublishers[0]) {
-            return res.status(200).send({"message": "Unable to serve publishers data."})
+            return res.status(400).send({"message": "Unable to serve publishers data."})
         }
 
         return res.status(200).send(allPublishers)

@@ -12,7 +12,7 @@ const Books = {
     async insert(req, res) {
 
         if (!req.body.title || !req.body.authorFirst || !req.body.authorLast || !req.body.lang || !req.body.isbn) {
-            return res.status(200).send({ "message": "Please, provide all required values..." });
+            return res.status(400).send({ "message": "Please, provide all required values..." });
         };
 
         const searchAuthorQuery = `SELECT author_id
@@ -49,7 +49,7 @@ const Books = {
                 const authorResponse = await db.query(query, values);
 
                 if(!authorResponse.rows[0]) {
-                    return res.status(200).send({"message": "Something went wrong with adding author to the database."})
+                    return res.status(400).send({"message": "Something went wrong with adding author to the database."})
                 }
 
                 const insertValuesAlt = [
@@ -91,7 +91,7 @@ const Books = {
             const { rows } = await db.query(insertQuery, insertValues);
             return res.status(201).send(rows[0]);
         } catch (err) {
-            return res.status(200).send(err);
+            return res.status(400).send(err);
         }
     },
 
@@ -147,7 +147,7 @@ const Books = {
                     const authorResponse = await db.query(query, values);
     
                     if(!authorResponse.rows[0]) {
-                        return res.status(200).send({"message": "Something went wrong with adding author to the database."})
+                        return res.status(400).send({"message": "Something went wrong with adding author to the database."})
                     }
                 }
             const filteredRequestEntries = Object.entries(req.body)
@@ -174,11 +174,11 @@ const Books = {
         const { rows } = await db.query(query);
 
         if(!rows[0]) {
-            return res.status(200).send({'message': "book not found"});
+            return res.status(404).send({'message': "book not found"});
         }
         return res.status(200).send({'message': "The book has beed updated."})
             } catch (err) {
-                return res.status(200).send(err);
+                return res.status(400).send(err);
             }
         }
 
@@ -202,16 +202,16 @@ const Books = {
             const { rows } = await db.query(query);
 
             if(!rows[0]) {
-                return res.status(200).send({'message': "book not found"});
+                return res.status(404).send({'message': "book not found"});
             }
             return res.status(200).send({'message': "The book has beed updated."})
         } catch (err) {
-            return res.status(200).send(err);
+            return res.status(400).send(err);
         }
     },
     async getBook(req, res) {
         if(!req.body.bookId) {
-            return res.status(200).send({"message": "Please, provide id of the book."})
+            return res.status(400).send({"message": "Please, provide id of the book."})
         }
         const getBookQuery = searchQueries.selectBook + `\n WHERE A.book_id = '${req.body.bookId}'`
 

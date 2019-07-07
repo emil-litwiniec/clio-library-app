@@ -34,7 +34,6 @@ const CreateUser = () => {
     })
 
     const handleSubmit = (values) => {
-        console.log(values);
         axios({
             method: "PUT",
             url: "http://localhost:3000/createUser",
@@ -71,7 +70,6 @@ const CreateUser = () => {
                         actions.setSubmitting(false);
                     }}
                     render={props => (
-                        // TODO => form validation, mandatory fields
                         <form onSubmit={props.handleSubmit}>
 
                             <label>First name:</label>

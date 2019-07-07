@@ -114,7 +114,7 @@ const Authors = {
     },
     async getAuthor(req, res) {
         if(!req.body.authorId) {
-            return res.status(200).send({"message": "Please, provide author's id."})
+            return res.status(400).send({"message": "Please, provide author's id."})
         }
 
         const getAuthorQuery = `SELECT * FROM authors
@@ -124,7 +124,7 @@ const Authors = {
             const { rows: authorResult } = await db.query(getAuthorQuery);
 
             if(!authorResult[0]) {
-                return res.status(200).send({"message": "Author not found"})
+                return res.status(400).send({"message": "Author not found"})
             }
 
             return res.status(200).send(authorResult)
@@ -166,7 +166,7 @@ const Authors = {
             const { rows: authors } = await db.query(getAllAuthors);
 
             if(!authors[0]) {
-                return res.status(200).send({"message": "Unable to get authors."})
+                return res.status(400).send({"message": "Unable to get authors."})
             }
 
             return res.status(200).send(authors);

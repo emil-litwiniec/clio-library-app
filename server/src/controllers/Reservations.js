@@ -99,7 +99,7 @@ const Reservations = {
             return
             
         } catch(err) {
-            console.log(err);
+            console.log('removeOutdated error: ', err);
             return
         }
     }

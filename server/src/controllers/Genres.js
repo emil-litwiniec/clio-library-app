@@ -63,7 +63,6 @@ const Genres = {
     },
     async update(req, res) {
         if(!req.body.genreId || !req.body.genreNewName) {
-            console.log(req.body.genreId, req.body.genreNewName)
             return res.status(400).send({"message": "Please, provide id and new name for genre."})
         }
 

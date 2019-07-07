@@ -19,8 +19,6 @@ const Borrows = {
             const { rows: isUser } = await db.query(userQuery);
             const { rows: isBook } = await db.query(bookQuery);
 
-            console.log(isUser[0]);
-            console.log(isBook[0]);
 
             if(!isUser[0] || !isBook[0]) {
                 return res.status(404).send({'message': "Provided data doesn't exist in the database."});
@@ -59,7 +57,7 @@ const Borrows = {
                 return res.status(400).send({"message": "There is something wrong with the borrow."})
             }
 
-            return res.status(200).send(insertBorrow[0]);
+            return res.status(201).send(insertBorrow[0]);
         } catch (err) {
             return res.status(400).send(err);
         }
