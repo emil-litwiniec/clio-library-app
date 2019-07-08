@@ -13,8 +13,7 @@ import AppRouter from "./routers/AppRouter";
 
 const jsx = (
         <Provider store={store}>
-                < AppRouter/>
-
+                        < AppRouter/>
         </Provider>
 );
 

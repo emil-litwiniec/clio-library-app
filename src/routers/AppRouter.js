@@ -12,6 +12,7 @@ import ModifyPage from "../components/ModifyPage";
 import SearchUser from "../components/SearchUser";
 import PublicUserOverviewPage from "../components/PublicUserOverviewPage";
 import CreateUser from "../components/CreateUser";
+import Login from "../components/Login";
 
 export const history = createBrowserHistory();
 
@@ -27,6 +28,7 @@ const AppRouter = () => (
                 <Route path="/user/:userId" component={UserOverviewPage} />
                 <Route path="/publicUser/:userId" component={PublicUserOverviewPage} />
                 <Route path="/createUser" component={CreateUser} />
+                <Route path="/login" component={Login} />
 
                 <Route path="/modify" component={ModifyPage} />
                 <Route path="/searchUser" component={SearchUser} />

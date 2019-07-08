@@ -118,10 +118,20 @@ const User = {
                 return res.status(400).send({'message': 'Password is invalid'})
             };
 
-            const token = Helper.generateToken(rows[0].id);
-            
-            res.cookie('x-access-token', { token });
-            return res.status(200).send();
+            if(rows[0]){
+                const text = `SELECT * FROM admins WHERE user_id::text = '${rows[0].id}'`;
+                const { rows: isAdmin } = await db.query(text);
+
+                const isAdminBoolean = isAdmin[0] ? true : false;
+
+
+
+                const token = Helper.generateToken(rows[0].id, isAdminBoolean);
+                
+                res.cookie('x-access-token', { token });
+                return res.status(200).send({token, admin: isAdminBoolean});
+            }
+
         } catch (err) {
             return res.status(400).send(err);
         }
