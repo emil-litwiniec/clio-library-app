@@ -129,7 +129,7 @@ const User = {
                 const token = Helper.generateToken(rows[0].id, isAdminBoolean);
                 
                 res.cookie('x-access-token', { token });
-                return res.status(200).send({token, admin: isAdminBoolean});
+                return res.status(200).send({token, admin: isAdminBoolean, userId: rows[0].id});
             }
 
         } catch (err) {
