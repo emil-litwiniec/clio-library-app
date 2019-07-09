@@ -83,6 +83,7 @@ app.get('/searchUsers', User.searchUsers)
 app.get('/admin/filters', Filters.getAll);
 
 app.post('/login', User.login);
+app.post('/decodeToken', Auth.decodeToken);
 
 app.get('/admin/', Auth.verifyAdminToken, (req, res) => {
     res.status(200).send({ 'message': "admin works" })

@@ -44,6 +44,27 @@ const Auth = {
             return res.status(400).send(error);
         }
     },
+    async decodeToken(req, res) {
+        const token  = req.body['x-access-token'];
+
+        if(!token) {
+
+            // token not provided
+            return res.status(400).send({"message" : "Provide access token"})
+        }
+
+
+        try {
+            const {admin, userId} = await jwt.verify(token, process.env.SECRET);
+
+
+            return res.status(200).send({admin, userId})
+        } catch (err) {
+            return res.status(400).send({"message": "Unable to decode the token"})
+        }
+
+        // if(!token)
+    }
 
 
 }
