@@ -1,34 +1,29 @@
 import React from 'react';
 import { connect } from "react-redux";
 import { Formik } from "formik";
+import { Link } from "react-router-dom";
 
 
 import { login } from "../actions/auth";
 
 class Login extends React.Component {
-    
 
     constructor (props) {
         super(props);
-
         this.handleSubmit = this.handleSubmit.bind(this);
-
-
     };
 
 
-
-
     handleSubmit(values) {
-
- 
-        console.log(this.props.login);
         this.props.login(values, this.props.history);
     }
 
     render() {
         return (
-            <div>
+            <>
+            {this.props.isAuthenticated ? <p>You are already logged in.</p>
+                :
+                <div>
                  <Formik
                     enableReinitialize
                     initialValues={{
@@ -36,7 +31,6 @@ class Login extends React.Component {
                         password: "",
                         
                     }}
-                    // validationSchema={Schema}
                     onSubmit={(values, actions) => {
                         this.handleSubmit(values);
                         actions.setSubmitting(false);
@@ -78,7 +72,8 @@ class Login extends React.Component {
                         </form>
                     )}
                 />
-            </div>
+            </div>}
+            </>
         )
     }
 
@@ -87,7 +82,8 @@ class Login extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        errorMessage: state.auth.error
+        errorMessage: state.auth.error,
+        isAuthenticated: !!state.auth.authenticated
     }
 }
 

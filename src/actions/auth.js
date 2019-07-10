@@ -13,8 +13,20 @@ export function login({email, password}, history) {
             const res = await axios.post('http://localhost:3000/login', {email, password});
             
             Cookie.set('x-access-token', res.data.token);
-            res.data.admin === true && dispatch({ type: AUTHENTICATED_ADMIN, userId: res.data.userId });
-            res.data.admin === false && dispatch({ type: AUTHENTICATED_USER, userId: res.data.userId });
+            res.data.admin === true &&
+                dispatch({
+                    type: AUTHENTICATED_ADMIN,
+                    userId: res.data.userId,
+                    firstName: res.data.firstName,
+                    lastName: res.data.lastName
+                });
+            res.data.admin === false &&
+                dispatch({
+                    type: AUTHENTICATED_USER,
+                    userId: res.data.userId,
+                    firstName: res.data.firstName,
+                    lastName: res.data.lastName
+                });
 
 
         } catch(error) {
@@ -26,14 +38,45 @@ export function login({email, password}, history) {
     }
 }
 
+export function logout(history) {
+    return async(dispatch) => {
+        try {
+            Cookie.remove('x-access-token');
+
+            dispatch({
+                type: UNAUTHENTICATED
+            })
+        } catch(error) {
+            dispatch({
+                type: AUTHENTICATION_ERROR,
+                payload: "Unable to logout"
+            })
+        }
+    }
+}
+
 export function decodeToken() {
     return async (dispatch) => {
         try {
             const token = Cookie.get('x-access-token')
             const res = await axios.post('http://localhost:3000/decodeToken', {'x-access-token': token});
 
-            res.data.userId && res.data.admin === true && dispatch({ type: AUTHENTICATED_ADMIN, userId: res.data.userId });
-            res.data.userId && res.data.admin === false && dispatch({ type: AUTHENTICATED_USER, userId:  res.data.userId});
+            res.data.userId &&
+                res.data.admin === true &&
+                dispatch({
+                    type: AUTHENTICATED_ADMIN,
+                    userId: res.data.userId,
+                    firstName: res.data.firstName,
+                    lastName: res.data.lastName
+                });
+            res.data.userId &&
+                res.data.admin === false &&
+                dispatch({
+                    type: AUTHENTICATED_USER,
+                    userId: res.data.userId,
+                    firstName: res.data.firstName,
+                    lastName: res.data.lastName
+                });
         }
         catch(error) {
             dispatch({

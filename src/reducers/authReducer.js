@@ -1,15 +1,35 @@
 import { AUTHENTICATED_USER, AUTHENTICATED_ADMIN, UNAUTHENTICATED, AUTHENTICATION_ERROR } from "../actions/auth";
 
-export default function(state = {}, action) {
+export default function(state = { authenticated: false }, action) {
     switch(action.type) {
         case AUTHENTICATED_USER:
-            return { ...state, authenticated: true, admin: false, userId: action.userId};
+            return {
+                ...state,
+                authenticated: true,
+                admin: false,
+                userId: action.userId,
+                firstName: action.firstName,
+                lastName: action.lastName
+            };
         case AUTHENTICATED_ADMIN:
             return {
-                ...state, authenticated: true, admin: true, userId: action.userId
-            }
+                ...state,
+                authenticated: true,
+                admin: true,
+                userId: action.userId,
+                firstName: action.firstName,
+                lastName: action.lastName
+                
+            };
         case UNAUTHENTICATED:
-            return { ...state, authenticated: false};
+            return {
+                ...state,
+                authenticated: false,
+                admin: false,
+                userId: null,
+                firstName: null,
+                lastName: null
+            };
         case AUTHENTICATION_ERROR:
             return { ...state, error: action.payload };
     }
