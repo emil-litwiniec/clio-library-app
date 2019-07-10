@@ -19,6 +19,8 @@ class Login extends React.Component {
     }
 
     render() {
+
+        const errorMessage = this.props.errorMessage;
         return (
             <>
             {this.props.isAuthenticated ? <p>You are already logged in.</p>
@@ -72,6 +74,8 @@ class Login extends React.Component {
                         </form>
                     )}
                 />
+
+                {errorMessage && <p>{errorMessage}</p>}
             </div>}
             </>
         )

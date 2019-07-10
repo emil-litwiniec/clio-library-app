@@ -2,6 +2,9 @@ import axios from "axios";
 
 import Cookie from "js-cookie";
 
+import { history } from "../routers/AppRouter";
+
+
 export const AUTHENTICATED_USER = 'authenticated_user';
 export const AUTHENTICATED_ADMIN = 'authenticated_admin';
 export const UNAUTHENTICATED = 'unauthenticated_user';
@@ -11,6 +14,7 @@ export function login({email, password}, history) {
     return async (dispatch) => {
         try {
             const res = await axios.post('http://localhost:3000/login', {email, password});
+            history.push()
             
             Cookie.set('x-access-token', res.data.token);
             res.data.admin === true &&
@@ -38,10 +42,12 @@ export function login({email, password}, history) {
     }
 }
 
-export function logout(history) {
+export function logout() {
     return async(dispatch) => {
         try {
+
             Cookie.remove('x-access-token');
+            history.push("/")
 
             dispatch({
                 type: UNAUTHENTICATED
@@ -79,10 +85,13 @@ export function decodeToken() {
                 });
         }
         catch(error) {
-            dispatch({
-                type: AUTHENTICATION_ERROR,
-                payload: "Unable to decode token"
-            })
+            if(error.message !== "Network Error") {
+                dispatch({
+                    type: AUTHENTICATION_ERROR,
+                    payload: "Unable to decode token"
+                })
+
+            }
         }
     }
 }

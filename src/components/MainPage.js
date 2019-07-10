@@ -13,7 +13,9 @@ class MainPage extends Component {
         this.state = { results: {},
                         query: '',
                         genres: [],
-                        error: {}};
+                        error: '',
+                        message: ""
+        }
     }
     componentDidMount() {
 
@@ -28,10 +30,10 @@ class MainPage extends Component {
             }));
 
         })
-        .then(err => {
+        .catch(err => {
             this.setState(state => ({
                 ...state,
-                error: {...state.error, err}
+                error: "Something went wrong"
             })) 
         })
 
@@ -64,7 +66,7 @@ class MainPage extends Component {
         .then((res) => {
             if(res.config.params.query === 'a' && res.data.message) {
                 this.setState((state) => 
-                ({...state, message: 'Author not found'}));
+                ({...state, error: 'Author not found'}));
             } else {
                 this.setState(state => {
                     return {
@@ -76,8 +78,10 @@ class MainPage extends Component {
             }
           })
           .catch(err => {
-            //   setResults({error: 'Book not found'})
-          
+           this.setState(state => ({
+               ...state,
+               error: 'Something wrong with the search.'
+           }))
           })
         }
     }
@@ -110,7 +114,9 @@ class MainPage extends Component {
           .then((res) => {
             if(res.config.params.query === 'a' && res.data.message) {
                 this.setState((state) => 
-                ({message: 'Author not found'}));
+                ({
+                    error: 'Author not found'
+                }));
             } else {
                 this.setState(state => {
                     return {
@@ -121,7 +127,10 @@ class MainPage extends Component {
             }
           })
           .catch(err => {
-            //   setResults({error: 'Book not found'})
+              this.setState(state => ({
+                  ...state,
+                  error: 'Book not found'
+                }))
           
           })
     }
@@ -137,6 +146,8 @@ class MainPage extends Component {
                 />
                 <Results results={Array.isArray(this.state.results) && this.state.results} 
                     />
+                {this.state.error && <p>{this.state.error}</p>}
+                {this.state.message && <p>{this.state.message}</p>}
             </>
         );
              }

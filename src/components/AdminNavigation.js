@@ -10,7 +10,6 @@ const AdminNavigation = ({userName, logout}) => {
 
 
     const { firstName, lastName } = userName;
-
     return (
         <nav>
             <Link to="/">Search</Link>

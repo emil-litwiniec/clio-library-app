@@ -24,13 +24,33 @@ class UserOverviewPage extends React.Component {
         this.handleRemoveReservation = this.handleRemoveReservation.bind(this);
 
         this.state = {
-            // user: {},
-            // borrows: [],
-            // borrowsHistory: [],
-            // reservations: []
+            user: {},
+            borrows: [],
+            borrowsHistory: [],
+            reservations: [],
+            error: '',
+            message: ''
         }
         
     }
+
+    componentDidUpdate(prevProps, prevState){
+        prevState.message && setTimeout(() => this.setState((state) =>({
+            ...state,
+            message: ''
+        })), 4000);
+
+        prevState.error && setTimeout(() => this.setState((state) => ({
+            ...state,
+            error: ''
+        })), 4000)
+    }
+    
+    componentDidMount() {
+        this.updateData();
+
+    }
+
 
     updateData() {
         axios({
@@ -56,10 +76,6 @@ class UserOverviewPage extends React.Component {
     }
 
 
-    componentDidMount() {
-        this.updateData();
-
-    }
 
     handleReturn(value){
         axios({
@@ -69,7 +85,18 @@ class UserOverviewPage extends React.Component {
                 borrowId: value
             }
         })
-        .then(res => {
+        .then( res => {
+            this.setState(state => ({
+                ...state,
+                message: "Book has been successfully return"
+            }))
+            this.updateData();
+        })
+        .catch( err => {
+            this.setState(state => ({
+                ...state,
+                error: "Unable to return the book"
+            }))
             this.updateData();
         })
     }
@@ -83,11 +110,17 @@ class UserOverviewPage extends React.Component {
             }
         })
         .then( res => {
-            console.log(res);
+            this.setState(state => ({
+                ...state,
+                message: "Book has been successfully prolonged"
+            }))
             this.updateData();
         })
         .catch( err => {
-            console.log(err);
+            this.setState(state => ({
+                ...state,
+                error: "Unable to prolong the book"
+            }))
             this.updateData();
         })
     }
@@ -102,6 +135,18 @@ class UserOverviewPage extends React.Component {
             }
         })
         .then(res => {
+            this.setState(state => ({
+                ...state,
+                message: "Reservation has been removed"
+            }))
+            this.updateData();
+        })
+        .catch(err => {
+            this.setState(state => ({
+                ...state,
+                error: "Unable to remove reservation"
+            }))
+
             this.updateData();
         })
     }
@@ -116,7 +161,18 @@ class UserOverviewPage extends React.Component {
                 bookId: value
             }
         })
-        .then(res => {
+        .then( res => {
+            this.setState(state => ({
+                ...state,
+                message: "Book has been successfully borrowed"
+            }))
+            this.updateData();
+        })
+        .catch( err => {
+            this.setState(state => ({
+                ...state,
+                error: "Unable to borrow the book"
+            }))
             this.updateData();
         })
     }
@@ -124,7 +180,6 @@ class UserOverviewPage extends React.Component {
         const userId = this.props.match.params.userId;
         return (
             <div>
-                <Link to="/">Search</Link>
                 <h1>User overview page:</h1>
                 <h2>{userId}</h2>
                 {this.state.user &&

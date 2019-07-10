@@ -12,18 +12,16 @@ export const AdminRoute = ({
     isAdmin,
     component: Component,
     path,
+    history,
     ...rest
 }) => (
-
-
+    
     <Route
-        path={path}
-        // {...rest}
-        component={props =>
-            isAdmin ? (
-                <>
-                
-                <AdminNavigation userName={userName}/>
+    path={path}
+    component={props =>
+        isAdmin ? (
+            <>
+                <AdminNavigation userName={userName} />
                 <Component {...props} />
             
                
