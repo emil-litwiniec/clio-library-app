@@ -4,7 +4,14 @@ import { connect } from "react-redux";
 
 import { Route, Redirect } from "react-router-dom";
 
+import PublicNavigation from "../components/PublicNavigation";
+import PrivateNavigation from "../components/PrivateNavigation";
+import AdminNavigation from "../components/AdminNavigation";
+
 export const PublicRoute = ({
+    path,
+    userName,
+    isAdmin,
     isAuthenticated,
     component: Component,
     ...rest
@@ -13,16 +20,34 @@ export const PublicRoute = ({
         {...rest}
         component={props =>
             isAuthenticated ? (
-                <Redirect to="/dashboard" />
+
+
+                isAdmin ? (
+                    <>
+                        <AdminNavigation userName={userName}/>
+                        <Component {...props} />
+                    </>
+                ) : (
+                    <>
+                        <PrivateNavigation userName={userName} />
+                        <Component {...props} />
+                    </>
+                )
             ) : (
-                <Component {...props} />
+                <>
+                    <PublicNavigation />
+                    <Component {...props} />
+                </>
             )
         }
     />
 );
 
 const mapStateToProps = state => ({
-    isAuthenticated: !!state.auth.uid
+    isAuthenticated: !!state.auth.authenticated,
+    isAdmin: !!state.auth.admin,
+    userName: {firstName: state.auth.firstName, lastName:state.auth.lastName}
+
 });
 
 export default connect(mapStateToProps)(PublicRoute);
