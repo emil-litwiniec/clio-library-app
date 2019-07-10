@@ -123,13 +123,19 @@ const User = {
                 const { rows: isAdmin } = await db.query(text);
 
                 const isAdminBoolean = isAdmin[0] ? true : false;
+                console.log("USER ROWS:", rows[0].first_name, rows[0].last_name)
 
 
 
-                const token = Helper.generateToken(rows[0].id, isAdminBoolean);
+                const token = Helper.generateToken(rows[0].id, isAdminBoolean, rows[0].first_name, rows[0].last_name);
                 
-                res.cookie('x-access-token', { token });
-                return res.status(200).send({token, admin: isAdminBoolean, userId: rows[0].id});
+                return res.status(200).send({
+                    token, 
+                    admin: isAdminBoolean, 
+                    userId: rows[0].id, 
+                    firstName: rows[0].first_name, 
+                    lastName: rows[0].last_name
+                });
             }
 
         } catch (err) {

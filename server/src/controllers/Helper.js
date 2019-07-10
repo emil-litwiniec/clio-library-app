@@ -15,10 +15,12 @@ const Helper = {
         return isEmail(email);
     },
 
-    generateToken(id, isAdmin = false) {
+    generateToken(id, isAdmin = false, firstName, lastName) {
         const token = jwt.sign({
             userId: id,
-            admin: isAdmin
+            admin: isAdmin,
+            firstName,
+            lastName
         },
         process.env.SECRET,
         { expiresIn: "7d"});

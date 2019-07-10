@@ -55,15 +55,15 @@ const Auth = {
 
 
         try {
-            const {admin, userId} = await jwt.verify(token, process.env.SECRET);
+            const {admin, userId, firstName, lastName} = await jwt.verify(token, process.env.SECRET);
 
 
-            return res.status(200).send({admin, userId})
+
+            return res.status(200).send({admin, userId, firstName, lastName})
         } catch (err) {
             return res.status(400).send({"message": "Unable to decode the token"})
         }
 
-        // if(!token)
     }
 
 
