@@ -6,8 +6,31 @@ import Select from './Select';
 import {setActualQuery} from "../actions/actualQuery"
 import utils from "../utils/utils";
 
+import { makeStyles } from '@material-ui/core/styles';
+import MenuItem from "@material-ui/core/MenuItem";
+import TextField from "@material-ui/core/TextField";
+
+
+const useStyles = makeStyles(theme => ({
+    container: {
+        display: 'flex',
+        flexWrap: 'wrap',
+    },
+    textField: {
+        marginLeft: theme.spacing(1),
+        marginRight: theme.spacing(1),
+    },
+    dense: {
+        marginTop: theme.spacing(2),
+    },
+    menu: {
+        width: 200
+    },
+}));
+
 
 const Search = (props) => {
+    const classes = useStyles();
     const [ genres, setGenres ] = useState({
         genres: [{
             genre_id: 'all',
@@ -23,7 +46,6 @@ const Search = (props) => {
 
 
     }
-    // console.log('selectOptionss', utils.convertToSelectOptions.genres(props.genreSelectOptions))
     const selectOptions = {
         titles: [
             {
@@ -89,7 +111,6 @@ const Search = (props) => {
         <div>
             <h3>Search:</h3>
             <Formik
-                enableReinitialize
                 initialValues={{
                     value: "",
                     searchIn: "b",
@@ -108,68 +129,87 @@ const Search = (props) => {
                 }}
                 render={props => (
                     <form onSubmit={props.handleSubmit}>
-                        <input
-                            type="text"
+                        
+
+                        <TextField
+                            id="outlined-name"
+                            label="Search"
+                            className={classes.textField}
+                            value={props.values.value}
                             onChange={props.handleChange}
                             onBlur={props.handleBlur}
-                            value={props.values.value}
                             name="value"
+                            margin="normal"
+                            variant="outlined"
                         />
-                        {props.errors.name && (
-                            <div id="feedback">{props.errors.name}</div>
-                        )}
 
                         <Select
                             label="Search by:"
                             name="searchBy"
-                            value="searchBy"
+                            value={props.values.searchBy}
                             options={selectOptions.searchBy}
                             formikProps={props}
-                            disabled={props.values.searchIn === "a" ? true : false}
+                            disabled={
+                                props.values.searchIn === "a" ? true : false
+                            }
                         />
                         <Select
                             label="Search in:"
                             name="searchIn"
-                            value="searchIn"
+                            value={props.values.searchIn}
                             options={selectOptions.searchIn}
                             formikProps={props}
                         />
-                        <input
-                            type="text"
-                            onChange={props.handleChange}
-                            onBlur={props.handleBlur}
+
+                        <TextField
+                            id="outlined-name"
+                            label="From year"
+                            className={classes.textField}
                             value={props.values.yearStart}
-                            name="yearStart"
-                            disabled={
-                                props.values.searchIn === "a" ? true : false
-                            }
-                        />
-                        <input
-                            type="text"
                             onChange={props.handleChange}
                             onBlur={props.handleBlur}
-                            value={props.values.yearEnd}
-                            name="yearEnd"
+                            name="value"
+                            margin="normal"
+                            variant="outlined"
                             disabled={
                                 props.values.searchIn === "a" ? true : false
                             }
                         />
-                        
+                        <TextField
+                            id="outlined-name"
+                            label="To year"
+                            className={classes.textField}
+                            value={props.values.yearEnd}
+                            onChange={props.handleChange}
+                            onBlur={props.handleBlur}
+                            name="value"
+                            margin="normal"
+                            variant="outlined"
+                            disabled={
+                                props.values.searchIn === "a" ? true : false
+                            }
+                        />
+                       
+        
+
                         <Select
-                                label="Genre:"
-                                name="genre"
-                                value="genre"
-                                options={utils.convertToSelectOptions.genres(genres.genres)}
-                                formikProps={props}
-                                disabled={props.values.searchIn === "a" ? true : false}
-                            />
-                        
+                            label="Genre:"
+                            name="genre"
+                            value={props.values.genre}
+                            options={utils.convertToSelectOptions.genres(
+                                genres.genres
+                            )}
+                            formikProps={props}
+                            disabled={
+                                props.values.searchIn === "a" ? true : false
+                            }
+                        />
 
                         {props.values.searchIn !== "a" && (
                             <Select
                                 label="Order by:"
                                 name="titlesOrderBy"
-                                value="titlesOrderBy"
+                                value={props.values.titlesOrderBy}
                                 options={selectOptions.titles}
                                 formikProps={props}
                             />
@@ -179,7 +219,7 @@ const Search = (props) => {
                             <Select
                                 label="Order by:"
                                 name="authorsOrderBy"
-                                value="authorsOrderBy"
+                                value={props.values.authorsOrderBy}
                                 options={selectOptions.authors}
                                 formikProps={props}
                             />

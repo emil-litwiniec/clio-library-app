@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import axios from "axios";
 
+
 import Search from "../components/Search";
 import Results from "../components/Results";
 import { connect } from "react-redux";
+
+
 
 class MainPage extends Component {
     constructor(props) {
@@ -65,8 +68,10 @@ class MainPage extends Component {
         }}, [])
         .then((res) => {
             if(res.config.params.query === 'a' && res.data.message) {
-                this.setState((state) => 
-                ({...state, error: 'Author not found'}));
+                this.setState(state => ({
+                    ...state,
+                    error: "Author not found"
+                }));
             } else {
                 this.setState(state => {
                     return {
@@ -80,7 +85,7 @@ class MainPage extends Component {
           .catch(err => {
            this.setState(state => ({
                ...state,
-               error: 'Something wrong with the search.'
+               error: 'Book not found'
            }))
           })
         }
@@ -114,7 +119,8 @@ class MainPage extends Component {
           .then((res) => {
             if(res.config.params.query === 'a' && res.data.message) {
                 this.setState((state) => 
-                ({
+                ({  
+                    ...state,
                     error: 'Author not found'
                 }));
             } else {
@@ -156,4 +162,4 @@ const mapStateToProps = state => ({
     actualQuery: state.actualQuery
 });
 
-export default connect(mapStateToProps, undefined)(MainPage);
+export default connect(mapStateToProps)(MainPage);
