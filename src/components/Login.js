@@ -1,10 +1,17 @@
 import React from 'react';
 import { connect } from "react-redux";
 import { Formik } from "formik";
-import { Link } from "react-router-dom";
+import * as Yup from "yup";
 
 
 import { login } from "../actions/auth";
+
+
+const LoginSchema = Yup.object().shape({
+    email: Yup.string().email('Invalid email').required(),
+    password: Yup.string().required()
+
+})
 
 class Login extends React.Component {
 
@@ -33,6 +40,7 @@ class Login extends React.Component {
                         password: "",
                         
                     }}
+                    validationSchema={LoginSchema}
                     onSubmit={(values, actions) => {
                         this.handleSubmit(values);
                         actions.setSubmitting(false);
