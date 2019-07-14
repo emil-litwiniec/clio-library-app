@@ -31,7 +31,7 @@ const Genres = {
             if(!genre) {
                 return res.status(400).send({'message': "something went wrong with the query"})
             }
-            return res.status(200).send(genre[0]);
+            return res.status(200).send({"message": "Genre has been created"});
 
         } catch (err) {
             return res.status(400).send(err);

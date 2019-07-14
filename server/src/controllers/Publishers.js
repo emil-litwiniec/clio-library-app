@@ -43,7 +43,7 @@ const Publishers = {
                 return res.status(400).send({"message": "Unable to create publisher."})
             }
 
-            return res.status(200).send(publisher[0]);
+            return res.status(200).send({"message": "Publisher has been created"});
         } catch (err) {
             return res.status(400).send(err);
         } 
@@ -71,7 +71,7 @@ const Publishers = {
     },
     async update(req, res) {
         if(!req.body.pubId) {
-            return res.status(400).send({"message": "Please, provide id of a publisher."})
+            return res.status(400).send({"message": "Please, provide id of a publisher"})
         }
 
         const filteredRequestEntries = Object.entries(req.body)
@@ -98,7 +98,7 @@ const Publishers = {
             if(!publisher[0]) {
                 return res.status(404).send({"message": `Unable to find publisher with id of: ${req.body.pubId}.`})
             }
-            return res.status(200).send({"message": "Publisher has been updated."})
+            return res.status(200).send({"message": "Publisher has been updated"})
         } catch(err) {
             return res.status(400).send(err);
         }

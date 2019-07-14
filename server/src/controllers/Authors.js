@@ -58,7 +58,7 @@ const Authors = {
                 return res.status(404).send({"message": "Author not found."})
             }
 
-            return res.status(200).send(rows[0])
+            return res.status(200).send({"message": "Author has been deleted"})
 
         } catch(err) {
             return res.status(400).send(err);
