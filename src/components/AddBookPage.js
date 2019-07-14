@@ -42,7 +42,6 @@ const AddBookPage = () => {
     return (
 
         <>
-        <h1>This is add book page!</h1>
 
         <BookForm handleSubmit={handleSubmit}/>
         {message &&

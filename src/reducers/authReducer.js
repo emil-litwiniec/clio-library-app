@@ -9,7 +9,8 @@ export default function(state = { authenticated: false }, action) {
                 admin: false,
                 userId: action.userId,
                 firstName: action.firstName,
-                lastName: action.lastName
+                lastName: action.lastName,
+                error: ''
             };
         case AUTHENTICATED_ADMIN:
             return {
@@ -18,7 +19,9 @@ export default function(state = { authenticated: false }, action) {
                 admin: true,
                 userId: action.userId,
                 firstName: action.firstName,
-                lastName: action.lastName
+                lastName: action.lastName,
+                error: ''
+
                 
             };
         case UNAUTHENTICATED:

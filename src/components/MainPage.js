@@ -144,8 +144,6 @@ class MainPage extends Component {
     render() {
         return (
             <>
-                <h2>Clio Library App</h2>
-
                 <Search
                     handleSubmit={this.handleSubmit}
                     genreSelectOptions={this.state.genres}

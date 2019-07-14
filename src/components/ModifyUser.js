@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 
 import { Formik } from "formik";
+import * as Yup from "yup";
 import axios from "axios";
+
+const UserScheme 
 
 class ModifyUser extends React.Component {
 
@@ -34,10 +37,9 @@ class ModifyUser extends React.Component {
             method: "PUT",
             url: "http://localhost:3000/createUser",
             data: {
-                ...(values.name && {name: values.name}),
-                ...(values.surname && {surname: values.surname}),
+                ...(values.firstName && {firstName: values.firstName}),
+                ...(values.lastName && {lastName: values.lastName}),
                 ...(values.email && {email: values.email}),
-                ...(values.password && {password: values.password}),
                 ...(values.phoneNumber && {phoneNumber: values.phoneNumber})
             }
         })
@@ -55,10 +57,9 @@ class ModifyUser extends React.Component {
                 <Formik
                         enableReinitialize
                         initialValues={{
-                            name: "",
-                            surname: "",
+                            firstName: "",
+                            lastName: "",
                             email: "",
-                            password: "",
                             phoneNumber: ""
                         }}
                         onSubmit={(values, actions) => {
@@ -69,32 +70,25 @@ class ModifyUser extends React.Component {
                             // TODO => form validation, mandatory fields
                             <form onSubmit={props.handleSubmit}>
     
-                                <label>Name:</label>
+                                <label>First name:</label>
                                 <input
                                     type="text"
                                     onChange={props.handleChange}
                                     onBlur={props.handleBlur}
-                                    value={props.values.name}
-                                    name="name"
+                                    value={props.values.firstName}
+                                    name="firstName"
                                 />
     
-                                <label>Surname:</label>
+                                <label>Last name:</label>
                                 <input
                                     type="text"
                                     onChange={props.handleChange}
                                     onBlur={props.handleBlur}
-                                    value={props.values.surname}
-                                    name="surname"
+                                    value={props.values.lastName}
+                                    name="lastName"
                                 />
     
-                                <label>Password:</label>
-                                <input
-                                    type="text"
-                                    onChange={props.handleChange}
-                                    onBlur={props.handleBlur}
-                                    value={props.values.password}
-                                    name="password"
-                                />
+                                
     
                                 <label>Email:</label>
                                 <input

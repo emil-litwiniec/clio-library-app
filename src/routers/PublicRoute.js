@@ -4,9 +4,9 @@ import { connect } from "react-redux";
 
 import { Route, Redirect } from "react-router-dom";
 
-import PublicNavigation from "../components/PublicNavigation";
-import PrivateNavigation from "../components/PrivateNavigation";
-import AdminNavigation from "../components/AdminNavigation";
+import PublicNavigation from "../components/navigation/PublicNavigation";
+import PrivateNavigation from "../components/navigation/PrivateNavigation";
+import AdminNavigation from "../components/navigation/AdminNavigation";
 
 export const PublicRoute = ({
     path,

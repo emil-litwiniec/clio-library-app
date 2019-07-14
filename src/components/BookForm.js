@@ -5,20 +5,29 @@ import Select from "./Select";
 import utils from "../utils/utils";
 import * as Yup from "yup";
 
+import { TextField } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles"
+
+const required = "Required field"
+
 const Schema = Yup.object().shape({
-    title: Yup.string().required(),
-    authorFirst: Yup.string().required(),
-    authorLast: Yup.string().required(),
-    pubYear: Yup.string().matches(/^[12][0-9]{3}$/, 'Enter year in 4-digit format.' ).required(),
-    lang: Yup.string().matches(/^[A-Z|a-z]{2}$/, 'Enter two-letter language code.').required(),
-    isbn: Yup.string().required(),
-    genreId: Yup.number().required(),
-    series: Yup.string().notRequired(),
-    edition: Yup.string().notRequired(),
-    ukd: Yup.string().notRequired(),
-    pubId: Yup.number().notRequired()
+    title: Yup.string().required(required),
+    authorFirst: Yup.string().required(required),
+    authorLast: Yup.string().required(required),
+    pubYear: Yup.string().matches(/^[12][0-9]{3}$/, 'Enter year in 4-digit format.' ).required(required),
+    lang: Yup.string().matches(/^[A-Z|a-z]{2}$/, 'Enter two-letter language code.').required(required),
+    isbn: Yup.string().required(required),
+    genreId: Yup.number().required(required),
+    series: Yup.string().notRequired(required),
+    edition: Yup.string().notRequired(required),
+    ukd: Yup.string().notRequired(required),
+    pubId: Yup.number().notRequired(required)
 
 })
+
+const styles = {
+
+}
 
 
 
@@ -60,25 +69,51 @@ class AddBookForm extends React.Component {
     }
 
     render() {
-        
+        const { classes } = this.props; 
         return (
             <div>
                 <Formik
                     enableReinitialize
                     initialValues={{
-                        title: this.props.values ? this.state.results.title : '',
-                        authorFirst: this.props.values ? this.state.results.first_name : "",
-                        authorLast: this.props.values ? this.state.results.last_name : "",
-                        pubYear: this.props.values ? this.state.results.year : "",
-                        pubId: this.props.values ? this.state.results.pubId : "",
-                        series: this.props.values ? this.state.results.series : "",
-                        edition: this.props.values ? this.state.results.edition : "",
-                        genreId: this.props.values ? this.props.values.genre_id : "" ,
-                        lang: this.props.values ? this.state.results.lang : "",
-                        translatorId: this.props.values ? this.state.results.translatorId : "",
-                        isbn: this.props.values ? this.state.results.isbn : "",
-                        keywords: this.props.values ? this.state.results.keywords : "",
-                        ukd: this.props.values ? this.state.results.ukd : ""
+                        title: this.props.values
+                            ? this.state.results.title
+                            : "",
+                        authorFirst: this.props.values
+                            ? this.state.results.first_name
+                            : "",
+                        authorLast: this.props.values
+                            ? this.state.results.last_name
+                            : "",
+                        pubYear: this.props.values
+                            ? this.state.results.year
+                            : "",
+                        pubId: this.props.values
+                            ? this.state.results.pubId
+                            : "",
+                        series: this.props.values
+                            ? this.state.results.series
+                            : "",
+                        edition: this.props.values
+                            ? this.state.results.edition
+                            : "",
+                        genreId: this.props.values
+                            ? this.props.values.genre_id
+                            : "",
+                        lang: this.props.values
+                            ? this.state.results.lang
+                            : "",
+                        translatorId: this.props.values
+                            ? this.state.results.translatorId
+                            : "",
+                        isbn: this.props.values
+                            ? this.state.results.isbn
+                            : "",
+                        keywords: this.props.values
+                            ? this.state.results.keywords
+                            : "",
+                        ukd: this.props.values
+                            ? this.state.results.ukd
+                            : ""
                     }}
                     validationSchema={Schema}
                     onSubmit={(values, actions) => {
@@ -88,89 +123,131 @@ class AddBookForm extends React.Component {
                     }}
                     render={props => (
                         <form onSubmit={props.handleSubmit}>
-                            <label>Title:</label>
-                            <input
-                                type="text"
-                                onChange={props.handleChange}
-                                onBlur={props.handleBlur}
+                            <TextField
+                                // id="outlined-name"
+                                label="Title"
+                                error={
+                                    props.errors.title &&
+                                    props.touched.title
+                                }
+                                helperText={
+                                    props.errors.title &&
+                                    props.touched.title
+                                        ? props.errors.title
+                                        : null
+                                }
+                                className={classes.textField}
                                 value={props.values.title}
+                                onChange={props.handleChange}
+                                onBlur={props.handleBlur}
                                 name="title"
+                                margin="normal"
+                                variant="outlined"
                             />
-                            {props.errors.title && props.touched.title ?(
-                                <div id="feedback">
-                                    {props.errors.title}
-                                </div>
-                            ) : null} 
-                            <label>Author first name:</label>
-                            <input
-                                type="text"
-                                onChange={props.handleChange}
-                                onBlur={props.handleBlur}
+
+                            <TextField
+                                label="Author first name"
+                                error={
+                                    props.errors.authorFirst &&
+                                    props.touched.authorFirst
+                                }
+                                helperText={
+                                    props.errors.authorFirst &&
+                                    props.touched.authorFirst
+                                        ? props.errors.authorFirst
+                                        : null
+                                }
+                                className={classes.textField}
                                 value={props.values.authorFirst}
+                                onChange={props.handleChange}
+                                onBlur={props.handleBlur}
                                 name="authorFirst"
+                                margin="normal"
+                                variant="outlined"
                             />
-                            {props.errors.authorFirst && props.touched.authorFirst ?(
-                                <div id="feedback">
-                                    {props.errors.authorFirst}
-                                </div>
-                            ) : null} 
 
-                            <label>Author last name:</label>
-                            <input
-                                type="text"
-                                onChange={props.handleChange}
-                                onBlur={props.handleBlur}
+                            <TextField
+                                label="Author last name"
+                                error={
+                                    props.errors.authorLast &&
+                                    props.touched.authorLast
+                                }
+                                helperText={
+                                    props.errors.authorLast &&
+                                    props.touched.authorLast
+                                        ? props.errors.authorLast
+                                        : null
+                                }
+                                className={classes.textField}
                                 value={props.values.authorLast}
+                                onChange={props.handleChange}
+                                onBlur={props.handleBlur}
                                 name="authorLast"
+                                margin="normal"
+                                variant="outlined"
                             />
-                            {props.errors.authorLast && props.touched.authorLast ?(
-                                <div id="feedback">
-                                    {props.errors.authorLast}
-                                </div>
-                            ) : null} 
 
-                            <label>Publication year:</label>
-                            <input
-                                type="text"
-                                onChange={props.handleChange}
-                                onBlur={props.handleBlur}
+                            <TextField
+                                label="Publication year"
+                                error={
+                                    props.errors.pubYear &&
+                                    props.touched.pubYear
+                                }
+                                helperText={
+                                    props.errors.pubYear &&
+                                    props.touched.pubYear
+                                        ? props.errors.pubYear
+                                        : null
+                                }
+                                className={classes.textField}
                                 value={props.values.pubYear}
+                                onChange={props.handleChange}
+                                onBlur={props.handleBlur}
                                 name="pubYear"
+                                margin="normal"
+                                variant="outlined"
                             />
-                            {props.errors.pubYear && props.touched.pubYear ?(
-                                <div id="feedback">
-                                    {props.errors.pubYear}
-                                </div>
-                            ) : null} 
-                            <label>Series:</label>
-                            <input
-                                type="text"
-                                onChange={props.handleChange}
-                                onBlur={props.handleBlur}
+                            <TextField
+                                label="Series"
+                                className={classes.textField}
                                 value={props.values.series}
+                                onChange={props.handleChange}
+                                onBlur={props.handleBlur}
                                 name="series"
+                                margin="normal"
+                                variant="outlined"
                             />
-                            <label>Edition:</label>
-                            <input
-                                type="text"
-                                onChange={props.handleChange}
-                                onBlur={props.handleBlur}
+                            <TextField
+                                label="Edition"
+                                className={classes.textField}
                                 value={props.values.edition}
-                                name="edition"
-                            />
-                            <label>Isbn:</label>
-                            <input
-                                type="text"
                                 onChange={props.handleChange}
                                 onBlur={props.handleBlur}
-                                value={props.values.isbn}
-                                name="isbn"
+                                name="edition"
+                                margin="normal"
+                                variant="outlined"
                             />
-                            {props.errors.isbn && props.touched.isbn ?(
-                                <div id="feedback">
-                                    {props.errors.isbn}
-                                </div>
-                            ) : null} 
+
+                            <TextField
+                                label="Isbn"
+                                error={
+                                    props.errors.isbn &&
+                                    props.touched.isbn
+                                }
+                                helperText={
+                                    props.errors.isbn &&
+                                    props.touched.isbn
+                                        ? props.errors.isbn
+                                        : null
+                                }
+                                className={classes.textField}
+                                value={props.values.isbn}
+                                onChange={props.handleChange}
+                                onBlur={props.handleBlur}
+                                name="isbn"
+                                margin="normal"
+                                variant="outlined"
+                            />
 
                             {/* <label>Keywords:</label>
                             <input
@@ -192,45 +269,54 @@ class AddBookForm extends React.Component {
                                 disabled={true}
                             /> */}
 
+                            {/* UKD change type in SQL Database */}
 
-{/* UKD change type in SQL Database */}
-                            <label>UKD:</label>
-                            <input
-                                type="text"
-                                onChange={props.handleChange}
-                                onBlur={props.handleBlur}
+                            <TextField
+                                label="UKD"
+                                className={classes.textField}
                                 value={props.values.ukd}
-                                name="ukd"
-                            />
-
-                            <label>Language:</label>
-                            <input
-                                type="text"
                                 onChange={props.handleChange}
                                 onBlur={props.handleBlur}
-                                value={props.values.lang}
-                                name="lang"
+                                name="ukd"
+                                margin="normal"
+                                variant="outlined"
                             />
-                            {props.errors.lang && props.touched.lang ?(
-                                <div id="feedback">
-                                    {props.errors.lang}
-                                </div>
-                            ) : null} 
+                            <TextField
+                                label="Language"
+                                error={
+                                    props.errors.lang &&
+                                    props.touched.lang
+                                }
+                                helperText={
+                                    props.errors.lang &&
+                                    props.touched.lang
+                                        ? props.errors.lang
+                                        : null
+                                }
+                                className={classes.textField}
+                                value={props.values.lang}
+                                onChange={props.handleChange}
+                                onBlur={props.handleBlur}
+                                name="lang"
+                                margin="normal"
+                                variant="outlined"
+                            />
 
                             <Select
                                 label="Genre:"
                                 name="genreId"
+                                errorMessage={props.errors.genreId &&
+                                    props.touched.genreId ? (
+                                            props.errors.genreId
+                                    ) : null}
+                                error={props.errors.genreId &&
+                                    props.touched.genreId ? true : false}
                                 value={props.values.genreId}
-                                options={
-                                    utils.convertToSelectOptions.genres(this.state.genres)
-                                }
+                                options={utils.convertToSelectOptions.genres(
+                                    this.state.genres
+                                )}
                                 formikProps={props}
                             />
-                            {props.errors.genreId && props.touched.genreId ?(
-                                <div id="feedback">
-                                    {props.errors.genreId}
-                                </div>
-                            ) : null} 
 
                             <Select
                                 label="Publisher:"
@@ -255,4 +341,4 @@ class AddBookForm extends React.Component {
 }
 
 
-export default AddBookForm;
+export default withStyles(styles)(AddBookForm);

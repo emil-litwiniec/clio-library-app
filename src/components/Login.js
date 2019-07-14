@@ -4,14 +4,7 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-// import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -44,10 +37,12 @@ const useStyles = makeStyles(theme => ({
     },
   }));
 
+  const required = 'Required field'
+
 
 const LoginSchema = Yup.object().shape({
-    email: Yup.string().email('Invalid email').required(),
-    password: Yup.string().required()
+    email: Yup.string().email('Invalid email').required(required),
+    password: Yup.string().required(required)
 
 })
 
@@ -66,7 +61,6 @@ const Login = (props) => {
                     <p>You are already logged in.</p>
                 ) : (
                     <Container component="main" maxWidth="xs">
-                        <CssBaseline />
                         <div className={classes.paper}>
                             <Typography component="h1" variant="h5">
                                 Sign in
@@ -99,6 +93,16 @@ const Login = (props) => {
                                             required
                                             fullWidth
                                             id="email"
+                                            error={
+                                                props.errors.email &&
+                                                props.touched.email
+                                            }
+                                            helperText={
+                                                props.errors.email &&
+                                                props.touched.email
+                                                    ? props.errors.email
+                                                    : null
+                                            }
                                             label="Email Address"
                                             value={props.values.email}
                                             name="email"
@@ -112,6 +116,16 @@ const Login = (props) => {
                                             onBlur={props.handleBlur}
                                             value={
                                                 props.values.password
+                                            }
+                                            error={
+                                                props.errors.password &&
+                                                props.touched.password
+                                            }
+                                            helperText={
+                                                props.errors.password &&
+                                                props.touched.password
+                                                    ? props.errors.password
+                                                    : null
                                             }
                                             name="password"
                                             variant="outlined"

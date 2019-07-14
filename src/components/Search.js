@@ -8,6 +8,7 @@ import utils from "../utils/utils";
 
 import { makeStyles } from '@material-ui/core/styles';
 import MenuItem from "@material-ui/core/MenuItem";
+import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 
 
@@ -25,6 +26,9 @@ const useStyles = makeStyles(theme => ({
     },
     menu: {
         width: 200
+    },
+    button: {
+        margin: theme.spacing(1)
     },
 }));
 
@@ -129,8 +133,6 @@ const Search = (props) => {
                 }}
                 render={props => (
                     <form onSubmit={props.handleSubmit}>
-                        
-
                         <TextField
                             id="outlined-name"
                             label="Search"
@@ -168,7 +170,7 @@ const Search = (props) => {
                             value={props.values.yearStart}
                             onChange={props.handleChange}
                             onBlur={props.handleBlur}
-                            name="value"
+                            name="yearStart"
                             margin="normal"
                             variant="outlined"
                             disabled={
@@ -182,15 +184,13 @@ const Search = (props) => {
                             value={props.values.yearEnd}
                             onChange={props.handleChange}
                             onBlur={props.handleBlur}
-                            name="value"
+                            name="yearEnd"
                             margin="normal"
                             variant="outlined"
                             disabled={
                                 props.values.searchIn === "a" ? true : false
                             }
                         />
-                       
-        
 
                         <Select
                             label="Genre:"
@@ -225,7 +225,14 @@ const Search = (props) => {
                             />
                         )}
 
-                        <button type="submit">Submit</button>
+                        <Button
+                            variant="outlined"
+                            className={classes.button}
+                            type="submit"
+                        >
+                            Submit
+                        </Button>
+                        {/* <button type="submit">Submit</button> */}
                     </form>
                 )}
             />

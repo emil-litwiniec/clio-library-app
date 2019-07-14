@@ -37,11 +37,11 @@ const AppRouter = (props) => {
                 <PublicRoute exact path="/" component={MainPage} />
                 <PublicRoute path="/result/:id" component={ResultDetailPage} />
                 <PublicRoute path="/author/:authorId" component={AuthorDetailPage} />
-                <Route path="/addBook" component={AddBookPage} />
-                <Route path="/updateBook/:bookId" component={UpdateBookPage} />
+                <AdminRoute path="/addBook" component={AddBookPage} />
+                <AdminRoute path="/updateBook/:bookId" component={UpdateBookPage} />
                 <AdminRoute path="/user/:userId" component={UserOverviewPage} />
                 <AdminRoute path="/publicUser/:userId" component={PublicUserOverviewPage} />
-                <Route path="/createUser" component={CreateUser} />
+                <AdminRoute path="/createUser" component={CreateUser} />
                 <PublicRoute path="/login" component={Login} />
 
                 {/* <Route path="/modify" component={ModifyPage} /> */}

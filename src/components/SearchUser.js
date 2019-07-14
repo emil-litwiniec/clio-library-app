@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import { history } from "../routers/AppRouter"
 
@@ -21,7 +21,6 @@ const useStyles = makeStyles(theme => ({
   suggestionsContainerOpen: {
     position: 'absolute',
     zIndex: 1,
-    marginTop: theme.spacing(1),
     left: 0,
     right: 0,
   },
@@ -34,10 +33,8 @@ const useStyles = makeStyles(theme => ({
     listStyleType: 'none',
   },
   divider: {
-    height: theme.spacing(2),
   },
   submit : {
-    margin: theme.spacing(1),
   }
 }));
 
@@ -59,35 +56,25 @@ function renderSuggestion(suggestion) {
     );
 }
 
-function renderInputComponent(inputProps) {
-  const { classes, inputRef = () => {}, ref, ...other } = inputProps;
 
-  return (
-    <TextField
-      fullWidth
-      InputProps={{
-        inputRef: node => {
-          ref(node);
-          inputRef(node);
-        },
-        classes: {
-          input: classes.input,
-        },
-      }}
-      {...other}
-    />
-  );
-}
 
 export default function IntegrationAutosuggest() {
   const classes = useStyles();
   const [state, setState] = React.useState({
     user: ''
   });
+  const [ error, setError ] = React.useState('');
+
 
   const [lastSuggestions, setLastSuggestions] = React.useState([])
 
   const [stateSuggestions, setSuggestions] = React.useState([]);
+
+  useEffect(() => {
+    if(!!lastSuggestions.find(suggestion => suggestion.id === state.user)) {
+      setError('')
+    } 
+  })
 
   const handleSuggestionsFetchRequested = ({ value }) => {
     getSuggestions(value).then( res =>{ setSuggestions(res); setLastSuggestions(res)})
@@ -124,7 +111,7 @@ export default function IntegrationAutosuggest() {
           const { data } = res;
           suggestions = data;
       } else {
-          suggestions = state.suggestions.filter(user => user.id.slice(0, inputLength) === value)
+          suggestions = stateSuggestions.filter(user => user.id.slice(0, inputLength) === value)
       }
   
   
@@ -144,42 +131,76 @@ export default function IntegrationAutosuggest() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    !!lastSuggestions.find(suggestion => suggestion.id === state.user) && 
-    history.push(`/user/${state.user}`);
+
+    if(!!lastSuggestions.find(suggestion => suggestion.id === state.user)) {
+      setState({user: ''});
+      setError('')
+      history.push(`/user/${state.user}`);
+    } else {
+      setError('Invalid user id')
+    }
+
 
   }
 
-  return (
 
-    <div className={classes.root}>
+  function renderInputComponent(inputProps) {
+      const { classes, inputRef = () => {}, ref, ...other } = inputProps;
 
-      <form onSubmit={(e) => handleSubmit(e)}>
-          <Autosuggest
-            {...autosuggestProps}
-            inputProps={{
-              classes,
-              id: 'react-autosuggest-simple',
-              label: 'Find user',
-              placeholder: 'User id',
-              value: state.user,
-              onChange: handleChange,
-            }}
-            theme={{
-              container: classes.container,
-              suggestionsContainerOpen: classes.suggestionsContainerOpen,
-              suggestionsList: classes.suggestionsList,
-              suggestion: classes.suggestion,
-            }}
-            renderSuggestionsContainer={options => (
-              <Paper {...options.containerProps} square>
-                {options.children}
-              </Paper>
-            )}
+      return (
+          <TextField
+              error={!!error}
+              helperText={error}
+              fullWidth
+              InputProps={{
+                  inputRef: node => {
+                      ref(node);
+                      inputRef(node);
+                  },
+                  classes: {
+                      input: classes.input
+                  }
+              }}
+              {...other}
           />
-        <Button className={classes.submit}variant="outlined"t ype="submit">Submit</Button>
-        </form>
-    </div>
-  )
+      );
+  }
+  return (
+      <div className={classes.root}>
+          <form onSubmit={e => handleSubmit(e)}>
+              <Autosuggest
+                  {...autosuggestProps}
+                  inputProps={{
+                      classes,
+                      id: "react-autosuggest-simple",
+                      label: "Find user",
+                      placeholder: "User id",
+                      value: state.user,
+                      onChange: handleChange
+                  }}
+                  theme={{
+                      container: classes.container,
+                      suggestionsContainerOpen:
+                          classes.suggestionsContainerOpen,
+                      suggestionsList: classes.suggestionsList,
+                      suggestion: classes.suggestion
+                  }}
+                  renderSuggestionsContainer={options => (
+                      <Paper {...options.containerProps} square>
+                          {options.children}
+                      </Paper>
+                  )}
+              />
+              <Button
+                  className={classes.submit}
+                  variant="outlined"
+                  type="submit"
+              >
+                  Submit
+              </Button>
+          </form>
+      </div>
+  );
 
 
 }
