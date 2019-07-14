@@ -5,7 +5,7 @@ import {Typography, ButtonGroup, Button} from "@material-ui/core";
 
 
 
-export default ({that, id}) => (
+export default ({that, id, props}) => (
     <>
         <Typography>Are you sure?</Typography>
 

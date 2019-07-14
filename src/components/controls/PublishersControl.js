@@ -39,6 +39,7 @@ class PublishersControl extends React.Component {
     constructor(props) {
         super(props);
         
+        this.handleDeleteButton = this.handleDeleteButton.bind(this)
         this.handleCreateButton = this.handleCreateButton.bind(this)
         this.handleModifyButton = this.handleModifyButton.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -227,6 +228,10 @@ class PublishersControl extends React.Component {
         this.setState(state => ({...state, phase: 4}))
         
     }
+
+    handleDeleteButton() {
+        this.setState(state => ({...state, phase: 3}))
+    }
     
 
     render() {
@@ -266,7 +271,9 @@ class PublishersControl extends React.Component {
                                     />
 
                                     <ModifySubmitBackBtnGroup
-                                        that={this}
+                                        handleCreateButton={this.handleCreateButton}
+                                        handleDeleteButton={this.handleDeleteButton}
+                                        handleModifyButton={this.handleModifyButton}
                                         props={props}
                                     />
                                 </>
@@ -305,6 +312,7 @@ class PublishersControl extends React.Component {
                             <AreYouSure 
                                 that={this}
                                 id="pubId"
+                                props={props}
                             />
                         }
 

@@ -3,20 +3,25 @@ import { Formik } from "formik";
 import axios from "axios";
 import * as Yup from "yup";
 
+
+import { MyTextField, AreYouSure, ModifySubmitBackBtnGroup, SubmitBackBtnGroup } from "../myMuiComponents"
 import Select from "../Select";
 import ShowMessageAndError from "../ShowMessageAndError";
 import utils from "../../utils/utils";
 
-
+const required = 'Required field'
 const TranslatorSchema = Yup.object().shape({
-    firstName: Yup.string().required(),
-    lastName: Yup.string().required()
+    firstName: Yup.string().required(required),
+    lastName: Yup.string().required(required)
 })
 
 class TranslatorsControl extends React.Component {
     constructor(props) {
         super(props);
 
+        this.handleDeleteButton = this.handleDeleteButton.bind(this)
+        this.handleCreateButton = this.handleCreateButton.bind(this)
+        this.handleModifyButton = this.handleModifyButton.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleDelete = this.handleDelete.bind(this);
         this.updateState = this.updateState.bind(this);
@@ -127,6 +132,40 @@ class TranslatorsControl extends React.Component {
 
     }
 
+    handleModifyButton(props) {
+        const findData = (arr, id, data) => {
+            return arr.find(el => el.pub_id == id)[`${data}`]
+        }
+
+        props.setValues({
+            name: findData(this.state.publishers, props.values.pubId, 'name') || '', 
+            estYear: findData(this.state.publishers, props.values.pubId, 'est_year') || '', 
+            address: findData(this.state.publishers, props.values.pubId, 'address') || '', 
+            origin: findData(this.state.publishers, props.values.pubId, 'origin') || '', 
+            pubId: props.values.pubId
+        })
+            this.setState(state => ({...state, phase: 2}));
+    }
+
+
+    handleCreateButton(props) { 
+
+        props.setValues({
+            name: '',
+            estYear: '',
+            address: '',
+            origin: '',
+            pubId: props.values.pubId
+        })
+
+        this.setState(state => ({...state, phase: 4}))
+        
+    }
+
+    handleDeleteButton() {
+        this.setState(state => ({...state, phase: 3}))
+    }
+
     
 
 
@@ -169,6 +208,36 @@ class TranslatorsControl extends React.Component {
         }
     }
 
+    handleModifyButton(props) {
+        const findData = (arr, id, data) => {
+            return arr.find(el => el.translator_id == id)[`${data}`]
+        }
+
+        props.setValues({
+            firstName: findData(this.state.translators, props.values.translatorId, 'first_name') || '', 
+            lastName: findData(this.state.translators, props.values.translatorId, 'last_name') || '', 
+            translatorId: props.values.translatorId
+        })
+            this.setState(state => ({...state, phase: 2}));
+    }
+
+
+    handleCreateButton(props) { 
+
+        props.setValues({
+            firstName: '',
+            lastName: '',
+            translatorId: props.values.translatorId
+        })
+
+        this.setState(state => ({...state, phase: 4}))
+        
+    }
+
+    handleDeleteButton() {
+        this.setState(state => ({...state, phase: 3}))
+    }
+
     render() {
         return (
 
@@ -203,125 +272,64 @@ class TranslatorsControl extends React.Component {
                                         formikProps={props}
                                     />
 
-                                    <button type="button" onClick={() => {
-                                       
-
-                                        const findData = (arr, id, data) => {
-                                            return arr.find(el => el.translator_id == id)[`${data}`]
-                                        }
-
-                                        props.setValues({
-                                            firstName: findData(this.state.translators, props.values.translatorId, 'first_name') || '', 
-                                            lastName: findData(this.state.translators, props.values.translatorId, 'last_name') || '', 
-                                            translatorId: props.values.translatorId
-                                        })
-                                            this.setState(state => ({...state, phase: 2}));
-                                
-                                }}>Modify</button>
-
-                                    <button 
-                                    type="button" 
-                                    onClick={() => this.setState(state => ({...state, phase: 3}))}
-                                    >
-                                        Delete
-                                    </button>
-
-                                    <button
-                                        type="button"
-                                        onClick={() => {
-                                            props.setValues({
-                                                firstName: '',
-                                                lastName: '',
-                                                translatorId: props.values.translatorId
-                                            })
-
-                                            this.setState(state => ({...state, phase: 4}))
-                                            
-                                            
-                                            }}>
-                                            Create
-                                    </button>
+                                    <ModifySubmitBackBtnGroup
+                                        handleCreateButton={this.handleCreateButton}
+                                        handleDeleteButton={this.handleDeleteButton}
+                                        handleModifyButton={this.handleModifyButton}
+                                        props={props}
+                                    />
                                 </>
                             )}
                             {this.state.phase === 2 && 
                             <>
-                            <label>First name: </label>
-                            <input
-                                type="text"
+
+                            <MyTextField 
                                 id="firstName"
-                                onChange={props.handleChange}
-                                onBlur={props.handleBlur}
-                                value={props.values.firstName}
-                                name="firstName"
+                                label="First name"
+                                props={props}
                             />
-                            {props.errors.firstName && props.touched.firstName ? (
-                                <div id="feedback">
-                                    {props.errors.firstName}
-                                </div>
-                            ) : null} 
 
-                            <label>Last name:</label>
-                            <input
-                                type="text"
+
+                            <MyTextField 
                                 id="lastName"
-                                onChange={props.handleChange}
-                                onBlur={props.handleBlur}
-                                value={props.values.lastName}
-                                name="lastName"
+                                label="Last name"
+                                props={props}
                             />
 
-                            {props.errors.lastName && props.touched.lastName ?(
-                                <div id="feedback">
-                                    {props.errors.lastName}
-                                </div>
-                            ) : null} 
-
-                            <button type="submit">Submit</button>
-                            <button type="button" onClick={() => this.setState(state => ({ ...state, phase: 1}))}>Back</button>
+                            <SubmitBackBtnGroup 
+                                that={this}  
+                                props={props}
+                            />
                             </>}
 
                             {this.state.phase === 3 &&
                             // CONFIRM DELETE PHASE
-                            <>
-                            <p>Are you sure?</p>
-                            <button onClick={() => this.handleDelete(props.values.translatorId)}>Yes</button>
-                            <button onClick={() => this.setState(state => ({...state, phase: 1}))}>No</button>
-                            </>}
+                            <AreYouSure 
+                                that={this}
+                                id="translatorId"
+                                props={props}
+                            />}
 
                             {this.state.phase === 4 && 
                             <>
-                            <label>First name: </label>
-                            <input
-                                type="text"
-                                id="firstName"
-                                onChange={props.handleChange}
-                                onBlur={props.handleBlur}
-                                value={props.values.firstName}
-                                name="firstName"
-                            />
-                            {props.errors.firstName && props.touched.firstName ?(
-                                <div id="feedback">
-                                    {props.errors.firstName}
-                                </div>
-                            ) : null} 
 
-                            <label>Last name:</label>
-                            <input
-                                type="text"
-                                id="lastName"
-                                onChange={props.handleChange}
-                                onBlur={props.handleBlur}
-                                value={props.values.lastName}
-                                name="lastName"
+                            <MyTextField 
+                                id="firstName"
+                                label="First name"
+                                props={props}
                             />
-                            {props.errors.lastName && props.touched.lastName ?(
-                                <div id="feedback">
-                                    {props.errors.lastName}
-                                </div>
-                            ) : null} 
-                            
-                            <button type="submit">Submit</button>
-                            <button type="button" onClick={() => this.setState(state => ({ ...state, phase: 1}))}>Back</button>
+
+
+                            <MyTextField 
+                                id="lastName"
+                                label="Last name"
+                                props={props}
+                            />
+
+                            <SubmitBackBtnGroup 
+                                that={this}  
+                                props={props}
+                            />
                             </>}
                             <ShowMessageAndError state={this.state}/>
 

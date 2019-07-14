@@ -5,7 +5,10 @@ import * as Yup from 'yup';
 
 import { Button, ButtonGroup, TextField, Typography } from "@material-ui/core";
 import { withStyles} from "@material-ui/styles";
-import { MyTextField, AreYouSure } from "../myMuiComponents"
+import { MyTextField,
+     AreYouSure,
+     ModifySubmitBackBtnGroup,
+      SubmitBackBtnGroup } from "../myMuiComponents";
 import Select from "../Select";
 import utils from "../../utils/utils"
 import ShowMessageAndError from "../ShowMessageAndError";
@@ -224,125 +227,54 @@ class GenresControl extends React.Component {
                                                 this.state.genres
                                             )}
                                             formikProps={props}
-                                            />
-                                            
-                                        <ButtonGroup>
-                                        <Button
-                                            type="button"
-                                            variant="outlined"
-                                            onClick={() =>
-                                                this.handleModifyButton(
-                                                    props
-                                                )
-                                            }
-                                        >
-                                            Modify
-                                        </Button>
+                                        />
 
-                                        <Button
-                                            type="button"
-                                            variant="outlined"
-                                            onClick={
-                                                this.handleDeleteButton
-                                            }
-                                        >
-                                            Delete
-                                        </Button>
-
-                                        <Button
-                                            type="button"
-                                            variant="outlined"
-                                            onClick={() =>
-                                                this.handleCreateButton(
-                                                    props
-                                                )
-                                            }
-                                        >
-                                            Create
-                                        </Button>
-
-                                        </ButtonGroup>
+                                        <ModifySubmitBackBtnGroup
+                                            handleCreateButton={this.handleCreateButton}
+                                            handleDeleteButton={this.handleDeleteButton}
+                                            handleModifyButton={this.handleModifyButton}
+                                            props={props}
+                                        />
                                     </>
                                 )}
                                 {this.state.phase === 2 && (
                                     <>
-
-                                        <MyTextField 
+                                        <MyTextField
                                             id="genreName"
                                             label="Genre name"
                                             props={props}
                                         />
-                                        
-                                        <ButtonGroup>
 
-                                            <Button type="submit">
-                                                Submit
-                                            </Button>
-                                            <Button
-                                                type="button"
-                                                onClick={() =>
-                                                    this.setState(
-                                                        state => ({
-                                                            ...state,
-                                                            phase: 1
-                                                        })
-                                                    )
-                                                }
-                                            >
-                                                Back
-                                            </Button>
-
-                                        </ButtonGroup>
-
+                                        <SubmitBackBtnGroup
+                                            that={this}
+                                            props={props}
+                                        />
                                     </>
                                 )}
 
                                 {this.state.phase === 3 && (
                                     // CONFIRM DELETE PHASE
-                                <AreYouSure 
-                                    that={this}
-                                    id="genreId"
-                                />
+                                    <AreYouSure
+                                        that={this}
+                                        props={props}
+                                        id="genreId"
+                                    />
                                 )}
 
                                 {this.state.phase === 4 && (
                                     <>
-
-                                    <MyTextField 
-                                        id="genreName"
-                                        label="Genre name"
-                                        props={props}
-                                    />
-                                    <ButtonGroup variant='outlined'>
-                                        <Button
-                                            type="submit"
-                                            variant='outlined'
-                                        >
-                                            Submit
-                                        </Button>
-
-                                        <Button
-                                            type="button"
-                                            variant="outlined"
-                                            onClick={() =>
-                                                this.setState(
-                                                    state => ({
-                                                        ...state,
-                                                        phase: 1
-                                                    })
-                                                )
-                                            }
-                                        >
-                                            Back
-                                        </Button>
-                                    </ButtonGroup>
+                                        <MyTextField
+                                            id="genreName"
+                                            label="Genre name"
+                                            props={props}
+                                        />
+                                        <SubmitBackBtnGroup that={this} props={props} />
 
                                     </>
                                 )}
                                 <ShowMessageAndError
                                     state={this.state}
                                 />
-                                
                             </form>
                         )}
                     />

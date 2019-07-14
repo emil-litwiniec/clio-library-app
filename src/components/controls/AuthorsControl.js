@@ -3,22 +3,36 @@ import { Formik } from "formik";
 import axios from "axios";
 import * as Yup from "yup";
 
+import { Button, ButtonGroup, TextField, Typography } from "@material-ui/core";
+import { withStyles} from "@material-ui/styles"
+import { MyTextField,
+    AreYouSure,
+    ModifySubmitBackBtnGroup,
+     SubmitBackBtnGroup } from "../myMuiComponents";
 
 import Select from "../Select";
 import ShowMessageAndError from "../ShowMessageAndError";
 import utils from "../../utils/utils"
 
+const required = "Required field"
+
 const AuthorSchema = Yup.object().shape({
-    firstName: Yup.string().required(),
-    lastName: Yup.string().required(),
-    origin: Yup.string().matches(/^[A-Z|a-z]{2}$/, 'Enter two-letter country code.').required()
+    firstName: Yup.string().required(required),
+    lastName: Yup.string().required(required),
+    origin: Yup.string().matches(/^[A-Z|a-z]{2}$/, 'Enter two-letter country code.').required(required)
 })
+
+const styles = {
+
+}
 
 
 class AuthorControl extends React.Component {
     constructor(props) {
         super(props);
-
+        this.handleDeleteButton = this.handleDeleteButton.bind(this) 
+        this.handleModifyButton = this.handleModifyButton.bind(this) 
+        this.handleCreateButton = this.handleCreateButton.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleDelete = this.handleDelete.bind(this);
         this.updateState = this.updateState.bind(this);
@@ -171,196 +185,152 @@ class AuthorControl extends React.Component {
         }
     }
 
+    handleModifyButton( props ) {
+        const findData = (arr, id, data) => {
+            return arr.find(el => el.author_id == id)[`${data}`]
+        }
+
+        props.setValues({
+            firstName: findData(this.state.authors, props.values.authorId, 'first_name') || '', 
+            lastName: findData(this.state.authors, props.values.authorId, 'last_name') || '', 
+            origin: findData(this.state.authors, props.values.authorId, 'origin') || '', 
+            authorId: props.values.authorId
+        })
+            this.setState(state => ({...state, phase: 2}));
+    }
+
+    handleCreateButton( props ) {
+
+        props.setValues({
+            firstName: '',
+            lastName: '',
+            origin: '',
+            authorId: props.values.authorId
+        })
+
+        this.setState(state => ({...state, phase: 4}))
+        
+        
+    }
+    handleDeleteButton() {
+        this.setState(state => (
+            {...state, phase: 3}
+            ))
+    }
+
     render() {
         return (
-
             <div>
-                {this.state.done &&
-                
-                <Formik
-                    enableReinitialize
-                    initialValues={{
-                        authorId: this.state.authors[0].author_id,
-                        firstName: '',
-                        lastName: '',
-                        origin: ''
-                    }}
-                    validationSchema={AuthorSchema}
-                    onSubmit={(values, actions) => {
-                        this.handleSubmit(values);
-                        actions.setSubmitting(false);
-                    }}
-                    render={props => (
-                        <form onSubmit={props.handleSubmit}>
-                            {this.state.phase === 1 && (
-                                <>
-                                    <Select
-                                        label="Author:"
-                                        name="authorId"
-                                        
-                                        value={props.values.authorId}
-                                        options={utils.convertToSelectOptions.authors(
-                                            this.state.authors
-                                        )}
-                                        formikProps={props}
-                                    />
+                {this.state.done && (
+                    <Formik
+                        enableReinitialize
+                        initialValues={{
+                            authorId: this.state.authors[0].author_id,
+                            firstName: "",
+                            lastName: "",
+                            origin: ""
+                        }}
+                        validationSchema={AuthorSchema}
+                        onSubmit={(values, actions) => {
+                            this.handleSubmit(values);
+                            actions.setSubmitting(false);
+                        }}
+                        render={props => (
+                            <form onSubmit={props.handleSubmit}>
+                                {this.state.phase === 1 && (
+                                    <>
+                                        <Select
+                                            label="Author:"
+                                            name="authorId"
+                                            value={
+                                                props.values.authorId
+                                            }
+                                            options={utils.convertToSelectOptions.authors(
+                                                this.state.authors
+                                            )}
+                                            formikProps={props}
+                                        />
 
-                                    <button type="button" onClick={() => {
+                                        <ModifySubmitBackBtnGroup
+                                            handleCreateButton={this.handleCreateButton}
+                                            handleDeleteButton={this.handleDeleteButton}
+                                            handleModifyButton={this.handleModifyButton}
+                                            props={props}
+                                        />
+                                    </>
+                                )}
+                                {this.state.phase === 2 && (
+                                    <>
+                                        <MyTextField
+                                            id="firstName"
+                                            label="First name"
+                                            props={props}
+                                        />
 
-                                        const findData = (arr, id, data) => {
-                                            return arr.find(el => el.author_id == id)[`${data}`]
-                                        }
 
-                                        props.setValues({
-                                            firstName: findData(this.state.authors, props.values.authorId, 'first_name') || '', 
-                                            lastName: findData(this.state.authors, props.values.authorId, 'last_name') || '', 
-                                            origin: findData(this.state.authors, props.values.authorId, 'origin') || '', 
-                                            authorId: props.values.authorId
-                                        })
-                                            this.setState(state => ({...state, phase: 2}));
-                                
-                                }}>Modify</button>
+                                        <MyTextField
+                                            id="lastName"
+                                            label="Last name"
+                                            props={props}
+                                        />
 
-                                    <button 
-                                    type="button" 
-                                    onClick={() => this.setState(state => ({...state, phase: 3}))}
-                                    >
-                                        Delete
-                                    </button>
+                                        <MyTextField
+                                            id="origin"
+                                            label="Origin"
+                                            props={props}
+                                        />
 
-                                    <button
-                                        type="button"
-                                        onClick={() => {
-                                            props.setValues({
-                                                firstName: '',
-                                                lastName: '',
-                                                origin: '',
-                                                authorId: props.values.authorId
-                                            })
+                                        <SubmitBackBtnGroup 
+                                            that={this}
+                                            props={props}
+                                        />
+                                    </>
+                                )}
 
-                                            this.setState(state => ({...state, phase: 4}))
-                                            
-                                            
-                                            }}>
-                                            Create
-                                    </button>
-                                </>
-                            )}
-                            {this.state.phase === 2 && 
-                            <>
-                            <label>First name: </label>
-                            <input
-                                type="text"
-                                id="firstName"
-                                onChange={props.handleChange}
-                                onBlur={props.handleBlur}
-                                value={props.values.firstName}
-                                name="firstName"
-                            />
-                            {props.errors.firstName && props.touched.firstName ? (
-                                <div id="feedback">
-                                    {props.errors.firstName}
-                                </div>
-                            ) : null} 
+                                {this.state.phase === 3 && (
+                                    // CONFIRM DELETE PHASE
+                                    <>
+                                        <AreYouSure
+                                            that={this}
+                                            id="authorId"
+                                            props={props}
+                                        />
+                                    </>
+                                )}
 
-                            <label>Last name:</label>
-                            <input
-                                type="text"
-                                id="lastName"
-                                onChange={props.handleChange}
-                                onBlur={props.handleBlur}
-                                value={props.values.lastName}
-                                name="lastName"
-                            />
-                            {props.errors.lastName && props.touched.lastName ? (
-                                <div id="feedback">
-                                    {props.errors.lastName}
-                                </div>
-                            ) : null} 
+                                {this.state.phase === 4 && (
+                                    <>
+                                       <MyTextField
+                                            id="firstName"
+                                            label="First name"
+                                            props={props}
+                                        />
 
-                            <label>Origin:</label>
-                            <input
-                                type="text"
-                                id="origin"
-                                onChange={props.handleChange}
-                                onBlur={props.handleBlur}
-                                value={props.values.origin}
-                                name="origin"
-                            />
-                            {props.errors.origin && props.touched.origin ? (
-                                <div id="feedback">
-                                    {props.errors.origin}
-                                </div>
-                            ) : null} 
+                                        <MyTextField
+                                            id="lastName"
+                                            label="Last name"
+                                            props={props}
+                                        />
 
-                            <button type="submit">Submit</button>
-                            <button type="button" onClick={() => this.setState(state => ({ ...state, phase: 1}))}>Back</button>
-                            </>}
+                                        <MyTextField
+                                            id="origin"
+                                            label="Origin"
+                                            props={props}
+                                        />
 
-                            {this.state.phase === 3 &&
-                            // CONFIRM DELETE PHASE
-                            <>
-                            <p>Are you sure?</p>
-                            <button onClick={() => this.handleDelete(props.values.authorId)}>Yes</button>
-                            <button onClick={() => this.setState(state => ({...state, phase: 1}))}>No</button>
-                            </>}
-
-                            {this.state.phase === 4 && 
-                            <>
-                            <label>First name: </label>
-                            <input
-                                type="text"
-                                id="firstName"
-                                onChange={props.handleChange}
-                                onBlur={props.handleBlur}
-                                value={props.values.firstName}
-                                name="firstName"
-                            />
-                            {props.errors.firstName && props.touched.firstName ? (
-                                <div id="feedback">
-                                    {props.errors.firstName}
-                                </div>
-                            ) : null} 
-
-                            <label>Last name:</label>
-                            <input
-                                type="text"
-                                id="lastName"
-                                onChange={props.handleChange}
-                                onBlur={props.handleBlur}
-                                value={props.values.lastName}
-                                name="lastName"
-                            />
-                            {props.errors.lastName && props.touched.lastName ? (
-                                <div id="feedback">
-                                    {props.errors.lastName}
-                                </div>
-                            ) : null} 
-
-                            <label>Origin:</label>
-                            <input
-                                type="text"
-                                id="origin"
-                                onChange={props.handleChange}
-                                onBlur={props.handleBlur}
-                                value={props.values.origin}
-                                name="origin"
-                            />
-                            {props.errors.origin && props.touched.origin ? (
-                                <div id="feedback">
-                                    {props.errors.origin}
-                                </div>
-                            ) : null} 
-
-                            <button type="submit">Submit</button>
-                            <button type="button" onClick={() => this.setState(state => ({ ...state, phase: 1}))}>Back</button>
-                            </>}
-                            <ShowMessageAndError state={this.state}/>
-
-                        </form>
-                    )}
-                />
-                }
+                                        <SubmitBackBtnGroup 
+                                            that={this}
+                                            props={props}
+                                        />
+                                    </>
+                                )}
+                                <ShowMessageAndError
+                                    state={this.state}
+                                />
+                            </form>
+                        )}
+                    />
+                )}
             </div>
         );
     }

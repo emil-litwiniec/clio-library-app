@@ -24,7 +24,7 @@ export default ({ id, label, props }) => (
         }
         onChange={props.handleChange}
         onBlur={props.handleBlur}
-        value={props.values[id]}
-        name="origin"
+        value={props.values[`${id}`]}
+        name={id}
     />
 );

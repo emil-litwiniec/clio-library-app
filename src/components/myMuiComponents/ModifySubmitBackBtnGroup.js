@@ -5,14 +5,17 @@ import { ButtonGroup, Button } from "@material-ui/core";
 
 
 
-export default ({that, props}) => (
+export default ({
+    handleModifyButton,
+     handleDeleteButton,
+      handleCreateButton,
+       props}) => (
     <ButtonGroup>
-
     <Button 
             type="button" 
             variant="outlined"
 
-            onClick={() => that.handleModifyButton(props)}
+            onClick={() => handleModifyButton(props)}
     >
         Modify
     </Button>
@@ -21,9 +24,7 @@ export default ({that, props}) => (
         type="button" 
         variant="outlined"
         onClick={
-            () => that.setState(state => (
-                {...state, phase: 3}
-                ))
+            () => handleDeleteButton()
             }
     >
         Delete
@@ -32,7 +33,7 @@ export default ({that, props}) => (
     <Button
         type="button"
         variant="outlined"
-        onClick={() => that.handleCreateButton(props)}>
+        onClick={() => handleCreateButton(props)}>
             Create
     </Button>
     </ButtonGroup>
