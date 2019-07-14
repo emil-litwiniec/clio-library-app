@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import { Button, ButtonGroup, TextField, Typography } from "@material-ui/core";
 import { withStyles} from "@material-ui/styles";
 
-import { MyTextField, AreYouSure } from "../myMuiComponents"
+import { MyTextField, AreYouSure, ModifySubmitBackBtnGroup, SubmitBackBtnGroup } from "../myMuiComponents"
 import Select from "../Select";
 import ShowMessageAndError from "../ShowMessageAndError";
 import utils from "../../utils/utils";
@@ -31,10 +31,15 @@ const styles = {
 
 
 
+
+
+
+
 class PublishersControl extends React.Component {
     constructor(props) {
         super(props);
         
+        this.handleCreateButton = this.handleCreateButton.bind(this)
         this.handleModifyButton = this.handleModifyButton.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleDelete = this.handleDelete.bind(this);
@@ -208,6 +213,22 @@ class PublishersControl extends React.Component {
             this.setState(state => ({...state, phase: 2}));
     }
 
+
+    handleCreateButton(props) { 
+
+        props.setValues({
+            name: '',
+            estYear: '',
+            address: '',
+            origin: '',
+            pubId: props.values.pubId
+        })
+
+        this.setState(state => ({...state, phase: 4}))
+        
+    }
+    
+
     render() {
         return (
 
@@ -244,46 +265,10 @@ class PublishersControl extends React.Component {
                                         formikProps={props}
                                     />
 
-                                    <ButtonGroup>
-
-                                        <Button 
-                                            type="button" 
-                                            variant="outlined"
-
-                                            onClick={() => this.handleModifyButton(props)}
-                                        >
-                                            Modify
-                                        </Button>
-
-                                        <Button 
-                                        type="button" 
-                                        variant="outlined"
-                                        onClick={
-                                            () => this.setState(state => (
-                                                {...state, phase: 3}
-                                                ))
-                                            }
-                                        >
-                                            Delete
-                                        </Button>
-
-                                        <Button
-                                            type="button"
-                                            variant="outlined"
-                                            onClick={() => {
-                                                props.setValues({
-                                                    name: '',
-                                                    estYear: '',
-                                                    address: '',
-                                                    origin: '',
-                                                    pubId: props.values.pubId
-                                                })
-
-                                                this.setState(state => ({...state, phase: 4}))
-                                                }}>
-                                                Create
-                                        </Button>
-                                    </ButtonGroup>
+                                    <ModifySubmitBackBtnGroup
+                                        that={this}
+                                        props={props}
+                                    />
                                 </>
                             )}
                             {this.state.phase === 2 && 
@@ -309,21 +294,10 @@ class PublishersControl extends React.Component {
                                 props={props}
                             />
 
-                            <ButtonGroup>
-                                <Button
-                                    variant="outlined"
-                                    type="submit"
-                                    >
-                                       Submit 
-                                </Button>
-                                <Button
-                                    variant="outlined"
-                                    type="button"
-                                    onClick={() => this.setState(state => ({ ...state, phase: 1}))}
-                                    >
-                                       Back 
-                                </Button>
-                            </ButtonGroup>
+                            <SubmitBackBtnGroup 
+                                that={this}  
+                                props={props}
+                            />
                             </>}
 
                             {this.state.phase === 3 &&
@@ -356,22 +330,9 @@ class PublishersControl extends React.Component {
                                 label="Origin"
                                 props={props}
                             />
+                            <SubmitBackBtnGroup that={this} props={props} />
 
-                            <ButtonGroup>
-                                <Button
-                                    variant="outlined"
-                                    type="submit"
-                                    >
-                                       Submit 
-                                </Button>
-                                <Button
-                                    variant="outlined"
-                                    type="button"
-                                    onClick={() => this.setState(state => ({ ...state, phase: 1}))}
-                                    >
-                                       Back 
-                                </Button>
-                            </ButtonGroup>
+                            
                             </>}
 
                             <ShowMessageAndError state={this.state} />
