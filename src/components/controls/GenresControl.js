@@ -4,7 +4,8 @@ import axios from "axios";
 import * as Yup from 'yup';
 
 import { Button, ButtonGroup, TextField, Typography } from "@material-ui/core";
-
+import { withStyles} from "@material-ui/styles";
+import { MyTextField, AreYouSure } from "../myMuiComponents"
 import Select from "../Select";
 import utils from "../../utils/utils"
 import ShowMessageAndError from "../ShowMessageAndError";
@@ -13,6 +14,10 @@ import ShowMessageAndError from "../ShowMessageAndError";
 const GenreSchema = Yup.object().shape({
     genreName: Yup.string().required("Required field"),
 })
+
+const styles = {
+
+}
 
 
 class GenresControl extends React.Component {
@@ -262,33 +267,12 @@ class GenresControl extends React.Component {
                                 {this.state.phase === 2 && (
                                     <>
 
-                                        <TextField
-                                            type="text"
-                                            error={
-                                                props.errors
-                                                    .genreName &&
-                                                props.touched.genreName
-                                            }
-                                            helperText={
-                                                props.errors
-                                                    .genreName &&
-                                                props.touched.genreName
-                                                    ? props.errors
-                                                          .genreName
-                                                    : null
-                                            }
+                                        <MyTextField 
                                             id="genreName"
                                             label="Genre name"
-                                            variant="outlined"
-                                            onChange={
-                                                props.handleChange
-                                            }
-                                            onBlur={props.handleBlur}
-                                            value={
-                                                props.values.genreName
-                                            }
-                                            name="genreName"
+                                            props={props}
                                         />
+                                        
                                         <ButtonGroup>
 
                                             <Button type="submit">
@@ -315,89 +299,43 @@ class GenresControl extends React.Component {
 
                                 {this.state.phase === 3 && (
                                     // CONFIRM DELETE PHASE
-                                    <>
-                                            <Typography>
-                                                Are you sure?
-                                            </Typography>
-
-                                        <ButtonGroup>
-
-                                            <Button 
-
-                                            onClick={() =>
-                                                this.handleDelete(
-                                                    props.values.genreId
-                                                )
-                                            }>
-                                                Yes
-                                            </Button>
-                                            <Button
-                                                onClick={() =>
-                                                    this.setState(
-                                                        state => ({
-                                                            ...state,
-                                                            phase: 1
-                                                        })
-                                                    )
-                                                }
-                                            >
-                                                No
-                                            </Button>
-                                        </ButtonGroup>
-                                        
-                                    </>
+                                <AreYouSure 
+                                    that={this}
+                                    id="genreId"
+                                />
                                 )}
 
                                 {this.state.phase === 4 && (
                                     <>
 
-                                       
+                                    <MyTextField 
+                                        id="genreName"
+                                        label="Genre name"
+                                        props={props}
+                                    />
+                                    <ButtonGroup variant='outlined'>
+                                        <Button
+                                            type="submit"
+                                            variant='outlined'
+                                        >
+                                            Submit
+                                        </Button>
 
-                                            <TextField
-                                            label="Create genre"
+                                        <Button
+                                            type="button"
                                             variant="outlined"
-                                                type="text"
-                                                id="genreName"
-                                                error={props.errors.genreName &&
-                                                    props.touched.genreName}
-                                                helperText={
-                                                    props.errors.genreName &&
-                                            props.touched.genreName ? (
-                                                    props.errors.genreName
-                                            ) : null
-                                                }
-                                                onChange={
-                                                    props.handleChange
-                                                }
-                                                onBlur={props.handleBlur}
-                                                value={
-                                                    props.values.genreName
-                                                }
-                                                name="genreName"
-                                            /> 
-                                        <ButtonGroup variant='outlined'>
-                                            <Button
-                                                type="submit"
-                                                variant='outlined'
-                                            >
-                                                Submit
-                                            </Button>
-
-                                            <Button
-                                                type="button"
-                                                variant="outlined"
-                                                onClick={() =>
-                                                    this.setState(
-                                                        state => ({
-                                                            ...state,
-                                                            phase: 1
-                                                        })
-                                                    )
-                                                }
-                                            >
-                                                Back
-                                            </Button>
-                                        </ButtonGroup>
+                                            onClick={() =>
+                                                this.setState(
+                                                    state => ({
+                                                        ...state,
+                                                        phase: 1
+                                                    })
+                                                )
+                                            }
+                                        >
+                                            Back
+                                        </Button>
+                                    </ButtonGroup>
 
                                     </>
                                 )}
@@ -414,4 +352,4 @@ class GenresControl extends React.Component {
     }
 }
 
-export default GenresControl;
+export default withStyles(styles)(GenresControl);

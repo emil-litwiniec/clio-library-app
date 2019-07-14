@@ -2,22 +2,40 @@ import React from 'react';
 import { Formik } from "formik";
 import axios from "axios";
 import * as Yup from "yup";
+
+import { Button, ButtonGroup, TextField, Typography } from "@material-ui/core";
+import { withStyles} from "@material-ui/styles";
+
+import { MyTextField, AreYouSure } from "../myMuiComponents"
 import Select from "../Select";
 import ShowMessageAndError from "../ShowMessageAndError";
 import utils from "../../utils/utils";
 
+const required = "Required field"
+
+
+
 const PublisherSchema = Yup.object().shape({
-    name: Yup.string().required(),
+    name: Yup.string().required(required),
     estYear: Yup.string().matches(/^[12][0-9]{3}$/, 'Enter year in 4-digit format.' ).notRequired(),
     address: Yup.string().notRequired(),
-    origin: Yup.string().matches(/^[A-Z|a-z]{2}$/, 'Enter two-letter country code.').required()
+    origin: Yup.string().matches(/^[A-Z|a-z]{2}$/, 'Enter two-letter country code.').required(required)
 
 })
+
+const styles = {
+
+}
+
+
+
+
 
 class PublishersControl extends React.Component {
     constructor(props) {
         super(props);
-
+        
+        this.handleModifyButton = this.handleModifyButton.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleDelete = this.handleDelete.bind(this);
         this.updateState = this.updateState.bind(this);
@@ -175,6 +193,20 @@ class PublishersControl extends React.Component {
             
         }
     }
+    handleModifyButton(props) {
+        const findData = (arr, id, data) => {
+            return arr.find(el => el.pub_id == id)[`${data}`]
+        }
+
+        props.setValues({
+            name: findData(this.state.publishers, props.values.pubId, 'name') || '', 
+            estYear: findData(this.state.publishers, props.values.pubId, 'est_year') || '', 
+            address: findData(this.state.publishers, props.values.pubId, 'address') || '', 
+            origin: findData(this.state.publishers, props.values.pubId, 'origin') || '', 
+            pubId: props.values.pubId
+        })
+            this.setState(state => ({...state, phase: 2}));
+    }
 
     render() {
         return (
@@ -212,189 +244,134 @@ class PublishersControl extends React.Component {
                                         formikProps={props}
                                     />
 
-                                    <button type="button" onClick={() => {
+                                    <ButtonGroup>
 
-                                        const findData = (arr, id, data) => {
-                                            return arr.find(el => el.pub_id == id)[`${data}`]
-                                        }
+                                        <Button 
+                                            type="button" 
+                                            variant="outlined"
 
-                                        props.setValues({
-                                            name: findData(this.state.publishers, props.values.pubId, 'name') || '', 
-                                            estYear: findData(this.state.publishers, props.values.pubId, 'est_year') || '', 
-                                            address: findData(this.state.publishers, props.values.pubId, 'address') || '', 
-                                            origin: findData(this.state.publishers, props.values.pubId, 'origin') || '', 
-                                            pubId: props.values.pubId
-                                        })
-                                            this.setState(state => ({...state, phase: 2}));
-                                
-                                }}>Modify</button>
+                                            onClick={() => this.handleModifyButton(props)}
+                                        >
+                                            Modify
+                                        </Button>
 
-                                    <button 
-                                    type="button" 
-                                    onClick={() => this.setState(state => ({...state, phase: 3}))}
-                                    >
-                                        Delete
-                                    </button>
+                                        <Button 
+                                        type="button" 
+                                        variant="outlined"
+                                        onClick={
+                                            () => this.setState(state => (
+                                                {...state, phase: 3}
+                                                ))
+                                            }
+                                        >
+                                            Delete
+                                        </Button>
 
-                                    <button
-                                        type="button"
-                                        onClick={() => {
-                                            props.setValues({
-                                                name: '',
-                                                estYear: '',
-                                                address: '',
-                                                origin: '',
-                                                pubId: props.values.pubId
-                                            })
+                                        <Button
+                                            type="button"
+                                            variant="outlined"
+                                            onClick={() => {
+                                                props.setValues({
+                                                    name: '',
+                                                    estYear: '',
+                                                    address: '',
+                                                    origin: '',
+                                                    pubId: props.values.pubId
+                                                })
 
-                                            this.setState(state => ({...state, phase: 4}))
-                                            
-                                            
-                                            }}>
-                                            Create
-                                    </button>
+                                                this.setState(state => ({...state, phase: 4}))
+                                                }}>
+                                                Create
+                                        </Button>
+                                    </ButtonGroup>
                                 </>
                             )}
                             {this.state.phase === 2 && 
                             <>
-                            <label>Name:</label>
-                            <input
-                                type="text"
+                            <MyTextField 
                                 id="name"
-                                onChange={props.handleChange}
-                                onBlur={props.handleBlur}
-                                value={props.values.name}
-                                name="name"
+                                label="Name"
+                                props={props}
                             />
-                            {props.errors.name && props.touched.name ?(
-                                <div id="feedback">
-                                    {props.errors.name}
-                                </div>
-                            ) : null} 
-
-                            <label>Est year:</label>
-                            <input
-                                type="text"
+                            <MyTextField 
                                 id="estYear"
-                                onChange={props.handleChange}
-                                onBlur={props.handleBlur}
-                                value={props.values.estYear}
-                                name="estYear"
+                                label="Est year"
+                                props={props}
                             />
-                            {props.errors.estYear && props.touched.estYear ?(
-                                <div id="feedback">
-                                    {props.errors.estYear}
-                                </div>
-                            ) : null} 
-
-                            <label>Address:</label>
-                            <input
-                                type="text"
+                            <MyTextField 
                                 id="address"
-                                onChange={props.handleChange}
-                                onBlur={props.handleBlur}
-                                value={props.values.address}
-                                name="address"
+                                label="Address"
+                                props={props}
                             />
-                            {props.errors.address && props.touched.address ?(
-                                <div id="feedback">
-                                    {props.errors.address}
-                                </div>
-                            ) : null} 
-
-
-                            <label>origin:</label>
-                            <input
-                                type="text"
+                            <MyTextField 
                                 id="origin"
-                                onChange={props.handleChange}
-                                onBlur={props.handleBlur}
-                                value={props.values.origin}
-                                name="origin"
+                                label="Origin"
+                                props={props}
                             />
-                            {props.errors.origin && props.touched.origin ?(
-                                <div id="feedback">
-                                    {props.errors.origin}
-                                </div>
-                            ) : null} 
 
-                            <button type="submit">Submit</button>
-                            <button type="button" onClick={() => this.setState(state => ({ ...state, phase: 1}))}>Back</button>
+                            <ButtonGroup>
+                                <Button
+                                    variant="outlined"
+                                    type="submit"
+                                    >
+                                       Submit 
+                                </Button>
+                                <Button
+                                    variant="outlined"
+                                    type="button"
+                                    onClick={() => this.setState(state => ({ ...state, phase: 1}))}
+                                    >
+                                       Back 
+                                </Button>
+                            </ButtonGroup>
                             </>}
 
                             {this.state.phase === 3 &&
                             // CONFIRM DELETE PHASE
-                            <>
-                            <p>Are you sure?</p>
-                            <button onClick={() => this.handleDelete(props.values.pubId)}>Yes</button>
-                            <button onClick={() => this.setState(state => ({...state, phase: 1}))}>No</button>
-                            </>}
+                            <AreYouSure 
+                                that={this}
+                                id="pubId"
+                            />
+                        }
 
                             {this.state.phase === 4 && 
                             <>
-                            <label>Name:</label>
-                            <input
-                                type="text"
+                             <MyTextField 
                                 id="name"
-                                onChange={props.handleChange}
-                                onBlur={props.handleBlur}
-                                value={props.values.name}
-                                name="name"
+                                label="Name"
+                                props={props}
                             />
-                            {props.errors.name && props.touched.name ?(
-                                <div id="feedback">
-                                    {props.errors.name}
-                                </div>
-                            ) : null} 
-
-                            <label>Est year:</label>
-                            <input
-                                type="text"
+                            <MyTextField 
                                 id="estYear"
-                                onChange={props.handleChange}
-                                onBlur={props.handleBlur}
-                                value={props.values.estYear}
-                                name="estYear"
+                                label="Est year"
+                                props={props}
                             />
-                            {props.errors.estYear && props.touched.estYear ?(
-                                <div id="feedback">
-                                    {props.errors.estYear}
-                                </div>
-                            ) : null} 
-
-                            <label>Address:</label>
-                            <input
-                                type="text"
+                            <MyTextField 
                                 id="address"
-                                onChange={props.handleChange}
-                                onBlur={props.handleBlur}
-                                value={props.values.address}
-                                name="address"
+                                label="Address"
+                                props={props}
                             />
-                            {props.errors.address && props.touched.address ?(
-                                <div id="feedback">
-                                    {props.errors.address}
-                                </div>
-                            ) : null} 
-
-
-                            <label>origin:</label>
-                            <input
-                                type="text"
+                            <MyTextField 
                                 id="origin"
-                                onChange={props.handleChange}
-                                onBlur={props.handleBlur}
-                                value={props.values.origin}
-                                name="origin"
+                                label="Origin"
+                                props={props}
                             />
-                            {props.errors.origin && props.touched.origin ?(
-                                <div id="feedback">
-                                    {props.errors.origin}
-                                </div>
-                            ) : null} 
-                            
-                            <button type="submit">Submit</button>
-                            <button type="button" onClick={() => this.setState(state => ({ ...state, phase: 1}))}>Back</button>
+
+                            <ButtonGroup>
+                                <Button
+                                    variant="outlined"
+                                    type="submit"
+                                    >
+                                       Submit 
+                                </Button>
+                                <Button
+                                    variant="outlined"
+                                    type="button"
+                                    onClick={() => this.setState(state => ({ ...state, phase: 1}))}
+                                    >
+                                       Back 
+                                </Button>
+                            </ButtonGroup>
                             </>}
 
                             <ShowMessageAndError state={this.state} />
@@ -408,4 +385,4 @@ class PublishersControl extends React.Component {
     }
 }
 
-export default PublishersControl;
+export default withStyles(styles)(PublishersControl);
