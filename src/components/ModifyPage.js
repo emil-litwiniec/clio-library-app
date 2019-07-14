@@ -1,9 +1,9 @@
 import React from "react";
 
-import GenresControl from "./GenresControl";
-import AuthorsControl from "./AuthorsControl";
-import TranslatorsControl from "./TranslatorsControl";
-import PublishersControl from "./PublishersControl";
+import GenresControl from "./controls/GenresControl";
+import AuthorsControl from "./controls/AuthorsControl";
+import TranslatorsControl from "./controls/TranslatorsControl";
+import PublishersControl from "./controls/PublishersControl";
 
 
 

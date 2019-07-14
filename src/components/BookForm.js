@@ -18,10 +18,10 @@ const Schema = Yup.object().shape({
     lang: Yup.string().matches(/^[A-Z|a-z]{2}$/, 'Enter two-letter language code.').required(required),
     isbn: Yup.string().required(required),
     genreId: Yup.number().required(required),
-    series: Yup.string().notRequired(required),
-    edition: Yup.string().notRequired(required),
-    ukd: Yup.string().notRequired(required),
-    pubId: Yup.number().notRequired(required)
+    series: Yup.string().notRequired(),
+    edition: Yup.string().notRequired(),
+    ukd: Yup.string().notRequired(),
+    pubId: Yup.number().notRequired()
 
 })
 
@@ -36,11 +36,7 @@ class AddBookForm extends React.Component {
         super(props)
 
         this.state = {
-            publishers: [{
-                value: '',
-                label: "None",
-                name: "None"
-            }],
+            publishers: [],
             genres: [],
             results: {}
     }
@@ -89,7 +85,7 @@ class AddBookForm extends React.Component {
                             : "",
                         pubId: this.props.values
                             ? this.state.results.pubId
-                            : "",
+                            : '',
                         series: this.props.values
                             ? this.state.results.series
                             : "",
@@ -134,7 +130,7 @@ class AddBookForm extends React.Component {
                                     props.errors.title &&
                                     props.touched.title
                                         ? props.errors.title
-                                        : null
+                                        : ''
                                 }
                                 className={classes.textField}
                                 value={props.values.title}
@@ -155,7 +151,7 @@ class AddBookForm extends React.Component {
                                     props.errors.authorFirst &&
                                     props.touched.authorFirst
                                         ? props.errors.authorFirst
-                                        : null
+                                        : ''
                                 }
                                 className={classes.textField}
                                 value={props.values.authorFirst}
@@ -176,7 +172,7 @@ class AddBookForm extends React.Component {
                                     props.errors.authorLast &&
                                     props.touched.authorLast
                                         ? props.errors.authorLast
-                                        : null
+                                        : ''
                                 }
                                 className={classes.textField}
                                 value={props.values.authorLast}
@@ -197,7 +193,7 @@ class AddBookForm extends React.Component {
                                     props.errors.pubYear &&
                                     props.touched.pubYear
                                         ? props.errors.pubYear
-                                        : null
+                                        : ''
                                 }
                                 className={classes.textField}
                                 value={props.values.pubYear}
@@ -238,7 +234,7 @@ class AddBookForm extends React.Component {
                                     props.errors.isbn &&
                                     props.touched.isbn
                                         ? props.errors.isbn
-                                        : null
+                                        : ''
                                 }
                                 className={classes.textField}
                                 value={props.values.isbn}
@@ -291,7 +287,7 @@ class AddBookForm extends React.Component {
                                     props.errors.lang &&
                                     props.touched.lang
                                         ? props.errors.lang
-                                        : null
+                                        : ''
                                 }
                                 className={classes.textField}
                                 value={props.values.lang}
@@ -308,7 +304,7 @@ class AddBookForm extends React.Component {
                                 errorMessage={props.errors.genreId &&
                                     props.touched.genreId ? (
                                             props.errors.genreId
-                                    ) : null}
+                                    ) : ''}
                                 error={props.errors.genreId &&
                                     props.touched.genreId ? true : false}
                                 value={props.values.genreId}

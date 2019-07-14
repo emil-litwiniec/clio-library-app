@@ -149,6 +149,7 @@ export default function IntegrationAutosuggest() {
 
       return (
           <TextField
+              variant="outlined"
               error={!!error}
               helperText={error}
               fullWidth

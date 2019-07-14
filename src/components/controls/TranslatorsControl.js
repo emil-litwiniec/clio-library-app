@@ -3,9 +3,9 @@ import { Formik } from "formik";
 import axios from "axios";
 import * as Yup from "yup";
 
-import Select from "./Select";
-import ShowMessageAndError from "./ShowMessageAndError";
-import utils from "../utils/utils";
+import Select from "../Select";
+import ShowMessageAndError from "../ShowMessageAndError";
+import utils from "../../utils/utils";
 
 
 const TranslatorSchema = Yup.object().shape({
