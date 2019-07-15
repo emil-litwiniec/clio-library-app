@@ -110,6 +110,7 @@ export default function IntegrationAutosuggest() {
           });
           const { data } = res;
           suggestions = data;
+          console.log(suggestions)
       } else {
           suggestions = stateSuggestions.filter(user => user.id.slice(0, inputLength) === value)
       }

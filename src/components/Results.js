@@ -37,10 +37,10 @@ const Results = ({ results, ...rest} = props) => {
                    <>
 
         <ListItem button onClick={() => history.push(`/result/${result.book_id}`) }>
-                <p >
+                
                     {idx + 1}, title: {result.title}, author: {result.author}, year: {result.year}
                     borrowed: {result.isborrowed}
-                </p>
+                
             <Link to={`/result/${result.book_id}`}>See details</Link>
         </ListItem>
         
