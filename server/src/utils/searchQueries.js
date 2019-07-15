@@ -14,6 +14,7 @@ const searchQueries = {
     B.first_name,
     B.last_name,
     C.name AS publisher,
+    C.pub_id,
     D.genre_name AS genre,
     D.genre_id,
     CONCAT(E.first_name, ' ', E.last_name) AS translator,
@@ -40,6 +41,7 @@ LEFT JOIN (
 ) 	AS F 
 	ON A.book_id = F.book_id
 LEFT JOIN reservations AS G ON A .book_id = G.book_id`,
+
 
     selectAuthor: `SELECT CONCAT(first_name, ' ', last_name) AS author,
     origin, author_id

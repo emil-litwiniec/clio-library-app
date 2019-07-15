@@ -12,8 +12,8 @@ class UpdateBookPage extends React.Component  {
         this.handleDelete = this.handleDelete.bind(this);
         this.state = {
             done: false,
-            results: {},
-            error: {}
+            results: [],
+            error: []
         }
     }
 
@@ -69,16 +69,15 @@ class UpdateBookPage extends React.Component  {
         })
     }
 
-
     handleDelete() {
 
         // TODO: confirm delete
         axios({
-            // method: "DELETE",
-            // url: "http://localhost:3000/admin/removeBook",
-            // data: {
-            //     bookId: this.props.match.params.bookId
-            // }
+            method: "DELETE",
+            url: "http://localhost:3000/admin/removeBook",
+            data: {
+                bookId: this.props.match.params.bookId
+            }
         })
         .then(res => {
             // TO DO: history?? take us back 

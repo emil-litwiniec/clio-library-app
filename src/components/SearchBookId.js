@@ -119,10 +119,8 @@ export default function IntegrationAutosuggest(props) {
        });
        const { data } = res;
        suggestions = data;
-       console.log('data suggestions', suggestions);
    } else {
        suggestions = stateSuggestions.filter(book => book.book_id.slice(0, inputLength) === value)
-       console.log('state suggestions: ', suggestions)
    }
   
   

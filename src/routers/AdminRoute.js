@@ -21,7 +21,6 @@ export const AdminRoute = ({
      { 
          const privateUser = (props) => {
              if(path === "/user/:userId") {
-                 console.log('hey')
                  if(props.match.params.userId === userId) {
                     return (
                     <> 

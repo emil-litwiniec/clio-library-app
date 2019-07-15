@@ -3,7 +3,7 @@ import React from 'react';
 import { TextField } from "@material-ui/core";
 
 
-export default ({ id, label, props }) => (
+export default ({ id, label, props, ...rest }) => (
     <TextField
         type="text"
         label={label}
@@ -26,5 +26,6 @@ export default ({ id, label, props }) => (
         onBlur={props.handleBlur}
         value={props.values[`${id}`]}
         name={id}
+        {...rest}
     />
 );

@@ -1,7 +1,6 @@
 import React from "react";
 
 const ShowMessageAndError = ({state}) => {
-    console.log(state);
     return(
         <>
         {state.message && 
