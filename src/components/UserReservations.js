@@ -2,6 +2,8 @@ import React from "react";
 
 import TwoPhaseButton from "./TwoPhaseButton";
 
+import {Typography, Paper, List, ListItem, Grid, Divider} from "@material-ui/core";
+
 const UserReservations = ({reservations, handleRemoveReservation}) => {
     
     return (
