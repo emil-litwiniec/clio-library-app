@@ -1,7 +1,7 @@
-import express from 'express';
 import dotenv from 'dotenv';
 import '@babel/polyfill';
 import cors from "cors";
+import express from 'express';
 
 import cookieParser from "cookie-parser";
 

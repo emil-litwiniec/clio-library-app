@@ -1,27 +1,43 @@
 import React from "react";
 
+import { Box, Divider,  Typography, Paper, List, ListItem} from "@material-ui/core"
+
 const UserBorrows = ({borrowsHistory}) => {
     
     return (
-        <div>
-            <h2>User borrows history: </h2>
+    <>
+        <Typography> User borrows history: </Typography>
+        <Paper>
+        <List>
             {borrowsHistory.map((borrow, idx) => {
                 return (
-                    <div key={idx}>
-                        <p>title: {borrow.title}</p>
-                        <p>author: {borrow.author}</p>
-                        <p>pubication year: {borrow.pub_year}</p>
-                        <p>isbn: {borrow.isbn}</p>
 
-                        <p>taken date: {borrow.taken_date}</p>
-                        <p>expected brought date: {borrow.exp_brought_date}</p>
-                        <p>brought date: {borrow.brought_date}</p>
-                        <p>prolongs: {borrow.prolongs}</p>
+                    <Box key={idx}>
+                    <ListItem>
+
+                        <Box>
+                            <Typography>Title: {borrow.title}</Typography>
+                            <Typography>Author: {borrow.author}</Typography>
+                            <Typography>Pubication year: {borrow.pub_year}</Typography>
+                            <Typography>Isbn: {borrow.isbn}</Typography>
+
+                            <Typography>Taken date: {borrow.taken_date}</Typography>
+                            <Typography>Expected brought date: {borrow.exp_brought_date}</Typography>
+                            <Typography>brought date: {borrow.brought_date}</Typography>
+                            <Typography>Prolongs: {borrow.prolongs}</Typography>
+                        </Box>
+
                         
-                    </div>
+                    </ListItem>
+                    <Divider />
+                    </Box>
                 )
             })}
-        </div>
+        </List>
+        </Paper>
+    </>  
+     
+
     )
 }
 

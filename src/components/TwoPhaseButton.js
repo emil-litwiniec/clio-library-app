@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import { Button, ButtonGroup, Typography } from "@material-ui/core"
 
 const TwoPhaseButton = ({
     handleSubmit,
@@ -11,17 +11,34 @@ const TwoPhaseButton = ({
 
     return (
         <>
-            {phase == 1 && <button onClick={() => setPhase(2)}>{btnName}</button>}
+            {phase == 1 && 
+                <Button
+                    onClick={() => setPhase(2)}
+                    variant="outlined"
+
+                 >{btnName}
+                 </Button>}
 
             {phase == 2 && (
-                <div>
-                    <p>{confirmMessage}</p>
-                    <button onClick={() => {
+
+
+                <>
+                <Typography>{confirmMessage}</Typography>
+
+                <ButtonGroup>
+                    <Button onClick={() => {
                         handleSubmit(id);
                         setPhase(1);
-                        }}>Yes</button>
-                    <button onClick={() => setPhase(1)}>No</button>
-                </div>
+                        }}>
+                        Yes
+                    </Button>
+                    <Button
+                        onClick={() => setPhase(1)}
+                    >
+                        No
+                    </Button>
+                </ButtonGroup>
+                </>
             )}
         </>
     );

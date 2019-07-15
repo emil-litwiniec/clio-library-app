@@ -5,31 +5,60 @@ import TwoPhaseButton from "./TwoPhaseButton";
 const UserReservations = ({reservations, handleRemoveReservation}) => {
     
     return (
-        <div>
-            <h2>User reservations: </h2>
-            {reservations.map((reservation, idx) => {
-                return (
-                    <div key={idx}>
-                        <p>title: {reservation.title}</p>
-                        <p>author: {reservation.author}</p>
-                        <p>pubication year: {reservation.pub_year}</p>
-                        <p>isbn: {reservation.isbn}</p>
+			<>
+				<Typography> User borrows: </Typography>
+				<Paper>
+					<List>
+						{reservations.map((reservation, idx) => {
+							return (
+                <Box key={idx}>
+                  <ListItem>
+                    <Grid container>
+                      <Grid item>
+                        <Grid container>
+                          <Grid item>
+                            <Typography>
+                              Title: {reservation.title}
+                            </Typography>
+                            <Typography>
+                              Author: {reservation.author}
+                            </Typography>
+                            <Typography>
+                              Publication year:{' '}
+                              {reservation.pub_year}
+                            </Typography>
+                            <Typography>
+                              Isbn: {reservation.isbn}
+                            </Typography>
+                          </Grid>
+                          <Grid item>
+                            <Typography>
+                              Reservation date:{' '}
+                              {reservation.res_date}
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                      </Grid>
 
-                        <p>Reservation date: {reservation.res_date}</p>
-
-                    {handleRemoveReservation &&
-                        <TwoPhaseButton 
-                            btnName="Remove"
-                            id={reservation.res_id}
+                      <Grid item>
+                        {handleRemoveReservation && (
+                          <TwoPhaseButton
                             handleSubmit={handleRemoveReservation}
-                        />
-                    }
-                        
-                    </div>
-                )
-            })}
-        </div>
-    )
+                            id={reservation.res_id}
+                            btnName="Remove"
+                          />
+                        )}
+                      </Grid>
+                    </Grid>
+                  </ListItem>
+                  <Divider />
+                </Box>
+              );
+						})}
+					</List>
+				</Paper>
+			</>
+		);
 }
 
 export default UserReservations;
