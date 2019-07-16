@@ -15,17 +15,20 @@ const useStyles = makeStyles(theme => ({
       display: 'flex',
       flexWrap: 'wrap',
     },
+    menuItemRoot: {
+      minHeight: 20,
+      fontSize: '.8rem'
+    }
+    ,
     formControl: {
-      minWidth: 120,
-    },
-    selectEmpty: {
+      minWidth: 80,
     },
   }));
 
 const Select = (props) => {
 
     const classes = useStyles();
-    const { name , error, errorMessage, label, value ,options, formikProps, disabled = false } = props;
+    const { name , error, errorMessage, label, value ,options, formikProps, disabled = false, ...rest } = props;
 
     return (
         <>
@@ -38,13 +41,16 @@ const Select = (props) => {
                     onBlur={formikProps.handleBlur}
                     disabled={disabled}
                     error={error}
+                    {...rest}
                 >
                 
 
                 {options.map((option, idx) => {
                     return (
 
-                    <MenuItem key={idx} value={option.value} >{option.name}</MenuItem>
+                    <MenuItem classes={{
+                      root: classes.menuItemRoot
+                    }}key={idx} value={option.value} >{option.name}</MenuItem>
                 )})}
                 </SelectMaterial>
                 <FormHelperText>
