@@ -217,7 +217,6 @@ const Search = props => {
                             value={props.values.searchBy}
                             options={selectOptions.searchBy}
                             formikProps={props}
-                            variant="dense"
                             disabled={
                               props.values.searchIn === 'a' ? true : false
                             }
