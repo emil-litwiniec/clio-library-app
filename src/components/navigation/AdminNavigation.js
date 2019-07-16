@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { history } from '../../routers/AppRouter';
 
 import { Menu as MenuIcon, AccountCircle } from '@material-ui/icons';
@@ -9,7 +8,6 @@ import {
   Toolbar,
   Menu,
   MenuItem,
-  Button,
   IconButton,
   Typography,
   Box
@@ -18,11 +16,31 @@ import { makeStyles } from '@material-ui/styles';
 import { connect } from 'react-redux';
 import { logout } from '../../actions/auth';
 
-const useStyles = makeStyles(theme => ({
-    rightPane: {
-        // width: '300px'
+const useStyles = makeStyles(theme => {
+  const navHeight = '40px'
+    return {
+    menuItem: {
+      minHeight: 0,
+      fontSize: '.8rem'
+    },
+    appBar: {
+      height: navHeight,
+    },
+    toolBar: {
+      height: navHeight,
+    },
+    toolBarDense: {
+      minHeight: navHeight,
+    },
+    menuButton: {
+      padding: '0px',
+      margin: "0px"
+    },
+    menuButtonIcon: {
+      padding: '0px',
+      margin: "0px"
     }
-}));
+}});
 
 const AdminNavigation = ({ userName, logout }) => {
   const classes = useStyles();
@@ -49,8 +67,14 @@ const AdminNavigation = ({ userName, logout }) => {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
+      <AppBar position="static" className={classes.appBar} height={10}>
+        <Toolbar 
+          classes={{
+            root: classes.toolBar,
+            dense: classes.toolBarDense
+          }}
+          variant="dense"
+        >
           <Grid
             container
             justify="space-between"
@@ -65,7 +89,7 @@ const AdminNavigation = ({ userName, logout }) => {
               aria-label="Menu"
               aria-controls="Menu"
             >
-              <MenuIcon />
+              <MenuIcon className={classes.menuButtonIcon}/>
             </IconButton>
             <Menu
               id="Menu"
@@ -82,17 +106,18 @@ const AdminNavigation = ({ userName, logout }) => {
               open={open}
               onClose={handleClose}
             >
-              <MenuItem onClick={() => history.push('/')}>Search</MenuItem>
-              <MenuItem onClick={() => history.push('/modify')}>
+              <MenuItem className={classes.menuItem} onClick={() => history.push('/')}>Search</MenuItem>
+              <MenuItem className={classes.menuItem} onClick={() => history.push('/modify')}>
                 Modify categories
               </MenuItem>
-              <MenuItem onClick={() => history.push('/findUser')}>
+              <MenuItem className={classes.menuItem} onClick={() => history.push('/findUser')}>
                 Find user
               </MenuItem>
-              <MenuItem onClick={() => history.push('/addBook')}>
+              <MenuItem className={classes.menuItem} onClick={() => history.push('/addBook')}>
                 Add book
               </MenuItem>
               <MenuItem
+              className={classes.menuItem}
                 onClick={() =>
                   history.push(
                     '/updateBook/d30ca801-5a96-4e5a-b73b-2c81c22dd2c8'
@@ -103,17 +128,9 @@ const AdminNavigation = ({ userName, logout }) => {
               </MenuItem>
             </Menu>
 
-
-
             <Typography  className={classes.title}>
               Clio Library App
             </Typography>
-
-
-
-            {/* <Button color="inherit" onClick={() => logout()}>
-              Log out
-            </Button> */}
 
             <IconButton
               aria-label="Account of current user"
@@ -139,7 +156,7 @@ const AdminNavigation = ({ userName, logout }) => {
               open={Boolean(anchorEl2)}
               onClose={handleCloseAccountMenu}
             >
-              <MenuItem button={false}>
+              <MenuItem button={false} className={classes.menuItem}>
               <Box>
                 <Typography>
                 Logged as {firstName} {lastName}
@@ -149,7 +166,7 @@ const AdminNavigation = ({ userName, logout }) => {
 
             </Box>
               </MenuItem>
-              <MenuItem dense onClick={() => logout()}>Logout</MenuItem>
+              <MenuItem dense className={classes.menuItem} onClick={() => logout()}>Logout</MenuItem>
             </Menu>
           </Grid>
         </Toolbar>

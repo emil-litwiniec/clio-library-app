@@ -4,11 +4,20 @@ import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 
 import { Container } from '@material-ui/core';
+import { makeStyles } from "@material-ui/styles"
+
 
 import AdminNavigation from '../components/navigation/AdminNavigation';
 import PrivateNavigation from '../components/navigation/PrivateNavigation';
 
-const containerMaxWidth = 'md';
+
+const useStyles = makeStyles(theme => ({
+  root: {
+      maxWidth: 700,
+      marginTop: theme.spacing(5),
+
+  }
+}))
 
 export const AdminRoute = ({
   isAuthenticated,
@@ -20,6 +29,8 @@ export const AdminRoute = ({
   history,
   ...rest
 }) => {
+
+  const classes = useStyles();
   return (
     <Route
       path={path}
@@ -28,7 +39,9 @@ export const AdminRoute = ({
           isAdmin ? (
             <>
               <AdminNavigation userName={userName} />
-              <Container maxWidth={containerMaxWidth}>
+              <Container classes={{
+              root: classes.root
+            }}>
                 <Component {...props} />
               </Container>
             </>

@@ -15,13 +15,16 @@ import AdminNavigation from "../components/navigation/AdminNavigation";
 
 const useStyles = makeStyles(theme => ({
     root: {
-        maxWidth: 800
+        maxWidth: 800,
+      marginTop: theme.spacing(5),
+
     }
 })) 
 
 export const PublicRoute = ({
     path,
     userName,
+    userId,
     isAdmin,
     isAuthenticated,
     component: Component,
@@ -38,7 +41,7 @@ export const PublicRoute = ({
 
                 isAdmin ? (
                     <>
-                    <AdminNavigation userName={userName}/>
+                    <AdminNavigation userName={userName} userId={userId}/>
                     <Container classes={{
                         root: classes.root
                     }}>
@@ -47,7 +50,7 @@ export const PublicRoute = ({
                     </>
                 ) : (
                     <>
-                        <PrivateNavigation userName={userName} />
+                        <PrivateNavigation userName={userName} userId={userId}/>
                         <Container classes={{
                         root: classes.root
                     }}>
@@ -73,7 +76,8 @@ export const PublicRoute = ({
 const mapStateToProps = state => ({
     isAuthenticated: !!state.auth.authenticated,
     isAdmin: !!state.auth.admin,
-    userName: {firstName: state.auth.firstName, lastName:state.auth.lastName}
+    userName: {firstName: state.auth.firstName, lastName:state.auth.lastName},
+    userId: state.auth.userId
 
 });
 

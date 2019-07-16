@@ -1,11 +1,12 @@
 import React from "react";
-
+import { history }from "../../routers/AppRouter"
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
+import { SearchOutlined as Search } from "@material-ui/icons"
 // import MenuIcon from '@material-ui/icons/Menu';
 
 import { Link } from "react-router-dom";
@@ -28,22 +29,29 @@ const PublicNavigation = () => {
 
     const classes = useStyles();
     return (
-
-<div className={classes.root}>
-<AppBar position="static">
-  <Toolbar variant="dense">
-    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="Menu">
-      {/* <MenuIcon /> */}
-    </IconButton>
-    <Typography variant="h6" className={classes.title}>
-      Clio Library App
-    </Typography>
-    <Link to="/login"><Button color="inherit">Login</Button></Link>
-    
-  </Toolbar>
-</AppBar>
-</div>
-    )
+      <div className={classes.root}>
+        <AppBar position="static">
+          <Toolbar variant="dense">
+            <IconButton
+              onClick={() => history.push('/')}
+              edge="start"
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="Menu"
+            >
+              <Search />
+            </IconButton>
+            <Typography variant="h6" className={classes.title}>
+              Clio Library App
+            </Typography>
+            <Button color="inherit" onClick={() => history.push('/login')}>
+              Sign in
+            </Button>
+            {/* <Link to="/login"><Button color="inherit">Login</Button></Link> */}
+          </Toolbar>
+        </AppBar>
+      </div>
+    );
 };
 
 

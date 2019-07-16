@@ -39,7 +39,7 @@ const AppRouter = (props) => {
                 <PublicRoute path="/author/:authorId" component={AuthorDetailPage} />
                 <AdminRoute path="/addBook" component={AddBookPage} />
                 <AdminRoute path="/updateBook/:bookId" component={UpdateBookPage} />
-                <AdminRoute path="/user/:userId" component={UserOverviewPage} />
+                <PrivateRoute path="/user/:userId" component={UserOverviewPage} />
                 <AdminRoute path="/publicUser/:userId" component={PublicUserOverviewPage} />
                 <AdminRoute path="/createUser" component={CreateUser} />
                 <PublicRoute path="/login" component={Login} />
