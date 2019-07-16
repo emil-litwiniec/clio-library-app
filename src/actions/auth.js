@@ -14,7 +14,7 @@ export function login({email, password}, history) {
     return async (dispatch) => {
         try {
             const res = await axios.post('http://localhost:3000/login', {email, password});
-            history.push()
+            history.push('/')
             
             Cookie.set('x-access-token', res.data.token);
             res.data.admin === true &&
