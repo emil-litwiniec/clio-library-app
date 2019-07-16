@@ -4,9 +4,20 @@ import { connect } from "react-redux";
 
 import { Route, Redirect } from "react-router-dom";
 
+import { Container } from "@material-ui/core"
+import { makeStyles } from "@material-ui/styles"
+
 import PublicNavigation from "../components/navigation/PublicNavigation";
 import PrivateNavigation from "../components/navigation/PrivateNavigation";
 import AdminNavigation from "../components/navigation/AdminNavigation";
+
+// const containerMaxWidth = "md";
+
+const useStyles = makeStyles(theme => ({
+    root: {
+        maxWidth: 800
+    }
+})) 
 
 export const PublicRoute = ({
     path,
@@ -15,7 +26,10 @@ export const PublicRoute = ({
     isAuthenticated,
     component: Component,
     ...rest
-}) => (
+}) => {
+
+    const classes = useStyles();
+    return (
     <Route
         {...rest}
         component={props =>
@@ -24,24 +38,37 @@ export const PublicRoute = ({
 
                 isAdmin ? (
                     <>
-                        <AdminNavigation userName={userName}/>
+                    <AdminNavigation userName={userName}/>
+                    <Container classes={{
+                        root: classes.root
+                    }}>
                         <Component {...props} />
+                    </Container>
                     </>
                 ) : (
                     <>
                         <PrivateNavigation userName={userName} />
-                        <Component {...props} />
+                        <Container classes={{
+                        root: classes.root
+                    }}>
+                            <Component {...props} />
+                        </Container>
                     </>
                 )
             ) : (
                 <>
                     <PublicNavigation />
-                    <Component {...props} />
+                    <Container classes={{
+                        root: classes.root
+                    }}>
+                        <Component {...props} />
+
+                    </Container>
                 </>
             )
         }
     />
-);
+)};
 
 const mapStateToProps = state => ({
     isAuthenticated: !!state.auth.authenticated,
