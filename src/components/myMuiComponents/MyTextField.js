@@ -1,14 +1,26 @@
 import React from 'react';
 
 import { TextField } from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles"
 
 
-export default ({ id, label, props, ...rest }) => (
+const useStyles = makeStyles(theme => ({
+    marginDense: {
+        marginRight: theme.spacing(1)
+    }
+
+}))
+
+export default ({ id, label, props, margin = 'dense',  ...rest }) => {
+    const classes = useStyles();
+    return (
     <TextField
         type="text"
         label={label}
         variant="outlined"
+        margin={margin}
         id={id}
+        className={classes.marginDense}
         error={
             props.errors
                 [`${id}`] &&
@@ -28,4 +40,4 @@ export default ({ id, label, props, ...rest }) => (
         name={id}
         {...rest}
     />
-);
+)};

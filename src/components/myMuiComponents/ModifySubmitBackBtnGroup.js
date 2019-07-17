@@ -10,7 +10,7 @@ export default ({
      handleDeleteButton,
       handleCreateButton,
        props}) => (
-    <ButtonGroup>
+    <ButtonGroup size="small">
     <Button 
             type="button" 
             variant="outlined"

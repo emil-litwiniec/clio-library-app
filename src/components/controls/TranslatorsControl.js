@@ -3,6 +3,8 @@ import { Formik } from "formik";
 import axios from "axios";
 import * as Yup from "yup";
 
+import { Grid, Box } from '@material-ui/core';
+import { withStyles } from '@material-ui/styles';
 
 import { MyTextField, AreYouSure, ModifySubmitBackBtnGroup, SubmitBackBtnGroup } from "../myMuiComponents"
 import Select from "../Select";
@@ -14,6 +16,29 @@ const TranslatorSchema = Yup.object().shape({
     firstName: Yup.string().required(required),
     lastName: Yup.string().required(required)
 })
+
+const styles = theme => ({
+    toTheRight: {
+          display: 'flex',
+          justifyContent: 'flex-end',
+          alignItems: 'center'
+      },
+      toTheLeft: {
+          display: 'flex',
+          justifyContent: 'flex-start',
+      },
+      boxWrapper: {
+          marginTop: 40,
+          marginBottom: 40
+      },
+      gridContainer: {
+          display: "flex",
+          alignItems: "center"
+      },
+      form: {
+          width: '100%'
+      }
+  });
 
 class TranslatorsControl extends React.Component {
     constructor(props) {
@@ -239,109 +264,169 @@ class TranslatorsControl extends React.Component {
     }
 
     render() {
+        const classes = this.props.classes;
         return (
-
-            <div>
-                {this.state.done &&
-                
-                <Formik
-                    enableReinitialize
-                    initialValues={{
-                        translatorId: this.state.translators[0].translator_id,
-                        firstName: '',
-                        lastName: ''
-                    }}
-                    validationSchema={TranslatorSchema}
-                    onSubmit={(values, actions) => {
-                        this.handleSubmit(values);
-                        actions.setSubmitting(false);
-                    }}
-                    render={props => (
-                        <form onSubmit={props.handleSubmit}>
-                            {this.state.phase === 1 && (
-                                <>
-                                    <Select
-                                        label="Translators:"
-                                        name="translatorId"
-                                        
-                                        value={props.values.translatorId}
-
-                                        options={utils.convertToSelectOptions.translators(
-                                            this.state.translators
-                                        )}
-                                        formikProps={props}
-                                    />
-
-                                    <ModifySubmitBackBtnGroup
-                                        handleCreateButton={this.handleCreateButton}
-                                        handleDeleteButton={this.handleDeleteButton}
-                                        handleModifyButton={this.handleModifyButton}
-                                        props={props}
-                                    />
-                                </>
-                            )}
-                            {this.state.phase === 2 && 
-                            <>
-
-                            <MyTextField 
-                                id="firstName"
-                                label="First name"
-                                props={props}
+          <Box className={classes.boxWrapper}>
+            {this.state.done && (
+              <Formik
+                enableReinitialize
+                initialValues={{
+                  translatorId: this.state.translators[0].translator_id,
+                  firstName: '',
+                  lastName: ''
+                }}
+                validationSchema={TranslatorSchema}
+                onSubmit={(values, actions) => {
+                  this.handleSubmit(values);
+                  actions.setSubmitting(false);
+                }}
+                render={props => (
+                  <form onSubmit={props.handleSubmit}>
+                    {this.state.phase === 1 && (
+                      <>
+                        <Grid
+                          container
+                          className={classes.gridContainer}
+                        >
+                          <Grid
+                            item
+                            xs={12}
+                            sm={8}
+                            className={classes.toTheLeft}
+                          >
+                            <Select
+                              label="Translators:"
+                              name="translatorId"
+                              value={props.values.translatorId}
+                              options={utils.convertToSelectOptions.translators(
+                                this.state.translators
+                              )}
+                              formikProps={props}
                             />
-
-
-                            <MyTextField 
-                                id="lastName"
-                                label="Last name"
-                                props={props}
+                          </Grid>
+                          <Grid
+                            item
+                            xs={12}
+                            sm={4}
+                            className={classes.toTheRight}
+                          >
+                            <ModifySubmitBackBtnGroup
+                              handleCreateButton={
+                                this.handleCreateButton
+                              }
+                              handleDeleteButton={
+                                this.handleDeleteButton
+                              }
+                              handleModifyButton={
+                                this.handleModifyButton
+                              }
+                              props={props}
                             />
-
-                            <SubmitBackBtnGroup 
-                                that={this}  
-                                props={props}
-                            />
-                            </>}
-
-                            {this.state.phase === 3 &&
-                            // CONFIRM DELETE PHASE
-                            <AreYouSure 
-                                that={this}
-                                id="translatorId"
-                                props={props}
-                            />}
-
-                            {this.state.phase === 4 && 
-                            <>
-
-                            <MyTextField 
-                                id="firstName"
-                                label="First name"
-                                props={props}
-                            />
-
-
-                            <MyTextField 
-                                id="lastName"
-                                label="Last name"
-                                props={props}
-                            />
-
-                            <SubmitBackBtnGroup 
-                                that={this}  
-                                props={props}
-                            />
-                            </>}
-                            <ShowMessageAndError state={this.state}/>
-
-                        </form>
+                          </Grid>
+                        </Grid>
+                      </>
                     )}
-                />
-                }
-            </div>
+                    {this.state.phase === 2 && (
+                      <>
+                        <Grid
+                          container
+                          className={classes.gridContainer}
+                        >
+                          <Grid
+                            item
+                            xs={12}
+                            sm={8}
+                            className={classes.toTheLeft}
+                          >
+                            <MyTextField
+                              id="firstName"
+                              label="First name"
+                              props={props}
+                              margin="dense"
+                            />
+
+                            <MyTextField
+                              id="lastName"
+                              label="Last name"
+                              props={props}
+                              margin="dense"
+                            />
+                          </Grid>
+                          <Grid
+                            item
+                            xs={12}
+                            sm={4}
+                            className={classes.toTheRight}
+                          >
+                            <SubmitBackBtnGroup
+                              that={this}
+                              props={props}
+                            />
+                          </Grid>
+                        </Grid>
+                      </>
+                    )}
+
+                    {this.state.phase === 3 && (
+                      // CONFIRM DELETE PHASE
+                      <AreYouSure
+                        that={this}
+                        id="translatorId"
+                        props={props}
+                        toTheRight={classes.toTheRight}
+                      />
+                    )}
+
+                    {this.state.phase === 4 && (
+                      <>
+                        <Grid
+                          container
+                          className={classes.gridContainer}
+                        >
+                          <Grid
+                            item
+                            xs={12}
+                            sm={8}
+                            className={classes.toTheLeft}
+                          >
+                            <MyTextField
+                              id="firstName"
+                              label="First name"
+                              props={props}
+                              margin="dense"
+                            />
+
+                            <MyTextField
+                              id="lastName"
+                              label="Last name"
+                              props={props}
+                              margin="dense"
+                            />
+                          </Grid>
+                          <Grid
+                            item
+                            xs={12}
+                            sm={4}
+                            className={classes.toTheRight}
+                          >
+                            <SubmitBackBtnGroup
+                              that={this}
+                              props={props}
+                            />
+                          </Grid>
+                        </Grid>
+                      </>
+                    )}
+                    <ShowMessageAndError state={this.state} />
+                  </form>
+                )}
+              />
+            )}
+          </Box>
         );
     }
 }
 
 
 
-export default TranslatorsControl;
+export default withStyles(styles)(TranslatorsControl);

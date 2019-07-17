@@ -6,7 +6,7 @@ import {ButtonGroup, Button} from "@material-ui/core";
 
 
 export default ({that, props}) => (
-    <ButtonGroup>
+    <ButtonGroup size="small">
         <Button variant="outlined" type="submit">
             Submit
         </Button>
