@@ -1,7 +1,9 @@
 import moment from "moment";
 import uuidv4 from "uuid/v4";
+import _uniqby from "lodash.uniqby"
 
 import db from "../db/index";
+
 
 import utils from "../utils/utils";
 import {columnNames} from "../utils/columnNames";
@@ -230,17 +232,21 @@ const Books = {
     async searchBookId(req,res) {
         const { bookId } = req.query;
 
-        const searchQuery = `	
-        SELECT DISTINCT
-            A.book_id
+
+            const searchQuery = `
+            SELECT
+            A.book_id, 
+            C.isBorrowed, 
+            C.brought_date
         FROM books AS A
         LEFT JOIN (
         SELECT
             B.book_id,
+            F.brought_date,
             CASE WHEN F.brought_date IS NULL AND F.borrow_id IS NOT NULL THEN
-                'true'
+                true
                 ELSE
-                'false'
+                FALSE
                 END  
                 AS isBorrowed
         FROM books AS B
@@ -251,13 +257,22 @@ const Books = {
             ON B.book_id = F.book_id
         ) AS C
         ON A.book_id = C.book_id
-        WHERE C.isBorrowed = 'false'
-            AND A.book_id::text LIKE '${bookId}%';`;
+        WHERE A.book_id::text LIKE '${bookId}%'`
 
         try {
-            const { rows: books } = await db.query(searchQuery);
+						const { rows: books } = await db.query(searchQuery);
 
-            return res.status(200).send(books);
+						const borrowedBooks = books.filter(el => el.isborrowed === true);
+						let availableBooks = books;
+						borrowedBooks.forEach(({book_id}) => {
+								availableBooks = availableBooks.filter(el => el.book_id !== book_id)
+						});
+
+						availableBooks = _uniqby(availableBooks, 'book_id');
+
+						
+
+            return res.status(200).send(availableBooks);
         } catch (err) {
             return res.status(400).send(err);
         }
