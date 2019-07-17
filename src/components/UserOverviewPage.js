@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 
 import axios from 'axios';
 
+import { connect } from 'react-redux'
+
 import UserInfo from './UserInfo';
 import UserBorrows from './UserBorrows';
 import UserBorrowsHistory from './UserBorrowsHistory';
@@ -175,6 +177,8 @@ class UserOverviewPage extends React.Component {
       });
   }
   render() {
+
+    const isAdmin = this.props.isAdmin;
     const userId = this.props.match.params.userId;
     return (
       <div>
@@ -186,7 +190,7 @@ class UserOverviewPage extends React.Component {
           <UserBorrows
             borrows={this.state.borrows}
             handleProlong={this.handleProlong}
-            handleReturn={this.handleReturn}
+            handleReturn={isAdmin ? this.handleReturn : null}
           />
         )}
         {this.state.borrowsHistory && (
@@ -200,10 +204,15 @@ class UserOverviewPage extends React.Component {
           />
         )}
 
-        {<SearchBookId handleSubmit={this.handleBorrow} />}
+        {isAdmin && <SearchBookId handleSubmit={this.handleBorrow} />}
       </div>
     );
   }
 }
 
-export default UserOverviewPage;
+
+const mapStateToProps = state => ({
+  isAdmin: !!state.auth.admin
+})
+
+export default  connect(mapStateToProps)(UserOverviewPage);
