@@ -47,7 +47,67 @@ const utils = {
                 return [];
             }
         }
-    }
+    },
+    selectSearchOptions : {
+        titles: [
+          {
+            value: 'authorAsc',
+            label: 'authorAsc',
+            name: 'authors ascending'
+          },
+          {
+            value: 'authorDesc',
+            label: 'authorDesc',
+            name: 'authors descending'
+          },
+          {
+            value: 'titleAsc',
+            label: 'titleAsc',
+            name: 'titles ascending'
+          },
+          {
+            value: 'titleDesc',
+            label: 'titleDesc',
+            name: 'titles descending'
+          }
+        ],
+        authors: [
+          {
+            value: 'authorDesc',
+            label: 'authorDesc',
+            name: 'authors descending'
+          },
+          {
+            value: 'authorAsc',
+            label: 'authorAsc',
+            name: 'authors ascending'
+          }
+        ],
+        searchIn: [
+          {
+            value: 'b',
+            label: 'books',
+            name: 'books'
+          },
+          {
+            value: 'a',
+            label: 'Authors',
+            name: 'authors'
+          }
+        ],
+        searchBy: [
+          {
+            value: 'title',
+            label: 'Title',
+            name: 'Title'
+          },
+          {
+            value: 'author',
+            label: 'Author',
+            name: 'Author'
+          }
+        ]
+      }
 }; 
 
 export default utils;

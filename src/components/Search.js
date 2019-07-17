@@ -11,14 +11,13 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import {
   Search as SearchIcon,
-  ExpandMore as ExpandMoreIcon
+  ExpandMore as ExpandMoreIcon,
 } from '@material-ui/icons';
 import {
   Button,
   Divider,
   Grid,
   IconButton,
-  Container,
   TextField,
   Typography,
   InputAdornment,
@@ -40,7 +39,7 @@ const useStyles = makeStyles(theme => ({
   },
   filterElement: {
     margin: theme.spacing(2),
-    minWidth: 200
+    minWidth: 170
   },
   yearFilters: {
     flexBasis: 'none'
@@ -88,78 +87,31 @@ const Search = props => {
       done: true
     });
   }
-  const selectOptions = {
-    titles: [
-      {
-        value: 'authorAsc',
-        label: 'authorAsc',
-        name: 'authors ascending'
-      },
-      {
-        value: 'authorDesc',
-        label: 'authorDesc',
-        name: 'authors descending'
-      },
-      {
-        value: 'titleAsc',
-        label: 'titleAsc',
-        name: 'titles ascending'
-      },
-      {
-        value: 'titleDesc',
-        label: 'titleDesc',
-        name: 'titles descending'
-      }
-    ],
-    authors: [
-      {
-        value: 'authorDesc',
-        label: 'authorDesc',
-        name: 'authors descending'
-      },
-      {
-        value: 'authorAsc',
-        label: 'authorAsc',
-        name: 'authors ascending'
-      }
-    ],
-    searchIn: [
-      {
-        value: 'b',
-        label: 'books',
-        name: 'books'
-      },
-      {
-        value: 'a',
-        label: 'Authors',
-        name: 'authors'
-      }
-    ],
-    searchBy: [
-      {
-        value: 'title',
-        label: 'Title',
-        name: 'Title'
-      },
-      {
-        value: 'author',
-        label: 'Author',
-        name: 'Author'
-      }
-    ]
-  };
+
+  const { selectSearchOptions: selectOptions } = utils;
+
+  const isQueryPopulated = () => {
+    const actualQueryLength  = Object.entries(props.actualQuery).length;
+    if(actualQueryLength > 0) {
+      return true
+    } else {
+      return false
+    }
+  }
+  const { query: actualQuery } = props.actualQuery;
+
   return (
     <div>
       <Formik
         initialValues={{
-          value: '',
-          searchIn: 'b',
-          searchBy: 'title',
-          yearStart: 1920,
-          yearEnd: 2019,
-          titlesOrderBy: 'titleAsc',
-          authorsOrderBy: 'authorDesc',
-          genre: 'all'
+          value: isQueryPopulated() ? props.actualQuery.query.value : '' ,
+          searchIn: isQueryPopulated() ? actualQuery.searchIn : 'b',
+          searchBy: isQueryPopulated() ? actualQuery.searchBy : 'title',
+          yearStart: isQueryPopulated() ? actualQuery.yearStart : 1800,
+          yearEnd: isQueryPopulated() ? actualQuery.yearEnd : 2019,
+          titlesOrderBy: isQueryPopulated() ? actualQuery.titlesOrderBy : 'titleAsc',
+          authorsOrderBy: isQueryPopulated() ? actualQuery.authorsOrderBy : 'authorDesc',
+          genre: isQueryPopulated() ? actualQuery.genre : 'all'
         }}
         onSubmit={(values, actions) => {
           props.handleSubmit(values);
@@ -268,7 +220,7 @@ const Search = props => {
                           )}
                         </Grid>
                       </Grid>
-                    <Grid item container direction="column" xs={12} sm={4}>
+                    <Grid item container direction="column" xs={12} sm={3}>
                       <TextField
                         id="outlined-name"
                         label="From year"
@@ -314,11 +266,15 @@ const Search = props => {
   );
 };
 
+const mapStateToProps = state => ({
+  actualQuery: state.actualQuery
+})
+
 const mapDispatchToProps = dispatch => ({
   setActualQuery: query => dispatch(setActualQuery(query))
 });
 
 export default connect(
-  undefined,
+  mapStateToProps,
   mapDispatchToProps
 )(Search);

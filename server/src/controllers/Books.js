@@ -261,13 +261,16 @@ const Books = {
 
         try {
 						const { rows: books } = await db.query(searchQuery);
-
+						// fetch all results with isborrowed true and false
 						const borrowedBooks = books.filter(el => el.isborrowed === true);
+
+						// get ids of books that any of their borrows are actual
 						let availableBooks = books;
 						borrowedBooks.forEach(({book_id}) => {
 								availableBooks = availableBooks.filter(el => el.book_id !== book_id)
 						});
 
+						// return unique books from an available books array
 						availableBooks = _uniqby(availableBooks, 'book_id');
 
 						
