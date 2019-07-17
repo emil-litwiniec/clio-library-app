@@ -2,16 +2,15 @@ import React, { useEffect } from "react";
 import axios from "axios";
 import { history } from "../routers/AppRouter"
 
-import TextField from '@material-ui/core/TextField';
-import Paper from '@material-ui/core/Paper';
-import MenuItem from '@material-ui/core/MenuItem';
-import Button from "@material-ui/core/Button"
 import { makeStyles } from '@material-ui/core/styles';
+import { Search as SearchIcon} from "@material-ui/icons";
+import { InputAdornment, IconButton, MenuItem, Paper, TextField} from "@material-ui/core";
 
 import Autosuggest from 'react-autosuggest';
 
 const useStyles = makeStyles(theme => ({
   root: {
+    marginTop: '8rem',
     height: 250,
     flexGrow: 1,
   },
@@ -159,6 +158,13 @@ export default function IntegrationAutosuggest() {
                       ref(node);
                       inputRef(node);
                   },
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton type="submit">
+                        <SearchIcon />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
                   classes: {
                       input: classes.input
                   }
@@ -193,13 +199,6 @@ export default function IntegrationAutosuggest() {
                       </Paper>
                   )}
               />
-              <Button
-                  className={classes.submit}
-                  variant="outlined"
-                  type="submit"
-              >
-                  Submit
-              </Button>
           </form>
       </div>
   );
