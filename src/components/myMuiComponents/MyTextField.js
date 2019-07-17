@@ -6,7 +6,7 @@ import { makeStyles } from "@material-ui/styles"
 
 const useStyles = makeStyles(theme => ({
     marginDense: {
-        marginRight: theme.spacing(1)
+        // marginRight: theme.spacing(1)
     }
 
 }))
