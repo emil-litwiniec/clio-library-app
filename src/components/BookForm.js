@@ -39,15 +39,20 @@ const styles = theme => ({
 	},
 
 	box: {
+		
 		[theme.breakpoints.only('xs')]: {
 			margin: '10px 0px'
 
 		}
 	},
 	boxSubmit: {
+		display: 'flex',
 		width: '100%',
-		justifyContent: "flex-end",
-		margin: '0 10px 25px 0'
+		justifyContent: "center",
+		marginBottom: 25
+	},
+	button: {
+		width: '88%',
 	}
 	// marginRight: {
 	// 	marginRight: 10
@@ -133,7 +138,7 @@ class AddBookForm extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, handleDelete } = this.props;
     return (
       <div>
         <Formik
@@ -165,9 +170,8 @@ class AddBookForm extends React.Component {
           }}
           render={props => (
             <form onSubmit={props.handleSubmit}>
-              <Grid container className={classes.gridContainer} >
+              <Grid container className={classes.gridContainer}>
                 <Grid item xs={12}>
-									
                   <MyTextField
                     id="title"
                     label="Title"
@@ -175,86 +179,82 @@ class AddBookForm extends React.Component {
                     className={classes.textField}
                     fullWidth
                   />
-
-									
                 </Grid>
 
-                <Grid item container xs={12} >
+                <Grid item container xs={12}>
                   <Grid item xs={12} sm={6} className={classes.marginRight}>
-
-										<Box mr={1} className={classes.box}>
-											<MyTextField
-												id="authorFirst"
-												label="Author first name"
-												props={props}
-												className={classes.textField}
-												fullWidth
-											/>
-
-										</Box>
+                    <Box mr={1} className={classes.box}>
+                      <MyTextField
+                        id="authorFirst"
+                        label="Author first name"
+                        props={props}
+                        className={classes.textField}
+                        fullWidth
+                      />
+                    </Box>
                   </Grid>
 
                   <Grid item xs={12} sm={6} className={classes.marginLeft}>
-										<Box ml={1} className={classes.box}>
-                    <MyTextField
-                      id="authorLast"
-                      label="Author last name"
-                      props={props}
-                      className={classes.textField}
-                      fullWidth
-                    />
-										</Box>
+                    <Box ml={1} className={classes.box}>
+                      <MyTextField
+                        id="authorLast"
+                        label="Author last name"
+                        props={props}
+                        className={classes.textField}
+                        fullWidth
+                      />
+                    </Box>
                   </Grid>
                 </Grid>
                 <Grid item container xs={12}>
                   <Grid item xs={12} sm={6} className={classes.marginRight}>
-										<Box mr={1} className={classes.box}>
-                    <MyTextField
-                      id="pubYear"
-                      label="Publication year"
-                      props={props}
-                      className={classes.textField}
-                      fullWidth
-                    />
-										</Box>
+                    <Box mr={1} className={classes.box}>
+                      <MyTextField
+                        id="pubYear"
+                        label="Publication year"
+                        props={props}
+                        className={classes.textField}
+                        fullWidth
+                      />
+                    </Box>
                   </Grid>
 
                   <Grid item xs={12} sm={6} className={classes.marginLeft}>
-										<Box ml={1} className={classes.box}>
-                    <MyTextField
-                      id="series"
-                      label="Series"
-                      props={props}
-                      className={classes.textField}
-                      fullWidth
-                    />
-										</Box>
+                    <Box ml={1} className={classes.box}>
+                      <MyTextField
+                        id="series"
+                        label="Series"
+                        props={props}
+                        className={classes.textField}
+                        fullWidth
+                      />
+                    </Box>
                   </Grid>
                 </Grid>
 
                 <Grid item container xs={12}>
                   <Grid item xs={12} sm={6} className={classes.marginRight}>
-										<Box mr={1} className={classes.box}>
-                    <MyTextField
-                      id="edition"
-                      label="Edition"
-                      props={props}
-                      className={classes.textField}
-                      fullWidth
-                    />
-										</Box>
+                    <Box mr={1} className={classes.box}>
+                      <MyTextField
+                        id="edition"
+                        label="Edition"
+                        props={props}
+                        className={classes.textField}
+                        fullWidth
+                      />
+                    </Box>
                   </Grid>
 
                   <Grid item xs={12} sm={6} className={classes.marginLeft}>
-										<Box ml={1} className={classes.box}>
-                    <MyTextField
-                      id="isbn"
-                      label="Isbn"
-                      props={props}
-                      className={classes.textField}
-                      fullWidth
-                    />
-										</Box>
+                    <Box ml={1} className={classes.box}>
+                      <MyTextField
+                        id="isbn"
+                        label="Isbn"
+                        props={props}
+                        className={classes.textField}
+                        fullWidth
+                      />
+                    </Box>
                   </Grid>
                 </Grid>
 
@@ -282,83 +282,98 @@ class AddBookForm extends React.Component {
 
                 <Grid item container xs={12}>
                   <Grid item xs={12} sm={6} className={classes.marginRight}>
-										<Box mr={1} className={classes.box}>
-
-                    <MyTextField
-                      id="ukd"
-                      label="UKD"
-                      props={props}
-                      className={classes.textField}
-                      fullWidth
-                    />
-										</Box>
+                    <Box mr={1} className={classes.box}>
+                      <MyTextField
+                        id="ukd"
+                        label="UKD"
+                        props={props}
+                        className={classes.textField}
+                        fullWidth
+                      />
+                    </Box>
                   </Grid>
 
                   <Grid item xs={12} sm={6} className={classes.marginLeft}>
-										<Box ml={1} className={classes.box}>
-                    <MyTextField
-                      id="lang"
-                      label="Language"
-                      props={props}
-                      className={classes.textField}
-                      fullWidth
-                    />
-										</Box>
+                    <Box ml={1} className={classes.box}>
+                      <MyTextField
+                        id="lang"
+                        label="Language"
+                        props={props}
+                        className={classes.textField}
+                        fullWidth
+                      />
+                    </Box>
                   </Grid>
                 </Grid>
 
+                <Grid item container xs={12} l={4}>
+                  <Grid item xs={12} sm={6} className={classes.marginRight}>
+                    <Box mr={1} className={classes.box}>
+                      <Select
+                        label="Genre:"
+                        name="genreId"
+                        errorMessage={
+                          props.errors.genreId && props.touched.genreId
+                            ? props.errors.genreId
+                            : ''
+                        }
+                        error={
+                          props.errors.genreId && props.touched.genreId
+                            ? true
+                            : false
+                        }
+                        value={props.values.genreId}
+                        options={utils.convertToSelectOptions.genres(
+                          this.state.genres
+                        )}
+                        formikProps={props}
+                        fullWidth={true}
+                      />
+                    </Box>
+                  </Grid>
+                  <Grid item xs={12} sm={6} className={classes.marginLeft}>
+                    <Box ml={1} className={classes.box}>
+                      <Select
+                        label="Publisher:"
+                        name="pubId"
+                        value={props.values.pubId}
+                        options={
+                          this.state.publishers &&
+                          utils.convertToSelectOptions.publishers(
+                            this.state.publishers
+                          )
+                        }
+                        formikProps={props}
+                        fullWidth={true}
+                      />
+                    </Box>
+                  </Grid>
+                </Grid>
+								<Grid item xs={0} sm={6} />
+                <Grid item container xs={12} sm={6}>
+                  <Grid item xs={6} sm={6}>
+                    <Box className={classes.boxSubmit}>
+                      <Button variant="outlined" type="submit" className={classes.button}>
+                        Submit
+                      </Button>
+                    </Box>
+                  </Grid>
 
-								<Grid item container xs={12} l={4}>
-									<Grid item xs={12} sm={6} className={classes.marginRight}>
-										<Box mr={1} className={classes.box}>
-											<Select
-												label="Genre:"
-												name="genreId"
-												errorMessage={
-													props.errors.genreId && props.touched.genreId
-														? props.errors.genreId
-														: ''
-												}
-												error={
-													props.errors.genreId && props.touched.genreId
-														? true
-														: false
-												}
-												value={props.values.genreId}
-												options={utils.convertToSelectOptions.genres(
-													this.state.genres
-												)}
-												formikProps={props}
-												fullWidth={true}
-											/>
-
-										</Box>
-									</Grid>
-									<Grid item xs={12} sm={6} className={classes.marginLeft}>
-										
-										<Box ml={1} className={classes.box}>
-											<Select
-												label="Publisher:"
-												name="pubId"
-												value={props.values.pubId}
-												options={
-													this.state.publishers &&
-													utils.convertToSelectOptions.publishers(
-														this.state.publishers
-													)
-												}
-												formikProps={props}
-												fullWidth={true}
-											/>
-										</Box>
-									</Grid>
-								</Grid>
-
-                <Box display="flex" className={classes.boxSubmit} >
-                  <Button variant="outlined" type="submit">
-                    Submit
-                  </Button>
-                </Box>
+                  {handleDelete && (
+                    <Grid item xs={6} sm={6}>
+                      <Box  className={classes.boxSubmit}>
+                        <Button
+                          variant="outlined"
+                          type="button"
+													onClick={handleDelete}
+													className={classes.button}
+                        >
+                          Delete
+                        </Button>
+                      </Box>
+                    </Grid>
+                  )}
+                </Grid>
               </Grid>
             </form>
           )}
