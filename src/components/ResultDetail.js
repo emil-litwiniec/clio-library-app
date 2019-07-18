@@ -1,8 +1,24 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { history } from "../routers/AppRouter"
 
-import {Divider, List, ListItem, ListItemText } from '@material-ui/core';
+import { List, ListItem, ListItemText } from '@material-ui/core';
+
+import { makeStyles } from "@material-ui/styles";
+
+const useStyles = makeStyles(theme => ({
+    list: {
+        width: '18rem',
+        [theme.breakpoints.only('xs')]: {
+            marginTop: '2rem',
+        }
+    },
+    title: {
+        textAlign: "left",
+    },
+    value: {
+        textAlign: 'right',
+    },
+}))
 
 
 const ResultDetail = (props) => {
@@ -22,67 +38,86 @@ const ResultDetail = (props) => {
         isborrowed: isBorrowed,
         isreserved: isReserved
     } = props;
+
+    const classes = useStyles();
+    console.log('is borrowed:', isBorrowed);
+    console.log('is reserver:', isReserved);
     const isAvailable = () => {
+        
         if(isBorrowed == 'true' || isReserved == 'true') {
-            return 'Unavailable to borrow'
+            return 'Not available'
         }
-        return 'Available to borrow'
+        return 'Available'
     }
     return (
         <>
 
-        <List component="nav" aria-label="Main mailbox folders">
-                <ListItem >
-                    <ListItemText primary="Title:" />
-                    <ListItemText primary={title} />
+        <List aria-label="Result details" className={classes.list}>
+                <ListItem 
+                    dense
+                    divider
+                    >
+                    <ListItemText primary="Title:" className={classes.title}/>
+                    <ListItemText primary={title} className={classes.value}/>
                 </ListItem>
-                <Divider />
-                <ListItem >
-                    <ListItemText primary='Series:'/>
-                    <ListItemText primary={series}/>
+                <ListItem 
+                    divider
+                    dense
+                    >
+                    <ListItemText primary='Series:' className={classes.title}/>
+                    <ListItemText primary={series} className={classes.value}/>
                 </ListItem>
-                <Divider />
-                <ListItem >
-                    <ListItemText primary='Edition:' />
-                    <ListItemText primary={edition} />
+                <ListItem 
+                    dense
+                    divider>
+                    <ListItemText primary='Edition:'  className={classes.title}/>
+                    <ListItemText primary={edition} className={classes.value}/>
                 </ListItem>
-                <Divider />
-                <ListItem >
-                    <ListItemText primary='Author:'  onClick={() => history.push(`/author/${authorId}`)}/>
-                    <ListItemText primary={author} onClick={() => history.push(`/author/${authorId}`)}/>
+                <ListItem 
+                    dense
+                    divider>
+                    <ListItemText primary='Author:'  onClick={() => history.push(`/author/${authorId}`)} className={classes.title}/>
+                    <ListItemText primary={author} onClick={() => history.push(`/author/${authorId}`)} className={classes.value}/>
                 </ListItem>
-                <Divider />
-                <ListItem >
-                    <ListItemText primary="Publisher:" />
-                    <ListItemText primary={publisher} />
+                <ListItem
+                    dense
+                    divider >
+                    <ListItemText primary="Publisher:" className={classes.title}/>
+                    <ListItemText primary={publisher} className={classes.value}/>
                 </ListItem>
-                <Divider />
-                <ListItem >
-                    <ListItemText primary="Translator:"/>
-                    <ListItemText primary={translator}/>
+                <ListItem
+                    dense
+                    divider >
+                    <ListItemText primary="Translator:" className={classes.title}/>
+                    <ListItemText primary={translator} className={classes.value}/>
                 </ListItem>
-                <Divider />
-                <ListItem >
-                    <ListItemText primary="Genre:"/>
-                    <ListItemText primary={genre} />
+                <ListItem 
+                    dense
+                    divider>
+                    <ListItemText primary="Genre:" className={classes.title}/>
+                    <ListItemText primary={genre} className={classes.value} />
                 </ListItem>
-                <Divider />
-                <ListItem >
-                    <ListItemText primary="Year:"/>
-                    <ListItemText primary={year}/>
+                <ListItem
+                    dense
+                    divider >
+                    <ListItemText primary="Year:" className={classes.title}/>
+                    <ListItemText primary={year} className={classes.value}/>
                 </ListItem>
-                <Divider />
-                <ListItem >
-                    <ListItemText primary="Ukd:"/>
-                    <ListItemText primary={ukd} />
+                <ListItem 
+                    dense
+                    divider>
+                    <ListItemText primary="Ukd:" className={classes.title}/>
+                    <ListItemText primary={ukd} className={classes.value}/>
                 </ListItem>
-                <Divider />
-                <ListItem >
-                    <ListItemText primary="Isbn:"/>
-                    <ListItemText primary={isbn}/>
+                <ListItem 
+                    dense
+                    divider>
+                    <ListItemText primary="Isbn:" className={classes.title}/>
+                    <ListItemText primary={isbn} className={classes.value}/>
                 </ListItem>
-                <Divider />
-                <ListItem >
+                <ListItem 
+                    dense
+                    divider>
                     <ListItemText primary={isAvailable()}/>
                 </ListItem>
             </List>

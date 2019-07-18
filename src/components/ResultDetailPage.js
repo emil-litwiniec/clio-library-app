@@ -3,6 +3,7 @@ import axios from "axios";
 
 import {history} from "../routers/AppRouter"
 import { connect } from 'react-redux';
+import { Box, Typography, Grid } from "@material-ui/core";
 
 import ResultDetail from "./ResultDetail";
 
@@ -47,12 +48,25 @@ class ResultDetailPage extends React.Component {
     
 
     render() {
+        // const { title, author} = this.state.results.data;
+        // console.log(this.state.results.data)
         return (
-            <div>
-            <h3>Hello, detail result page!</h3>
-                <ResultDetail {...this.state.results.data} handleGoBack={this.handleGoBack}/>
+            <Grid container display="flex">
+                <Grid item xs={12} sm={6}>
+                    <Typography variant="h3">
+                        {this.state.results.data && this.state.results.data.title}
+                    </Typography>
+                    <Typography variant="h6">
+                        {this.state.results.data && this.state.results.data.author}
+                    </Typography>
+
+                </Grid>
+                <Grid item xs={12} sm={6}>
+
+                    <ResultDetail {...this.state.results.data} handleGoBack={this.handleGoBack}/>
+                </Grid>
             
-        </div>
+        </Grid>
         )
     }
 }
