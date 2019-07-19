@@ -168,6 +168,7 @@ const User = {
 
         const borrowsQuery = `SELECT
             A.borrow_id,
+            A.book_id,
             A.taken_date,
             A.exp_brought_date,
             A.prolongs,
@@ -187,6 +188,7 @@ const User = {
 
         const borrowsHistoryQuery = `SELECT
         A.borrow_id,
+        A.book_id,
         A.taken_date,
         A.exp_brought_date,
         A.brought_date,
@@ -206,6 +208,7 @@ const User = {
         AND A.brought_date IS NOT NULL`
 
         const reservationsQuery = `SELECT
+            A.book_id,
             A.res_id,
             A.res_date,
             B.title,
