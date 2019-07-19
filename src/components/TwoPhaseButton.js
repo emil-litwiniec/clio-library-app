@@ -5,7 +5,8 @@ const TwoPhaseButton = ({
     handleSubmit,
     id,
     btnName,
-    confirmMessage = "Are you sure?"
+    confirmMessage = "Are you sure?",
+    className
 }) => {
     const [phase, setPhase] = useState(1);
 
@@ -15,6 +16,7 @@ const TwoPhaseButton = ({
                 <Button
                     onClick={() => setPhase(2)}
                     variant="outlined"
+                    className={className ? className : undefined}
 
                  >{btnName}
                  </Button>}

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 import axios from 'axios';
 
@@ -182,8 +181,8 @@ class UserOverviewPage extends React.Component {
     const userId = this.props.match.params.userId;
     return (
       <div>
-        <h1>User overview page:</h1>
-        <h2>{userId}</h2>
+        {/* <h1>User overview page:</h1>
+        <h2>{userId}</h2> */}
         {this.state.user && <UserInfo user={this.state.user} />}
 
         {this.state.borrows && (
