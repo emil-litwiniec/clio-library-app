@@ -49,10 +49,10 @@ const Results = ({ results } = props) => {
       return <p>{results.message}</p>;
     } else if (results && !results.error) {
       return results.map((result, idx) => {
-        const isAvailable = isBorrowed => {
-          if (isBorrowed) {
+        const isAvailable = (isBorrowed, isReserved) => {
+          if(isBorrowed == 'true' || isReserved == 'true') {
             return 'Not available';
-          } else {
+          } else if(isBorrowed == 'false' && isReserved == 'false'){
             return 'Available';
           }
         };
@@ -102,7 +102,7 @@ const Results = ({ results } = props) => {
                       root: classes.typoElementRight
                     }}
                   >
-                    {isAvailable(result.isBorrowed)}
+                    {isAvailable(result.isborrowed, result.isreserved)}
                   </Typography>
                 </Box>
               </Box>
