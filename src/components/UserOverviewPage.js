@@ -4,6 +4,8 @@ import axios from 'axios';
 
 import { connect } from 'react-redux'
 
+import { Box, Divider, Typography } from "@material-ui/core";
+
 import UserInfo from './UserInfo';
 import UserBorrows from './UserBorrows';
 import UserBorrowsHistory from './UserBorrowsHistory';
@@ -184,6 +186,14 @@ class UserOverviewPage extends React.Component {
         {/* <h1>User overview page:</h1>
         <h2>{userId}</h2> */}
         {this.state.user && <UserInfo user={this.state.user} />}
+        
+        {isAdmin && <Box mt={2}>
+        <Typography variant="overline">
+          Create a borrow:
+        </Typography>
+        <Divider />
+        <SearchBookId handleSubmit={this.handleBorrow} />
+        </Box>}
 
         {this.state.borrows && (
           <UserBorrows
@@ -203,7 +213,6 @@ class UserOverviewPage extends React.Component {
           />
         )}
 
-        {isAdmin && <SearchBookId handleSubmit={this.handleBorrow} />}
       </div>
     );
   }

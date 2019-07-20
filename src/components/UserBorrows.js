@@ -81,7 +81,7 @@ const useStyles = makeStyles(theme => ({
 const UserBorrows = ({ borrows, handleProlong, handleReturn }) => {
   const classes = useStyles();
   return (
-    <Box mt={4}>
+    <Box mt={2}>
       <Typography variant="overline"> User borrows: </Typography>
       <Divider />
       <List>
