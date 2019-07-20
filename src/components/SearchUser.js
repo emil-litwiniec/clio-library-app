@@ -78,7 +78,7 @@ export default function IntegrationAutosuggest() {
   const handleSuggestionsFetchRequested = ({ value }) => {
     getSuggestions(value).then( res =>{ setSuggestions(res); setLastSuggestions(res)})
     
-    setSuggestions(getSuggestions(value));
+    // setSuggestions(getSuggestions(value));
   };
 
   const handleSuggestionsClearRequested = () => {
@@ -109,7 +109,7 @@ export default function IntegrationAutosuggest() {
           });
           const { data } = res;
           suggestions = data;
-          console.log(suggestions)
+          console.log(suggestions);
       } else {
           suggestions = stateSuggestions.filter(user => user.id.slice(0, inputLength) === value)
       }

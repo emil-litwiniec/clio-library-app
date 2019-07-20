@@ -1,18 +1,17 @@
 import React, { useEffect } from "react";
 import axios from "axios";
 
-import TextField from '@material-ui/core/TextField';
-import Paper from '@material-ui/core/Paper';
-import MenuItem from '@material-ui/core/MenuItem';
-import Button from "@material-ui/core/Button"
 import { makeStyles } from '@material-ui/core/styles';
+import { Search as SearchIcon} from "@material-ui/icons";
+import { InputAdornment, IconButton, MenuItem, Paper, TextField} from "@material-ui/core";
 
 import Autosuggest from 'react-autosuggest';
 
 
 const useStyles = makeStyles(theme => ({
   root: {
-    height: 250,
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
     flexGrow: 1,
   },
   container: {
@@ -156,28 +155,28 @@ export default function IntegrationAutosuggest(props) {
   
     return (
       <TextField
-        error={!!error}
-        helperText={(() => {
-          if(error) {
-            return error
-          } else if (message) {
-            return message
-          } else {
-            return ''
-          }
-        })()}
-        fullWidth
-        InputProps={{
-          inputRef: node => {
-            ref(node);
-            inputRef(node);
-          },
-          classes: {
-            input: classes.input,
-          },
-        }}
-        {...other}
-      />
+              variant="outlined"
+              error={!!error}
+              helperText={error}
+              fullWidth
+              InputProps={{
+                  inputRef: node => {
+                      ref(node);
+                      inputRef(node);
+                  },
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton type="submit">
+                        <SearchIcon />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                  classes: {
+                      input: classes.input
+                  }
+              }}
+              {...other}
+          />
     );
   }
   return (
@@ -207,7 +206,6 @@ export default function IntegrationAutosuggest(props) {
               </Paper>
             )}
           />
-        <Button className={classes.submit}variant="outlined" type="submit">Submit</Button>
         </form>
     </div>
   )
