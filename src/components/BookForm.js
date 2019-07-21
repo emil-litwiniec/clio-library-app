@@ -8,7 +8,7 @@ import * as Yup from 'yup';
 import { Box, Button, Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 
-import { MyTextField } from './myMuiComponents';
+import { MyTextField, AreYouSure } from './myMuiComponents';
 
 const required = 'Required field';
 
@@ -54,12 +54,6 @@ const styles = theme => ({
 	button: {
 		width: '88%',
 	}
-	// marginRight: {
-	// 	marginRight: 10
-	// },
-	// marginLeft: {
-	// 	marginLeft: 10
-	// }
 });
 
 class AddBookForm extends React.Component {
@@ -76,7 +70,8 @@ class AddBookForm extends React.Component {
         }
       ],
       genres: [],
-      results: {}
+      results: {},
+      phase: 1
     };
   }
 
@@ -151,7 +146,7 @@ class AddBookForm extends React.Component {
             pubId: this.state.results.pub_id || '',
             series: this.state.results.series || '',
             edition: this.state.results.edition || '',
-            genreId: this.state.results.genre_Id || '',
+            genreId: this.state.results.genre_id || '',
             lang: this.state.results.lang || '',
             // translatorId: this.state.results &&
             //     this.state.results.translatorId
@@ -362,14 +357,22 @@ class AddBookForm extends React.Component {
                   {handleDelete && (
                     <Grid item xs={6} sm={6}>
                       <Box  className={classes.boxSubmit}>
-                        <Button
+                        {this.state.phase === 1 &&
+                          <Button
                           variant="outlined"
                           type="button"
-													onClick={handleDelete}
-													className={classes.button}
+                          onClick={() => this.setState(state => ({
+                            ...state,
+                            phase: 2
+                          }))}
+                          className={classes.button}
                         >
                           Delete
-                        </Button>
+                        </Button>} 
+                        {this.state.phase === 2 &&
+                        <AreYouSure 
+                        that={this}
+                        handleDelete={handleDelete}/>} 
                       </Box>
                     </Grid>
                   )}

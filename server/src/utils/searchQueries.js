@@ -9,6 +9,7 @@ const searchQueries = {
     A.isbn,
     A.keywords,
     A.ukd,
+    A.lang,
     A.pub_year AS year,
     CONCAT(B.first_name, ' ', B.last_name) AS author,
     B.first_name,

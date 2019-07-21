@@ -1,6 +1,10 @@
 import React from 'react';
 import axios from 'axios';
 
+import { history } from "../routers/AppRouter";
+
+import { Typography } from "@material-ui/core";
+
 import BookForm from './BookForm';
 
 class UpdateBookPage extends React.Component {
@@ -9,14 +13,42 @@ class UpdateBookPage extends React.Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+    this.populateResults = this.populateResults.bind(this);
     this.state = {
       done: false,
       results: [],
-      error: []
+      error: '',
+      message: ''
     };
   }
-
+  
   componentDidMount() {
+    this.populateResults();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    prevState.message &&
+      setTimeout(
+        () =>
+          this.setState(state => ({
+            ...state,
+            message: ''
+          })),
+        4000
+      );
+
+    prevState.error &&
+      setTimeout(
+        () =>
+          this.setState(state => ({
+            ...state,
+            error: ''
+          })),
+        4000
+      );
+  }
+
+  populateResults() {
     const {
       match: { params }
     } = this.props;
@@ -38,10 +70,11 @@ class UpdateBookPage extends React.Component {
       .catch(error => {
         this.setState(state => ({
           ...state,
-          error
+          error: "Something went wrong..."
         }));
       });
   }
+
 
   handleSubmit(values) {
     const data = {
@@ -63,12 +96,15 @@ class UpdateBookPage extends React.Component {
       url: 'http://localhost:3000/admin/updateBook',
       data: data
     }).then(res => {
-      console.log(res);
+      this.setState(state => ({
+        ...state,
+        message: "Book successfully updated"
+      }))
+      setTimeout(() => history.push('/'), 3000)
     });
   }
 
   handleDelete() {
-    // TODO: confirm delete
     axios({
       method: 'DELETE',
       url: 'http://localhost:3000/admin/removeBook',
@@ -76,24 +112,27 @@ class UpdateBookPage extends React.Component {
         bookId: this.props.match.params.bookId
       }
     }).then(res => {
-      // TO DO: history?? take us back
+      history.push('/');
     });
-    console.log('book deleted!');
   }
 
   render() {
     return (
       <>
-        <h2>Update book</h2>
+        <Typography variant="overline">Update book:</Typography>
+        
 
         {this.state.done && (
+          this.state.message ? <Typography variant="body2">{this.state.message}</Typography> : 
           <BookForm
-            values={this.state.results}
-						handleSubmit={this.handleSubmit}
-						handleDelete={this.handleDelete}
-          />
+          values={this.state.results}
+          handleSubmit={this.handleSubmit}
+          handleDelete={this.handleDelete}
+        />
+          
         )}
-
+        {this.state.error && <Typography variant="body2">{this.state.message}</Typography>}
+      
       </>
     );
   }
