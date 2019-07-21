@@ -232,8 +232,6 @@ const Books = {
     const getBookQuery =
       searchQueries.selectBook + `\n WHERE A.book_id = '${req.body.bookId}'`;
 
-    // console.log("getBook query : ", getBookQuery)
-
     try {
       const { rows: book } = await db.query(getBookQuery);
 
@@ -270,7 +268,28 @@ const Books = {
     } catch (err) {
       return res.status(400).send(err);
     }
-  }
+  },
+  async searchAllBookId(req, res) {
+
+		// search for all books whether borrowed or not borrowed
+		
+    const { bookId } = req.query;
+
+    const searchQuery = `
+            SELECT
+            A.book_id
+        FROM books AS A
+        WHERE A.book_id::text LIKE '${bookId}%'
+        	`;
+
+    try {
+      const { rows: books } = await db.query(searchQuery);
+
+      return res.status(200).send(books);
+    } catch (err) {
+      return res.status(400).send(err);
+    }
+  },
 };
 
 export default Books;

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import axios from "axios";
 
 import { makeStyles } from '@material-ui/core/styles';
-import { Add } from "@material-ui/icons";
+import { Add, Search } from "@material-ui/icons";
 import { InputAdornment, IconButton, MenuItem, Paper, TextField} from "@material-ui/core";
 
 import Autosuggest from 'react-autosuggest';
@@ -108,10 +108,12 @@ export default function IntegrationAutosuggest(props) {
       const inputValue = value.trim().toLowerCase();
       const inputLength = inputValue.length;
       let suggestions;
+
+      const url = props.searchForUpdate ? "http://localhost:3000/searchAllBookId" : "http://localhost:3000/searchBookId";
       if(shouldFetch) {
         const res = await axios({
            method: "GET",
-           url: "http://localhost:3000/searchBookId",
+           url,
            params: {
                bookId: value
            }
@@ -167,7 +169,9 @@ export default function IntegrationAutosuggest(props) {
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton type="submit">
-                        <Add />
+                        {props.searchForUpdate ? 
+                        <Search /> : 
+                        <Add />}
                       </IconButton>
                     </InputAdornment>
                   ),
@@ -189,7 +193,7 @@ export default function IntegrationAutosuggest(props) {
             inputProps={{
               classes,
               id: 'react-autosuggest-simple',
-              label: 'Add book',
+              label: props.searchForUpdate ? 'Find book to update' : 'Add book',
               placeholder: 'Book id',
               value: state.book,
               onChange: handleChange,

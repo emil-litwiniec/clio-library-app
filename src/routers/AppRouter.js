@@ -14,6 +14,7 @@ import ResultDetailPage from "../components/ResultDetailPage.js";
 import AddBookPage from "../components/AddBookPage";
 import UserOverviewPage from "../components/UserOverviewPage";
 import UpdateBookPage from "../components/UpdateBookPage";
+import FindBookToUpdate from "../components/FindBookToUpdate";
 import ModifyPage from "../components/ModifyPage";
 import SearchUser from "../components/SearchUser";
 import PublicUserOverviewPage from "../components/PublicUserOverviewPage";
@@ -38,6 +39,7 @@ const AppRouter = (props) => {
                 <PublicRoute path="/result/:id" component={ResultDetailPage} />
                 <PublicRoute path="/author/:authorId" component={AuthorDetailPage} />
                 <AdminRoute path="/addBook" component={AddBookPage} />
+                <AdminRoute path="/findBookToUpdate" component={FindBookToUpdate} />
                 <AdminRoute path="/updateBook/:bookId" component={UpdateBookPage} />
                 <PrivateRoute path="/user/:userId" component={UserOverviewPage} />
                 <AdminRoute path="/publicUser/:userId" component={PublicUserOverviewPage} />

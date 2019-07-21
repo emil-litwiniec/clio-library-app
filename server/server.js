@@ -46,6 +46,7 @@ app.delete('/admin/removeBook', Books.remove);
 app.patch('/admin/updateBook', Books.update);
 app.post('/getBook', Books.getBook);
 app.get('/searchBookId', Books.searchBookId);
+app.get('/searchAllBookId', Books.searchAllBookId);
 
 app.put('/admin/addAuthor', Authors.insert);
 app.delete('/admin/removeAuthor', Authors.remove);

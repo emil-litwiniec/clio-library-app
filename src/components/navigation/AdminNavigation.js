@@ -120,7 +120,7 @@ const AdminNavigation = ({ userName, logout }) => {
               className={classes.menuItem}
                 onClick={() =>
                   history.push(
-                    '/updateBook/d30ca801-5a96-4e5a-b73b-2c81c22dd2c8'
+                    '/findBookToUpdate'
                   )
                 }
               >
