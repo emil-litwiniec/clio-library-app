@@ -18,30 +18,29 @@ const searchQueries = {
     D.genre_name AS genre,
     D.genre_id,
     CONCAT(E.first_name, ' ', E.last_name) AS translator,
-    CASE WHEN F.brought_date IS NULL AND F.borrow_id IS NOT NULL THEN
-    	'true'
-    	ELSE
-    	'false'
-    	END  
-    	AS isBorrowed,
+    CASE WHEN EXISTS
+        ( SELECT *
+         FROM borrows
+         WHERE borrows.book_id = A.book_id
+        ) THEN
+        'true'
+        ELSE
+        'false'
+        END
+        AS is_borrowed,
     CASE WHEN G.res_date > timestamp '${moment(new Date()).format()}' THEN
-    	'true'
-   		ELSE 
-   		'false'
-   		END
-   		AS isReserved
-FROM books AS A
-LEFT JOIN authors AS B ON A .author_id = B.author_id
-LEFT JOIN publishers AS C ON A .pub_id = C.pub_id
-LEFT JOIN genres AS D ON A .genre_id = D.genre_id
-LEFT JOIN translators AS E ON A .translator_id = E.translator_id
-LEFT JOIN (
-	SELECT borrow_id, book_id, exp_brought_date, brought_date
-	FROM borrows
-) 	AS F 
-	ON A.book_id = F.book_id
-LEFT JOIN reservations AS G ON A .book_id = G.book_id`,
-
+        'true'
+           ELSE 
+           'false'
+           END
+           AS is_reserved
+    FROM books AS A
+    LEFT JOIN authors AS B ON A .author_id = B.author_id
+    LEFT JOIN publishers AS C ON A .pub_id = C.pub_id
+    LEFT JOIN genres AS D ON A .genre_id = D.genre_id
+    LEFT JOIN translators AS E ON A .translator_id = E.translator_id
+    LEFT JOIN borrows AS F ON A .book_id = F.book_id
+    LEFT JOIN reservations AS G ON A .book_id = G.book_id`,
 
     selectAuthor: `SELECT CONCAT(first_name, ' ', last_name) AS author,
     origin, author_id

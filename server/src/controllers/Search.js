@@ -40,9 +40,12 @@ const Search = {
         const query = searchQueries.select(params.query) + whereClause
             + yearRangeClauseFn() + orderQuery;
 
+            console.log('Search.js query: ', query);
+
 
         try {
             const { rows } = await db.query(query);
+            console.log(rows);
             if(!rows[0]) {
                 return res.status(404).send({"message": "Book not found"})
             }

@@ -11,7 +11,7 @@ import UserBorrows from './UserBorrows';
 import UserBorrowsHistory from './UserBorrowsHistory';
 import UserReservations from './UserReservations';
 
-import SearchBookId from './SearchBookId';
+import SearchBookId from './SearchBookId';``
 
 class UserOverviewPage extends React.Component {
   constructor(props) {
@@ -68,6 +68,7 @@ class UserOverviewPage extends React.Component {
       }
     })
       .then(res => {
+        console.log('res data: ', res.data);
         this.setState(state => ({
           ...state,
           user: res.data.user,

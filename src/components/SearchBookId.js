@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import axios from "axios";
 
 import { makeStyles } from '@material-ui/core/styles';
-import { Search as SearchIcon} from "@material-ui/icons";
+import { Add } from "@material-ui/icons";
 import { InputAdornment, IconButton, MenuItem, Paper, TextField} from "@material-ui/core";
 
 import Autosuggest from 'react-autosuggest';
@@ -167,7 +167,7 @@ export default function IntegrationAutosuggest(props) {
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton type="submit">
-                        <SearchIcon />
+                        <Add />
                       </IconButton>
                     </InputAdornment>
                   ),
@@ -189,7 +189,7 @@ export default function IntegrationAutosuggest(props) {
             inputProps={{
               classes,
               id: 'react-autosuggest-simple',
-              label: 'Find book',
+              label: 'Add book',
               placeholder: 'Book id',
               value: state.book,
               onChange: handleChange,

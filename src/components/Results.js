@@ -102,7 +102,7 @@ const Results = ({ results } = props) => {
                       root: classes.typoElementRight
                     }}
                   >
-                    {isAvailable(result.isborrowed, result.isreserved)}
+                    {isAvailable(result.is_borrowed, result.is_reserved)}
                   </Typography>
                 </Box>
               </Box>

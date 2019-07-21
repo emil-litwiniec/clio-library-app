@@ -183,8 +183,7 @@ const User = {
         LEFT JOIN authors AS C ON
             B.author_id = C.author_id
         WHERE
-            A.user_id::text = '${req.query.userId}'
-            AND A.brought_date IS NULL`;
+            A.user_id::text = '${req.query.userId}'`;
 
         const borrowsHistoryQuery = `SELECT
         A.borrow_id,
@@ -198,14 +197,13 @@ const User = {
         B.pub_year,
         B.isbn
     FROM
-        borrows AS A
+        borrows_history AS A
     LEFT JOIN books AS B ON
         A.book_id = B.book_id
     LEFT JOIN authors AS C ON
         B.author_id = C.author_id
     WHERE
-        A.user_id::text = '${req.query.userId}'
-        AND A.brought_date IS NOT NULL`
+        A.user_id::text = '${req.query.userId}'`
 
         const reservationsQuery = `SELECT
             A.book_id,
