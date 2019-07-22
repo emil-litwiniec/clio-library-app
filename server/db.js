@@ -93,7 +93,6 @@ const Queries = {
             taken_date TIMESTAMP NOT NULL,
             exp_brought_date TIMESTAMP NOT NULL,
             prolongs INTEGER
-
         )`,
         borrowsHistory: `CREATE TABLE IF NOT EXISTS
         borrows_history(
@@ -104,7 +103,6 @@ const Queries = {
             exp_brought_date TIMESTAMP NOT NULL,
             brought_date TIMESTAMP,
             prolongs INTEGER
-
         )`,
         genres: `CREATE TABLE IF NOT EXISTS
         genres(
