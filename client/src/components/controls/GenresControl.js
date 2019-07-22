@@ -92,7 +92,7 @@ class GenresControl extends React.Component {
   updateState() {
     axios({
       method: 'GET',
-      url: `${process.env.API_URL ? process.env.API_URL : ''}/api/admin/getAllGenres`
+      url: `${process.env.API_URL ? process.env.API_URL : ''}/api/getAllGenres`
     })
       .then(res => {
         this.setState(state => ({

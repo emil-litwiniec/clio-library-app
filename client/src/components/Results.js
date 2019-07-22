@@ -1,15 +1,17 @@
 import React from 'react';
 
 import { history } from '../routers/AppRouter';
+import clsx from "clsx";
 
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import Divider from '@material-ui/core/Divider';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
 
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import Divider from "@material-ui/core/Divider";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
+import { Grid, Hidden } from '@material-ui/core';
 
-import makeStyles from "@material-ui/styles/makeStyles";
+import makeStyles from '@material-ui/styles/makeStyles';
 
 import {
   LibraryBooksOutlined as Book,
@@ -31,20 +33,48 @@ const useStyles = makeStyles(theme => ({
   },
   boxWrapper: {
     marginLeft: theme.spacing(2),
-    alignItems: 'baseline'
+    alignItems: 'baseline',
+    [theme.breakpoints.only('xs')]: {
+      marginLeft: 0
+    }
   },
   mainBoxWrapper: {
     alignItems: 'center'
   },
   typoElement: {
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(2),
+    [theme.breakpoints.only('xs')]: {
+      fontSize: ".8rem"
+
+    }
   },
   typoElementRight: {
-    marginLeft: 'auto'
+    marginLeft: 'auto',
+    [theme.breakpoints.only('xs')]: {
+      textAlign: 'right'
+    }
   },
   span: {
     fontSize: '.8rem',
-    marginRight: theme.spacing(1)
+    marginRight: theme.spacing(1),
+    [theme.breakpoints.only('xs')]: {
+      fontSize: '0.7rem',
+      marginRight: 3
+    }
+  },
+  gridItem: {
+    display: ''
+  },
+  title: {
+    [theme.breakpoints.only('xs')]: {
+      fontSize: "1.05rem"
+
+    }
+  },
+  typoIdx: {
+    [theme.breakpoints.only('xs')]: {
+      marginRight: 15
+    }
   }
 }));
 
@@ -57,9 +87,9 @@ const Results = ({ results } = props) => {
     } else if (results && !results.error) {
       return results.map((result, idx) => {
         const isAvailable = (isBorrowed, isReserved) => {
-          if(isBorrowed == 'true' || isReserved == 'true') {
+          if (isBorrowed == 'true' || isReserved == 'true') {
             return 'Not available';
-          } else if(isBorrowed == 'false' && isReserved == 'false'){
+          } else if (isBorrowed == 'false' && isReserved == 'false') {
             return 'Available';
           }
         };
@@ -79,38 +109,49 @@ const Results = ({ results } = props) => {
                 flexGrow={1}
                 className={classes.mainBoxWrapper}
               >
-                <Book />
+                <Hidden only="xs">
+                  <Book />
+                </Hidden>
                 <Box display="flex" className={classes.boxWrapper} flexGrow={1}>
                   <Typography
                     variant="subtitle2"
-                    className={classes.typoElement}
+                    className={clsx(classes.typoIdx, classes.typoElement)}
                   >
                     {idx + 1}.
                   </Typography>
-                  <Typography variant="h6" className={classes.typoElement}>
-                    {result.title}
-                  </Typography>
-                  <Typography
-                    variant="subtitle1"
-                    className={classes.typoElement}
-                  >
-                    <span className={classes.span}>by</span> {result.author}
-                  </Typography>
-                  <Typography
-                    variant="subtitle1"
-                    className={classes.typoElement}
-                  >
-                    <span className={classes.span}>year: </span> {result.year}
-                  </Typography>
-                  <Typography
-                    variant="subtitle1"
-                    className={classes.typoElement}
-                    classes={{
-                      root: classes.typoElementRight
-                    }}
-                  >
-                    {isAvailable(result.is_borrowed, result.is_reserved)}
-                  </Typography>
+                  <Grid container>
+                    <Grid item xs={12} sm={6} className={classes.gridItem}>
+                      <Typography variant="h6" className={clsx(classes.typoElement, classes.title)}>
+                        {result.title}
+                      </Typography>
+                      <Typography
+                        variant="subtitle1"
+                        className={classes.typoElement}
+                      >
+                        <span className={classes.span}>by</span> {result.author}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12} sm={3}>
+                      <Typography
+                        variant="subtitle1"
+                        className={classes.typoElement}
+                      >
+                        <span className={classes.span}>year: </span>{' '}
+                        {result.year}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12} sm={3}>
+                      <Typography
+                        variant="subtitle1"
+                        className={classes.typoElement}
+                        classes={{
+                          root: classes.typoElementRight
+                        }}
+                      >
+                        {isAvailable(result.is_borrowed, result.is_reserved)}
+                      </Typography>
+                    </Grid>
+                  </Grid>
                 </Box>
               </Box>
             </ListItem>
