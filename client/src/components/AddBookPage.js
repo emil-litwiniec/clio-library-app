@@ -14,7 +14,7 @@ const AddBookPage = () => {
     const handleSubmit = (values) => {
         axios({
             method: "PUT",
-            url: "/api/admin/addBook",
+            url: `${process.env.API_URL ? process.env.API_URL : ''}/api/admin/addBook`,
             data: {
                 ...(values.title && {title: values.title}),
                 ...(values.authorFirst && {authorFirst: values.authorFirst}),

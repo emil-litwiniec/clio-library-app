@@ -13,7 +13,7 @@ export const AUTHENTICATION_ERROR = 'authentication_error';
 export function login({email, password}, history) {
     return async (dispatch) => {
         try {
-            const res = await axios.post('/api/login', {email, password});
+            const res = await axios.post( `${process.env.API_URL ? process.env.API_URL : ''}/api/login`, {email, password});
             history.push('/')
             
             Cookie.set('x-access-token', res.data.token);
@@ -65,7 +65,7 @@ export function decodeToken() {
     return async (dispatch) => {
         try {
             const token = Cookie.get('x-access-token')
-            const res = await axios.post('/api/decodeToken', {'x-access-token': token});
+            const res = await axios.post(`${process.env.API_URL ? process.env.API_URL : ''}/api/decodeToken`, {'x-access-token': token});
 
             res.data.userId &&
                 res.data.admin === true &&

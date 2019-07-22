@@ -66,7 +66,7 @@ class UserOverviewPage extends React.Component {
   updateData() {
     axios({
       method: 'GET',
-      url: '/api/user/getData',
+      url: `${process.env.API_URL ? process.env.API_URL : ''}/api/user/getData`,
       params: {
         userId: this.props.match.params.userId
       }
@@ -89,7 +89,7 @@ class UserOverviewPage extends React.Component {
   handleReturn(value) {
     axios({
       method: 'PATCH',
-      url: '/api/admin/returnBook',
+      url: `${process.env.API_URL ? process.env.API_URL : ''}/api/admin/returnBook`,
       data: {
         borrowId: value
       }
@@ -112,7 +112,7 @@ class UserOverviewPage extends React.Component {
   handleProlong(value) {
     axios({
       method: 'PATCH',
-      url: '/api/user/prolong',
+      url: `${process.env.API_URL ? process.env.API_URL : ''}/api/user/prolong`,
       data: {
         borrowId: value
       }
@@ -136,7 +136,7 @@ class UserOverviewPage extends React.Component {
   handleRemoveReservation(value) {
     axios({
       method: 'DELETE',
-      url: '/api/user/removeReservation',
+      url: `${process.env.API_URL ? process.env.API_URL : ''}/api/user/removeReservation`,
       data: {
         resId: value
       }
@@ -161,7 +161,7 @@ class UserOverviewPage extends React.Component {
   handleBorrow(value) {
     axios({
       method: 'PUT',
-      url: '/api/admin/addBorrow',
+      url: `${process.env.API_URL ? process.env.API_URL : ''}/api/admin/addBorrow`,
       data: {
         userId: this.props.match.params.userId,
         bookId: value
@@ -188,8 +188,6 @@ class UserOverviewPage extends React.Component {
     const userId = this.props.match.params.userId;
     return (
       <div>
-        {/* <h1>User overview page:</h1>
-        <h2>{userId}</h2> */}
         {this.state.user && <UserInfo user={this.state.user} />}
         
         {isAdmin && <Box mt={2}>

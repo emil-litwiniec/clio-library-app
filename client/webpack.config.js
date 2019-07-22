@@ -1,37 +1,42 @@
-// entry -> output
+
 const path = require('path');
 const webpack = require('webpack');
-// const ExtractTextPlugin = require("extract-text-webpack-plugin");
-// const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
+const dotenv = require('dotenv');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 if (process.env.NODE_ENV === 'test') {
-  require('dotenv').config({ path: '.env.test' });
+  dotenv.config({ path: '.env.test' });
 } else if (process.env.NODE_ENV === 'development') {
-  require('dotenv').config({ path: '.env.development' });
+  dotenv.config({ path: '.env.development' });
 }
 
+
 module.exports = env => {
+
   const isProduction = env === 'production';
+  
+
+  let envvar;
+  if(!isProduction) {
+    envvar = Object.keys(dotenv.config().parsed).reduce((prev, next) => {
+      prev[`process.env.${next}`] = JSON.stringify(env[next]);
+      return prev;
+    }, {});
+  } else {
+    envvar = dotenv.config().parsed;
+  }
+  
   return {
-		mode: isProduction ? 'production' : '',
+		mode: isProduction ? 'production' : 'development',
     entry: ['babel-polyfill', './src/app.js'],
     output: {
       path: path.join(__dirname, 'public', 'dist'),
       filename: 'bundle.js'
     },
 
-    plugins: [
-      // new MiniCssExtractPlugin({
-      //     filename: !isProduction
-      //         ? "[name].css"
-      //         : "[name].[hash].css",
-      //     chunkFilename: !isProduction
-      //         ? "[id].css"
-      //         : "[id].[hash].css"
-      // }),
+    plugins: isProduction ? [
       new CompressionPlugin({
         filename: '[path].gz[query]',
         algorithm: 'gzip',
@@ -40,6 +45,9 @@ module.exports = env => {
         minRatio: 0.8
       }),
       new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/)
+    ] : [
+      new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
+      new webpack.DefinePlugin(envvar)
     ],
     module: {
       rules: [
@@ -55,40 +63,6 @@ module.exports = env => {
             }
           ]
         }
-        // {
-        //     test: /\.s?css$/,
-        //     use: [
-        //         { loader: MiniCssExtractPlugin.loader },
-        //         {
-        //             loader: "css-loader",
-        //             options: {
-        //                 sourceMap: true
-        //             }
-        //         },
-        //         {
-        //             loader: "sass-loader",
-        //             options: {
-        //                 sourceMap: true
-        //             }
-        //         }
-        //     ]
-        //     // use: CSSExtract.extract({
-        //     //     use: [
-        //     //         {
-        //     //             loader: "css-loader",
-        //     //             options: {
-        //     //                 sourceMap: true
-        //     //             }
-        //     //         },
-        //     //         {
-        //     //             loader: "sass-loader",
-        //     //             options: {
-        //     //                 sourceMap: true
-        //     //             }
-        //     //         }
-        //     //     ]
-        //     // })
-        // }
       ]
     },
     devtool: isProduction ? '' : 'inline-source-map',
@@ -98,19 +72,7 @@ module.exports = env => {
       publicPath: '/dist/'
 		},
 		optimization: {
-			concatenateModules: true,
+			concatenateModules: isProduction ? true : false,
 		},
-	
-    // optimization: {
-    //   splitChunks: {
-    //     cacheGroups: {
-    //       commons: {
-    //         test: /[\\/]node_modules[\\/]/,
-    //         name: 'vendors',
-    //         chunks: 'all'
-    //       }
-    //     }
-    //   }
-    // }
   }
 }

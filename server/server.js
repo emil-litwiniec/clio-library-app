@@ -32,11 +32,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false}));
 
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "..",'/client/public')));
 
-
-
-
+if(process.env.PORT) {
+  
+  app.use(express.static(path.join(__dirname, "..",'/client/public')));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/public/index.html'));
+  });
+}
 
 app.get('/api/search', Search.search);
 app.put('/api/createUser', User.create);
@@ -99,14 +102,7 @@ cron.schedule('0 */6 * * *', () => {
     Reservations.removeOutdated();
 })
 
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/public/index.html'));
-  });
-
-  
 
 app.listen(PORT);
-
-
 
 console.log('server is running on port', PORT);

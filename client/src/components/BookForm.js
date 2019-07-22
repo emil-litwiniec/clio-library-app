@@ -85,11 +85,11 @@ class AddBookForm extends React.Component {
       Promise.all([
         axios({
           method: 'GET',
-          url: '/api/getAllPubs'
+          url: `${process.env.API_URL ? process.env.API_URL : ''}/api/getAllPubs`
         }),
         axios({
           method: 'GET',
-          url: '/api/getAllGenres'
+          url:  `${process.env.API_URL ? process.env.API_URL : ''}/api/admin/getAllGenres`
         })
       ]).then(([pubRes, genreRes]) => {
         this.setState(state => ({
@@ -118,11 +118,11 @@ class AddBookForm extends React.Component {
       Promise.all([
         axios({
           method: 'GET',
-          url: '/api/getAllPubs'
+          url: `${process.env.API_URL ? process.env.API_URL : ''}/api/getAllPubs`
         }),
         axios({
           method: 'GET',
-          url: '/api/getAllGenres'
+          url: `${process.env.API_URL ? process.env.API_URL : ''}/api/getAllGenres`
         })
       ]).then(([pubRes, genreRes]) => {
         this.setState(state => ({

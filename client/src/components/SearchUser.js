@@ -107,7 +107,7 @@ export default function IntegrationAutosuggest() {
       if(shouldFetch) {
            const res = await axios({
               method: "GET",
-              url: "/api/searchUsers",
+              url: `${process.env.API_URL ? process.env.API_URL : ''}/api/searchUsers`,
               params: {
                   userId: value
               }

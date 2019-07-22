@@ -76,7 +76,7 @@ const CreateUser = () => {
   const handleSubmit = values => {
     axios({
       method: 'PUT',
-      url: '/api/createUser',
+      url: `${process.env.API_URL ? process.env.API_URL : ''}/api/createUser`,
       data: {
         ...(values.firstName && { firstName: values.firstName }),
         ...(values.lastName && { lastName: values.lastName }),

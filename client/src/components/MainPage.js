@@ -15,7 +15,7 @@ class MainPage extends Component {
   componentDidMount() {
     axios({
       method: 'GET',
-      url: '/api/getAllGenres'
+      url: `${process.env.API_URL ? process.env.API_URL : ''}/api/getAllGenres`
     })
       .then(res => {
         this.setState(state => ({
@@ -46,7 +46,7 @@ class MainPage extends Component {
       axios(
         {
           method: 'get',
-          url: '/api/search',
+          url: `${process.env.API_URL ? process.env.API_URL : ''}/api/search`,
           params: {
             query: searchIn,
             col: searchByParam,
@@ -98,7 +98,7 @@ class MainPage extends Component {
       : values.titlesOrderBy;
     axios({
       method: 'get',
-      url: '/api/search',
+      url: `${process.env.API_URL ? process.env.API_URL : ''}/api/search`,
       params: {
         query: values.searchIn,
         col: searchByParam,

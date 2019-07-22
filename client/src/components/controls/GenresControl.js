@@ -92,7 +92,7 @@ class GenresControl extends React.Component {
   updateState() {
     axios({
       method: 'GET',
-      url: '/api/getAllGenres'
+      url: `${process.env.API_URL ? process.env.API_URL : ''}/api/admin/getAllGenres`
     })
       .then(res => {
         this.setState(state => ({
@@ -111,7 +111,7 @@ class GenresControl extends React.Component {
   handleUpdate(values) {
     axios({
       method: 'PATCH',
-      url: '/api/admin/updateGenre',
+      url: `${process.env.API_URL ? process.env.API_URL : ''}/api/admin/updateGenre`,
       data: {
         genreId: values.genreId,
         genreNewName: values.genreName
@@ -138,7 +138,7 @@ class GenresControl extends React.Component {
   handleCreate(values) {
     axios({
       method: 'PUT',
-      url: '/api/admin/addGenre',
+      url: `${process.env.API_URL ? process.env.API_URL : ''}/api/admin/addGenre`,
       data: {
         genreName: values.genreName
       }
@@ -164,7 +164,7 @@ class GenresControl extends React.Component {
   handleDelete(value) {
     axios({
       method: 'DELETE',
-      url: '/api/admin/removeGenre',
+      url: `${process.env.API_URL ? process.env.API_URL : ''}/api/admin/removeGenre`,
       data: {
         genreId: value
       }

@@ -6,7 +6,7 @@
   "scripts": {
     "build:dev": "webpack",
     "build:prod": "webpack -p --env production",
-    "dev-server": "webpack-dev-server"
+    "dev-server": "webpack-dev-server --env.API_URL=http://localhost:5000"
   },
   "author": "Emil Litwiniec",
   "license": "ISC",

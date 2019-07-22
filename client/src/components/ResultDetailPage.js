@@ -29,7 +29,7 @@ class ResultDetailPage extends React.Component {
 
             axios({
                 method:"post",
-                url: '/api/getBook/',
+                url: `${process.env.API_URL ? process.env.API_URL : ''}/api/getBook`,
                 data: {
                     bookId: match.params.id
                 }

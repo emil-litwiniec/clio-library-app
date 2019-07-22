@@ -56,7 +56,7 @@ class UpdateBookPage extends React.Component {
 
     axios({
       method: 'POST',
-      url: '/api/getBook',
+      url:  `${process.env.API_URL ? process.env.API_URL : ''}/api/getBook`,
       data: {
         bookId: params.bookId
       }
@@ -94,7 +94,7 @@ class UpdateBookPage extends React.Component {
 
     axios({
       method: 'PATCH',
-      url: '/api/admin/updateBook',
+      url: `${process.env.API_URL ? process.env.API_URL : ''}/api/admin/updateBook`,
       data: data
     }).then(res => {
       this.setState(state => ({
@@ -108,7 +108,7 @@ class UpdateBookPage extends React.Component {
   handleDelete() {
     axios({
       method: 'DELETE',
-      url: '/api/admin/removeBook',
+      url:`${process.env.API_URL ? process.env.API_URL : ''}/api/admin/removeBook`,
       data: {
         bookId: this.props.match.params.bookId
       }

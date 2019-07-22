@@ -24,7 +24,7 @@ class AuthorDetailPage extends React.Component {
 
             axios({
                 method:"post",
-                url: '/api/getAuthorAndBooks/',
+                url: `${process.env.API_URL ? process.env.API_URL : ''}/api/getAuthorAndBooks`,
                 data: {
                     authorId: match.params.authorId
                 }

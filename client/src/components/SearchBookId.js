@@ -114,7 +114,8 @@ export default function IntegrationAutosuggest(props) {
       const inputLength = inputValue.length;
       let suggestions;
 
-      const url = props.searchForUpdate ? "/api/searchAllBookId" : "/api/searchBookId";
+      const url = props.searchForUpdate ? `${process.env.API_URL ? process.env.API_URL : ''}/api/searchAllBookId` :
+      `${process.env.API_URL ? process.env.API_URL : ''}/api/searchBookId`;
       if(shouldFetch) {
         const res = await axios({
            method: "GET",
