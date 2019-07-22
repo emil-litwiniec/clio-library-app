@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "babel server --out-dir build",
     "start-dev": "babel-watch server/server.js",
-    "start": "npm run build && node build/server.js"
+    "start": "npm install && npm run build && node build/server.js",
+    "heroku-postbuild": "cd client && npm install && npm run build:prod"
   },
   "author": "Emil Litwiniec",
   "license": "ISC",
