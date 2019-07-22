@@ -6,14 +6,11 @@
   "scripts": {
     "build:dev": "webpack",
     "build:prod": "webpack -p --env production",
-    "dev-server": "webpack-dev-server",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "babel server.js --out-dir build",
-    "start": "babel-watch server/server.js"
+    "dev-server": "webpack-dev-server"
   },
   "author": "Emil Litwiniec",
   "license": "ISC",
-  "devDependencies": {
+  "dependencies": {
     "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.5",
     "@babel/plugin-proposal-class-properties": "^7.3.4",
@@ -27,9 +24,7 @@
     "mini-css-extract-plugin": "^0.7.0",
     "sass-loader": "^7.1.0",
     "style-loader": "0.18.2",
-    "webpack-dev-server": "^3.7.2"
-  },
-  "dependencies": {
+    "webpack-dev-server": "^3.7.2",
     "@babel/polyfill": "^7.4.4",
     "@material-ui/core": "^4.2.0",
     "@material-ui/icons": "^4.2.1",
