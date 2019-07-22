@@ -2,13 +2,13 @@
   "name": "clio-library-app-server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "build/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm install && babel server --out-dir build",
     "start-dev": "babel-watch server/server.js",
     "start": "node build/server.js",
-    "heroku-postbuild": "cd client && npm install && npm run build:prod"
+    "heroku-postbuild": "npm install && babel server --out-dir build && cd client && npm install && npm run build:prod"
   },
   "author": "Emil Litwiniec",
   "license": "ISC",
