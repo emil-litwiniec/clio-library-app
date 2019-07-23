@@ -12,15 +12,15 @@ module.exports = env => {
   const isProduction = env === 'production';
   
 
-  let envvar;
-  if(!isProduction) {
-    envvar = Object.keys(dotenv.config().parsed).reduce((prev, next) => {
-      prev[`process.env.${next}`] = JSON.stringify(env[next]);
-      return prev;
-    }, {});
-  } else {
-    envvar = dotenv.config().parsed;
-  }
+  // let envvar;
+  // if(!isProduction) {
+  //   envvar = Object.keys(dotenv.config().parsed).reduce((prev, next) => {
+  //     prev[`process.env.${next}`] = JSON.stringify(env[next]);
+  //     return prev;
+  //   }, {});
+  // } else {
+  //   envvar = dotenv.config().parsed;
+  // }
   
   return {
 		mode: isProduction ? 'production' : 'development',
@@ -41,7 +41,7 @@ module.exports = env => {
       new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/)
     ] : [
       new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
-      new webpack.DefinePlugin(envvar)
+      // new webpack.DefinePlugin(envvar)
     ],
     module: {
       rules: [
