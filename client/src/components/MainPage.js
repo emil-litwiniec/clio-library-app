@@ -50,8 +50,7 @@ class MainPage extends Component {
           url: `${process.env.API_URL ? process.env.API_URL : ''}/api/search`,
           params: {
             query: searchIn,
-            col: searchByParam,
-            value: value,
+            [searchByParam]: value,
             yearStart: yearStart,
             yearEnd: yearEnd,
             order: order,
@@ -86,26 +85,20 @@ class MainPage extends Component {
   }
 
   handleSubmit(values) {
-    const genreCol =
-      values.genre === 'all' || values.searchIn === 'a'
-        ? ''
-        : values.genre;
-          // console.log(genreCol)
     const isSearchInAuthors = values.searchIn === 'a' ? true : false;
     const searchByParam = isSearchInAuthors ? 'author' : values.searchBy;
     const order = isSearchInAuthors
       ? values.authorsOrderBy
       : values.titlesOrderBy;
-      console.log(values)
     axios({
       method: 'get',
       url: `${process.env.API_URL ? process.env.API_URL : ''}/api/search`,
       params: {
         query: values.searchIn,
-        col: searchByParam,
-        value: values.value,
+        [searchByParam]: values.value,
         yearStart: values.yearStart,
         yearEnd: values.yearEnd,
+        order,
         genreId: values.genre
       }
     })

@@ -60,97 +60,21 @@ FROM authors`,
 };
 
 const queryFormat = {
-    whereClause(col, vals, query) {
-
-        const colSwitch = (col, query) => {
-            switch(col) {
-                case 'title':
-                    return 'A.title';
-                case 'author': 
-                if(query == 'b') {
-                    return ['B.first_name', 'B.last_name']
-                } else if (query == 'a') {
-                    return ['first_name', 'last_name']
-                }
-                    break;
-                case 'genre':
-                    return `D.genre_id`;
-                case 'publisher':
-                    return `C.name`;
-                case 'translator':
-                    return `CONCAT(E.first_name, ' ', E.last_name)`;
-            }
-        }
-
-        if(typeof col === 'string' && typeof vals === 'string') {
-            col = [col];
-            vals = [vals]
-        }
-        if(col.length == 1 && vals.length == 1) {
-            let newCol = colSwitch(col[0], query);
-            if(col[0] === 'author') {
-                return `\n WHERE ${newCol[0]} ~* '(\\m${vals[0]}\)'
-                 OR ${newCol[1]} ~* '(\\m${vals[0]}\)'`
-            } else if(col[0] === 'genre') {
-                return `\n WHERE D.genre_id = ${vals[0]}`
-            }
-
-            return `\n WHERE ${newCol} ~* '(\\m${vals[0]}\)'`
-
-        } else if(col.length > 1 && vals.length > 1 ) {
-
-            let newQuery = `\n WHERE ${col[0]} ~* '(\\m${vals[0]}\)'`;
-            if(col[0] === 'author') {
-                newQuery = `\n WHERE ${colSwitch(col[0], query)[0]} ~* '(\\m${vals[0]}\)' 
-                OR ${colSwitch(col[0],query)[1]} ~* '(\\m${vals[0]}\)'`
-            } else if(col[0] === 'genre') {
-                newQuery = `\n WHERE D.genre_id = ${vals[0]}`
-            }
-            for(let i = 1; i < col.length; i++) {
-                let newCol = col[i];
-                let nextQuery = `\n AND ${newCol} ~* '(\\m${vals[i]}\)'`
-                if(col[i] === 'author') {
-                    nextQuery = `\n AND ${newCol[0]} ~* '(\\m${vals[0]}\)'
-                     OR ${newCol[1]} ~* '(\\m${vals[0]}\)'`
-                } else if(col[i] === 'genre') {
-                    nextQuery = `\n AND D.genre_id = ${vals[0]}`
-                }
-
-               
-                newQuery = newQuery + nextQuery;
-            };
-            return newQuery;
-        }
-    },
-    yearRange(obj, hasCols) {
-
-
+    yearRange(obj) {
         let keys = Object.keys(obj);
        if(keys.length === 0) {
            return '';
        }
-    //    console.log(keys.length);
         if(keys.length === 1) {
-            // console.log(keys[0]);
             if(keys[0] === 'yearStart') {
-                if(hasCols) {
                     return `\n AND A.pub_year >= ${obj.yearStart} AND A.pub_year <= 3000`
-                }
-                return `\n WHERE A.pub_year >= ${obj.yearStart} AND A.pub_year <= 3000`;
-
             } else if (keys[0] === 'yearEnd') {
-                if(hasCols) {
                     return `\n AND A.pub_year >= 0 AND A.pub_year <= ${obj.yearEnd}`
-                }
-                return `\n WHERE A.pub_year >= 0 AND A.pub_year <= ${obj.yearEnd}`;
             }
         }
-
-        if(hasCols) {
             return `\n AND A.pub_year >= ${obj.yearStart} AND A.pub_year <= ${obj.yearEnd}`
-        }
+        
 
-        return `\n WHERE A.pub_year >= ${obj.yearStart} AND A.pub_year <= ${obj.yearEnd}`
     },
     orderBy(orderParam) {
         switch (orderParam) {
@@ -164,7 +88,6 @@ const queryFormat = {
                 return '\n ORDER BY author DESC';
             default:
                 return '';
-                break;
         }
     }
 }
