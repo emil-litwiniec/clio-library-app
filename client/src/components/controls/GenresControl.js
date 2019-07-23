@@ -24,11 +24,14 @@ const styles = theme => ({
   toTheRight: {
 		display: 'flex',
     justifyContent: 'flex-end',
-    alignItems: 'center'
+    alignItems: 'center',
+    [theme.breakpoints.only('xs')]: {
+      justifyContent: 'center'
+    }
 	},
 	toTheLeft: {
 		display: 'flex',
-		justifyContent: 'flex-start'
+		justifyContent: 'center'
 	},
 	boxWrapper: {
 		marginTop: 40,
@@ -40,7 +43,7 @@ const styles = theme => ({
 	},
 	form: {
 		width: '100%'
-	}
+  }
 });
 
 class GenresControl extends React.Component {
@@ -264,6 +267,7 @@ class GenresControl extends React.Component {
                             this.state.genres
                           )}
                           formikProps={props}
+                          fullWidth={true}
                         />
                       </Grid>
                       <Grid item xs={12} sm={6} className={classes.toTheRight}>
@@ -285,7 +289,8 @@ class GenresControl extends React.Component {
                           id="genreName"
                           label="Genre name"
 													props={props}
-													margin="dense"
+                          margin="dense"
+                          cls={classes.form}
                         />
                       </Grid>
                       <Grid item xs={12} sm={6} className={classes.toTheRight}>
@@ -313,7 +318,8 @@ class GenresControl extends React.Component {
                           id="genreName"
                           label="Genre name"
 													props={props}
-													margin="dense"
+                          margin="dense"
+                          cls={classes.form}
                         />
                       </Grid>
                       <Grid item xs={12} sm={6} className={classes.toTheRight} >

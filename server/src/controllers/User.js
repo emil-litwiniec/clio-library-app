@@ -123,9 +123,6 @@ const User = {
                 const { rows: isAdmin } = await db.query(text);
 
                 const isAdminBoolean = isAdmin[0] ? true : false;
-                console.log("USER ROWS:", rows[0].first_name, rows[0].last_name)
-
-
 
                 const token = Helper.generateToken(rows[0].id, isAdminBoolean, rows[0].first_name, rows[0].last_name);
                 

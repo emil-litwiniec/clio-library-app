@@ -199,7 +199,7 @@ export default function IntegrationAutosuggest(props) {
             inputProps={{
               classes,
               id: 'react-autosuggest-simple',
-              label: props.searchForUpdate ? 'Find book to update' : 'Add book',
+              label: props.searchForUpdate ? 'Find book to modify' : 'Add book',
               placeholder: 'Book id',
               value: state.book,
               onChange: handleChange,

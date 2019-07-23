@@ -4,6 +4,7 @@ import axios from 'axios';
 import Search from '../components/Search';
 import Results from '../components/Results';
 import { connect } from 'react-redux';
+import Typography from "@material-ui/core/Typography";
 
 class MainPage extends Component {
   constructor(props) {
@@ -128,6 +129,9 @@ class MainPage extends Component {
   render() {
     return (
       <>
+      <Typography variant="overline">
+        Search in catalogue:
+      </Typography>
         <Search
           handleSubmit={this.handleSubmit}
           genreSelectOptions={this.state.genres}

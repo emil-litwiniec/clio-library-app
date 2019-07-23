@@ -32,11 +32,14 @@ const styles = theme => ({
   toTheRight: {
 		display: 'flex',
 		justifyContent: 'flex-end',
-		alignItems: 'center'
+    alignItems: 'center',
+    [theme.breakpoints.only('xs')]: {
+      justifyContent: 'center'
+    }
 	},
 	toTheLeft: {
 		display: 'flex',
-		justifyContent: 'flex-start',
+		justifyContent: 'center',
 	},
 	boxWrapper: {
 		marginTop: 40,
@@ -272,6 +275,7 @@ class AuthorControl extends React.Component {
                             this.state.authors
                           )}
                           formikProps={props}
+                          fullWidth={true}
                         />
                       </Grid>
                       <Grid item xs={12} sm={4} className={classes.toTheRight}>
@@ -301,12 +305,14 @@ class AuthorControl extends React.Component {
                           label="First name"
 													props={props}
 													margin="dense"
+                          cls={classes.form}
                         />
                         <MyTextField
                           id="lastName"
                           label="Last name"
 													props={props}
 													margin="dense"
+                          cls={classes.form}
                         />
                         </Grid>
                         <Grid item xs={12}>
@@ -315,6 +321,7 @@ class AuthorControl extends React.Component {
 													label="Origin" 
 													props={props} 
 													margin="dense"
+                          cls={classes.form}
 												/>
                       </Grid>
                       </Grid>
@@ -353,12 +360,14 @@ class AuthorControl extends React.Component {
                           label="First name"
 													props={props}
 													margin="dense"
+                          cls={classes.form}
                         />
                         <MyTextField
                           id="lastName"
                           label="Last name"
 													props={props}
 													margin="dense"
+                          cls={classes.form}
                         />
                         </Grid>
                         <Grid item xs={12}>
@@ -367,6 +376,7 @@ class AuthorControl extends React.Component {
 													label="Origin" 
 													props={props} 
 													margin="dense"
+                          cls={classes.form}
 												/>
                       </Grid>
                       </Grid>

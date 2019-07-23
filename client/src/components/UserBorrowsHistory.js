@@ -57,14 +57,18 @@ const useStyles = makeStyles(theme => ({
   },
   typoElementTitle: {
     marginRight: theme.spacing(2),
-    fontSize: '1rem'
+    fontSize: '1rem',
+    [theme.breakpoints.only('xs')]: {
+      fontSize: ".85rem"
+    }
   },
   typoElementRight: {
     marginLeft: 'auto'
   },
   span: {
     fontSize: '.8rem',
-    marginRight: theme.spacing(1)
+    marginRight: theme.spacing(1),
+    height: 'min-content'
   },
   buttonWrapper: {
     display: 'flex',
@@ -91,6 +95,22 @@ const useStyles = makeStyles(theme => ({
     margin: '3.2rem auto 3.2rem auto',
     textAlign: "center",
     color: "#7c7c7c"
+  },
+  broughtDateSummary: {
+    marginLeft: "auto",
+    display: 'flex',
+    [theme.breakpoints.up('sm')]: {
+      marginRight: 65,
+      marginLeft: 'auto',
+      alignItems: "center"
+    }
+  },
+  textSummaryBox: {
+    display: 'flex',
+    width: "100%",
+    [theme.breakpoints.only('xs')]: {
+      flexDirection: "column"
+    }
   }
 }));
 
@@ -128,32 +148,35 @@ const UserBorrows = ({ borrowsHistory }) => {
                 >
                   {idx + 1}.
                 </Typography>
+                <Box className={classes.textSummaryBox}>
+                  <Box>
+                    <Link
+                      component={RouterLink}
+                      to={`/result/${borrow.book_id}`}
+                      variant="h6"
+                      className={classes.typoElementTitle}
+                    >
+                      {borrow.title}
+                    </Link>
+                    <Typography variant="body1" className={classes.typoElement}>
+                      <span className={classes.span}>by</span>
+                      {borrow.author}
+                    </Typography>
+                  </Box>
+                  <Box className={classes.broughtDateSummary}>
+                    <Typography className={classes.span}>
+                      Brought date:
+                    </Typography>
+                    <Typography variant="body1" className={classes.typoElement}>
+                      {formatDate(borrow.brought_date)}
+                    </Typography>
+                  </Box>
 
-                <Box>
-                  <Link
-                    component={RouterLink}
-                    to={`/result/${borrow.book_id}`}
-                    variant="h6"
-                    className={classes.typoElementTitle}
-                  >
-                    {borrow.title}
-                  </Link>
-                  <Typography variant="body1" className={classes.typoElement}>
-                    <span className={classes.span}>by</span>
-                    {borrow.author}
-                  </Typography>
                 </Box>
-                <Box>
-                  <Typography className={classes.span}>
-                    Brought date:
-                  </Typography>
-                  <Typography variant="body1" className={classes.typoElement}>
-                    {formatDate(borrow.brought_date)}
-                  </Typography>
-                </Box>
+
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
-                <Box key={idx}>
+                <Box key={idx} width={1}>
                   <ListItem
                     classes={{
                       root: classes.listItemRoot

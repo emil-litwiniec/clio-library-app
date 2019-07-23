@@ -3,9 +3,9 @@ import { Formik } from 'formik';
 import axios from 'axios';
 import * as Yup from 'yup';
 
-import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
-import withStyles from "@material-ui/styles/withStyles";
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import withStyles from '@material-ui/styles/withStyles';
 
 import {
   MyTextField,
@@ -34,11 +34,14 @@ const styles = theme => ({
   toTheRight: {
     display: 'flex',
     justifyContent: 'flex-end',
-    alignItems: 'center'
+    alignItems: 'center',
+    [theme.breakpoints.only('xs')]: {
+      justifyContent: 'center'
+    }
   },
   toTheLeft: {
     display: 'flex',
-    justifyContent: 'flex-start'
+    justifyContent: 'center'
   },
   boxWrapper: {
     marginTop: 40,
@@ -124,7 +127,9 @@ class PublishersControl extends React.Component {
   handleUpdate(values) {
     axios({
       method: 'PATCH',
-      url: `${process.env.API_URL ? process.env.API_URL : ''}/api/updatePublisher`,
+      url: `${
+        process.env.API_URL ? process.env.API_URL : ''
+      }/api/updatePublisher`,
       data: {
         pubId: values.pubId,
         ...(values.name && {
@@ -185,7 +190,9 @@ class PublishersControl extends React.Component {
   handleDelete(value) {
     axios({
       method: 'DELETE',
-      url:`${process.env.API_URL ? process.env.API_URL : ''}/api/removePublisher`,
+      url: `${
+        process.env.API_URL ? process.env.API_URL : ''
+      }/api/removePublisher`,
       data: {
         pubId: value
       }
@@ -282,6 +289,7 @@ class PublishersControl extends React.Component {
                             this.state.publishers
                           )}
                           formikProps={props}
+                          fullWidth={true}
                         />
                       </Grid>
                       <Grid item xs={12} sm={4} className={classes.toTheRight}>
@@ -311,12 +319,14 @@ class PublishersControl extends React.Component {
                             label="Name"
                             props={props}
                             margin="dense"
+                            cls={classes.form}
                           />
                           <MyTextField
                             id="estYear"
                             label="Est year"
                             props={props}
                             margin="dense"
+                            cls={classes.form}
                           />
                         </Grid>
                         <Grid item xs={12}>
@@ -325,12 +335,14 @@ class PublishersControl extends React.Component {
                             label="Address"
                             props={props}
                             margin="dense"
+                            cls={classes.form}
                           />
                           <MyTextField
                             id="origin"
                             label="Origin"
                             props={props}
                             margin="dense"
+                            cls={classes.form}
                           />
                         </Grid>
                       </Grid>
@@ -367,12 +379,14 @@ class PublishersControl extends React.Component {
                             label="Name"
                             props={props}
                             margin="dense"
+                            cls={classes.form}
                           />
                           <MyTextField
                             id="estYear"
                             label="Est year"
                             props={props}
                             margin="dense"
+                            cls={classes.form}
                           />
                         </Grid>
                         <Grid item xs={12}>
@@ -381,12 +395,14 @@ class PublishersControl extends React.Component {
                             label="Address"
                             props={props}
                             margin="dense"
+                            cls={classes.form}
                           />
                           <MyTextField
                             id="origin"
                             label="Origin"
                             props={props}
                             margin="dense"
+                            cls={classes.form}
                           />
                         </Grid>
                       </Grid>

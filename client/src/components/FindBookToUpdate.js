@@ -2,6 +2,7 @@ import React from "react";
 import { history } from "../routers/AppRouter";
 
 import SearchBookId from "./SearchBookId";
+import { Typography } from "@material-ui/core";
 
 
 
@@ -12,6 +13,9 @@ const FindBookToUpdate = () => {
   }
   return (
     <>
+    <Typography variant="overline">
+      Modify book:
+    </Typography>
       <SearchBookId handleSubmit={handleRedirect} searchForUpdate={true}/>
     </>
   ) 

@@ -63,7 +63,8 @@ const useStyles = makeStyles(theme => ({
     }
   },
   gridItem: {
-    display: ''
+    display: 'flex',
+    alignItems: 'center'
   },
   title: {
     [theme.breakpoints.only('xs')]: {
@@ -75,7 +76,18 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.only('xs')]: {
       marginRight: 15
     }
+  },
+  authorWrapper: {
+    marginLeft: 10
+  },
+  authorIdx: {
+    marginRight: 7
+  },
+  authorOrigin: {
+    marginLeft: 'auto',
+    marginRight: 0
   }
+
 }));
 
 const Results = ({ results } = props) => {
@@ -120,7 +132,7 @@ const Results = ({ results } = props) => {
                     {idx + 1}.
                   </Typography>
                   <Grid container>
-                    <Grid item xs={12} sm={6} className={classes.gridItem}>
+                    <Grid item xs={12} sm={6} >
                       <Typography variant="h6" className={clsx(classes.typoElement, classes.title)}>
                         {result.title}
                       </Typography>
@@ -131,7 +143,7 @@ const Results = ({ results } = props) => {
                         <span className={classes.span}>by</span> {result.author}
                       </Typography>
                     </Grid>
-                    <Grid item xs={12} sm={3}>
+                    <Grid item xs={12} sm={3} className={classes.gridItem}>
                       <Typography
                         variant="subtitle1"
                         className={classes.typoElement}
@@ -140,7 +152,7 @@ const Results = ({ results } = props) => {
                         {result.year}
                       </Typography>
                     </Grid>
-                    <Grid item xs={12} sm={3}>
+                    <Grid item xs={12} sm={3} className={classes.gridItem}>
                       <Typography
                         variant="subtitle1"
                         className={classes.typoElement}
@@ -175,10 +187,10 @@ const Results = ({ results } = props) => {
                 className={classes.mainBoxWrapper}
               >
                 <Person />
-                <Box display="flex" className={classes.boxWrapper} flexGrow={1}>
+                <Box display="flex" className={clsx(classes.boxWrapper, classes.authorWrapper)} flexGrow={1}>
                   <Typography
                     variant="subtitle2"
-                    className={classes.typoElement}
+                    className={clsx(classes.authorIdx, classes.typoElement)}
                   >
                     {idx + 1}.
                   </Typography>
@@ -187,7 +199,7 @@ const Results = ({ results } = props) => {
                   </Typography>
                   <Typography
                     variant="subtitle1"
-                    className={classes.typoElement}
+                    className={clsx(classes.typoElement, classes.authorOrigin)}
                   >
                     <span className={classes.span}>origin:</span>{' '}
                     {result.origin}

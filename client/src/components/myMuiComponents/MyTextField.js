@@ -2,16 +2,17 @@ import React from 'react';
 
 import TextField from "@material-ui/core/TextField";
 import makeStyles from "@material-ui/styles/makeStyles";
+import clsx from 'clsx';
 
 
 const useStyles = makeStyles(theme => ({
-    marginDense: {
-        // marginRight: theme.spacing(1)
+    fullWidth: {
+        width: '100%'
     }
 
 }))
 
-export default ({ id, label, props, margin = 'dense',  ...rest }) => {
+export default ({ id, label, props, margin = 'dense', cls = '',  ...rest }) => {
     const classes = useStyles();
     return (
     <TextField
@@ -20,7 +21,7 @@ export default ({ id, label, props, margin = 'dense',  ...rest }) => {
         variant="outlined"
         margin={margin}
         id={id}
-        className={classes.marginDense}
+        className={clsx(cls)}
         error={
             props.errors
                 [`${id}`] &&

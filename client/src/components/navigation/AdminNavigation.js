@@ -111,14 +111,8 @@ const AdminNavigation = ({ userName, logout }) => {
               <MenuItem className={classes.menuItem} onClick={() => history.push('/modify')}>
                 Modify categories
               </MenuItem>
-              <MenuItem className={classes.menuItem} onClick={() => history.push('/findUser')}>
-                Find user
-              </MenuItem>
               <MenuItem className={classes.menuItem} onClick={() => history.push('/addBook')}>
                 Add book
-              </MenuItem>
-              <MenuItem className={classes.menuItem} onClick={() => history.push('/createUser')}>
-                Create
               </MenuItem>
               <MenuItem
               className={classes.menuItem}
@@ -129,6 +123,12 @@ const AdminNavigation = ({ userName, logout }) => {
                 }
               >
                 Modify book
+              </MenuItem>
+              <MenuItem className={classes.menuItem} onClick={() => history.push('/findUser')}>
+                Find user
+              </MenuItem>
+              <MenuItem className={classes.menuItem} onClick={() => history.push('/createUser')}>
+                Create new user
               </MenuItem>
             </Menu>
 

@@ -4,7 +4,6 @@ import {searchQueries, queryFormat } from "../utils/searchQueries";
 const Search = {
     async search(req, res) {
         const params = req.query;
-        console.log('params', params)
         if(Object.entries(params).length == 0) {
             return res.status(400).send({"message": "Enter at least one value to search"});
         }
@@ -66,12 +65,9 @@ const Search = {
         const query = searchQueries.select(params.query) + titleClause() + authorClause()
             + yearRangeClauseFn() + genreClause() + orderQuery;
 
-            console.log('Search.js query: ', query);
-
 
         try {
             const { rows } = await db.query(query);
-            // console.log(rows);
             if(!rows[0]) {
                 return res.status(404).send({"message": "Book not found"})
             }
