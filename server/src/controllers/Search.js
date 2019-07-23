@@ -4,7 +4,6 @@ import {searchQueries, queryFormat } from "../utils/searchQueries";
 const Search = {
     async search(req, res) {
         const params = req.query;
-
         if(Object.entries(params).length == 0) {
             return res.status(400).send({"message": "Enter at least one value to search"});
         }
@@ -24,6 +23,14 @@ const Search = {
         const hasCols = Object.keys(params).includes('col');
         const whereClause = hasCols ? queryFormat.whereClause(params.col, params.value, params.query) : '';
         const orderQuery =  params.order ? queryFormat.orderBy(params.order) : '';
+        const genreClause = () => {
+            if(params.query === 'a' || params.genreId === 'all') {
+                return ''
+            } else {
+                return ` AND D.genre_id = ${params.genreId}` 
+            }
+        }
+        const genreQuery = params.genreId ? genreClause() : '';
 
         // check if years data is supplied and if it's not searching in authors - 'a'
         const yearRangeClauseFn = () => {
@@ -38,14 +45,14 @@ const Search = {
         }
 
         const query = searchQueries.select(params.query) + whereClause
-            + yearRangeClauseFn() + orderQuery;
+            + yearRangeClauseFn() + genreQuery + orderQuery;
 
             console.log('Search.js query: ', query);
 
 
         try {
             const { rows } = await db.query(query);
-            console.log(rows);
+            // console.log(rows);
             if(!rows[0]) {
                 return res.status(404).send({"message": "Book not found"})
             }

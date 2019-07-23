@@ -38,7 +38,8 @@ class MainPage extends Component {
         yearStart,
         yearEnd,
         titlesOrderBy,
-        authorsOrderBy
+        authorsOrderBy,
+        genre
       } = this.props.actualQuery.query;
       const isSearchInAuthors = searchIn === 'a' ? true : false;
       const searchByParam = isSearchInAuthors ? 'author' : searchBy;
@@ -53,7 +54,8 @@ class MainPage extends Component {
             value: value,
             yearStart: yearStart,
             yearEnd: yearEnd,
-            order: order
+            order: order,
+            genreId: genre
           }
         },
         []
@@ -86,16 +88,15 @@ class MainPage extends Component {
   handleSubmit(values) {
     const genreCol =
       values.genre === 'all' || values.searchIn === 'a'
-        ? {}
-        : {
-            col: 'genre',
-            value: values.genre
-          };
+        ? ''
+        : values.genre;
+          // console.log(genreCol)
     const isSearchInAuthors = values.searchIn === 'a' ? true : false;
     const searchByParam = isSearchInAuthors ? 'author' : values.searchBy;
     const order = isSearchInAuthors
       ? values.authorsOrderBy
       : values.titlesOrderBy;
+      console.log(values)
     axios({
       method: 'get',
       url: `${process.env.API_URL ? process.env.API_URL : ''}/api/search`,
@@ -105,8 +106,7 @@ class MainPage extends Component {
         value: values.value,
         yearStart: values.yearStart,
         yearEnd: values.yearEnd,
-        order: order,
-        ...genreCol
+        genreId: values.genre
       }
     })
       .then(res => {
