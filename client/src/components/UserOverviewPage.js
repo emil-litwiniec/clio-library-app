@@ -66,7 +66,7 @@ class UserOverviewPage extends React.Component {
   updateData() {
     axios({
       method: 'GET',
-      url: `${process.env.API_URL ? process.env.API_URL : ''}/api/user/getData`,
+      url: `${process.env.API_URL ? process.env.API_URL : ''}/api/getData`,
       params: {
         userId: this.props.match.params.userId
       }
@@ -112,7 +112,7 @@ class UserOverviewPage extends React.Component {
   handleProlong(value) {
     axios({
       method: 'PATCH',
-      url: `${process.env.API_URL ? process.env.API_URL : ''}/api/user/prolong`,
+      url: `${process.env.API_URL ? process.env.API_URL : ''}/api/prolong`,
       data: {
         borrowId: value
       }
@@ -136,7 +136,7 @@ class UserOverviewPage extends React.Component {
   handleRemoveReservation(value) {
     axios({
       method: 'DELETE',
-      url: `${process.env.API_URL ? process.env.API_URL : ''}/api/user/removeReservation`,
+      url: `${process.env.API_URL ? process.env.API_URL : ''}/api/removeReservation`,
       data: {
         resId: value
       }

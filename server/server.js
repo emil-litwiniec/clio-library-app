@@ -43,7 +43,7 @@ if(process.env.PORT) {
 
 app.get('/api/search', Search.search);
 app.put('/api/createUser', User.create);
-app.get('/api/user/getData', User.getData);
+app.get('/api/getData', User.getData);
 app.patch('/api/updateUser', User.update);
 app.get("/api/getUser", User.getUser);
 
@@ -82,9 +82,9 @@ app.delete('/api/removeTranslator', Translators.remove);
 app.patch('/api/updateTranslator', Translators.update);
 app.get('/api/getAllTranslators', Translators.getAll);
 
-app.patch('/api/user/prolong', Borrows.prolong);
-app.post('/api/user/addReservation', Reservations.add);
-app.delete('/api/user/removeReservation', Reservations.remove);
+app.patch('/api/prolong', Borrows.prolong);
+app.post('/api/addReservation', Reservations.add);
+app.delete('/api/removeReservation', Reservations.remove);
 
 app.get('/api/searchUsers', User.searchUsers)
 

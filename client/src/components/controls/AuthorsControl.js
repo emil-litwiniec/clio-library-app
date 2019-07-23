@@ -102,10 +102,8 @@ class AuthorControl extends React.Component {
   }
 
   updateState() {
-    axios({
-      method: 'GET',
-      url: `${process.env.API_URL ? process.env.API_URL : ''}/api/getAllAuthors`
-    })
+    axios.get( `${process.env.API_URL ? process.env.API_URL : ''}/api/getAllAuthors`
+    )
       .then(res => {
         this.setState(state => ({
           ...state,
