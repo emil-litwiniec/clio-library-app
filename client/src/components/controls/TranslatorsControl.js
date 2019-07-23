@@ -103,7 +103,7 @@ class TranslatorsControl extends React.Component {
     handleUpdate(values) {
         axios({
             method: "PATCH",
-            url: `${process.env.API_URL ? process.env.API_URL : ''}/api/admin/updateTranslator`,
+            url: `${process.env.API_URL ? process.env.API_URL : ''}/api/updateTranslator`,
             data: {
                 translatorId: values.translatorId,
                 ...(values.firstName && {
@@ -133,7 +133,7 @@ class TranslatorsControl extends React.Component {
     handleCreate(values) {
         axios({
             method: "PUT",
-            url: `${process.env.API_URL ? process.env.API_URL : ''}/api/admin/addTranslator`,
+            url: `${process.env.API_URL ? process.env.API_URL : ''}/api/addTranslator`,
             data: {
                 ...(values.firstName && {firstName: values.firstName}),
                 ...(values.lastName && {lastName: values.lastName})
@@ -198,7 +198,7 @@ class TranslatorsControl extends React.Component {
     handleDelete(value) {
         axios({
             method: "DELETE",
-            url: `${process.env.API_URL ? process.env.API_URL : ''}/api/admin/removeTranslator`,
+            url: `${process.env.API_URL ? process.env.API_URL : ''}/api/removeTranslator`,
             data: {
                 translatorId: value
             }

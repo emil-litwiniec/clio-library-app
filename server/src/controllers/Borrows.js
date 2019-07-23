@@ -10,7 +10,6 @@ const Borrows = {
             user id and book id.`
       });
     }
-
     try {
       // Check if book and user exist in the db
 

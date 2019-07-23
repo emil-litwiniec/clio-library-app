@@ -89,7 +89,7 @@ class AddBookForm extends React.Component {
         }),
         axios({
           method: 'GET',
-          url:  `${process.env.API_URL ? process.env.API_URL : ''}/api/admin/getAllGenres`
+          url:  `${process.env.API_URL ? process.env.API_URL : ''}/api/getAllGenres`
         })
       ]).then(([pubRes, genreRes]) => {
         this.setState(state => ({

@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm install && babel server --out-dir build",
-    "start-dev": "babel-watch server/server.js ",
+    "start-dev": "babel-watch server/server.js --env development",
     "start": "node build/server.js",
     "heroku-postbuild": "npm install && babel server --out-dir build && cd client && npm install && npm run build:prod"
   },

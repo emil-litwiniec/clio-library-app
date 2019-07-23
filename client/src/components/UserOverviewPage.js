@@ -15,7 +15,7 @@ import UserBorrows from './UserBorrows';
 import UserBorrowsHistory from './UserBorrowsHistory';
 import UserReservations from './UserReservations';
 
-import SearchBookId from './SearchBookId';``
+import SearchBookId from './SearchBookId';
 
 class UserOverviewPage extends React.Component {
   constructor(props) {
@@ -89,7 +89,7 @@ class UserOverviewPage extends React.Component {
   handleReturn(value) {
     axios({
       method: 'PATCH',
-      url: `${process.env.API_URL ? process.env.API_URL : ''}/api/admin/returnBook`,
+      url: `http://localhost:5000/api/returnBook`,
       data: {
         borrowId: value
       }
@@ -161,7 +161,7 @@ class UserOverviewPage extends React.Component {
   handleBorrow(value) {
     axios({
       method: 'PUT',
-      url: `${process.env.API_URL ? process.env.API_URL : ''}/api/admin/addBorrow`,
+      url: `${process.env.API_URL ? process.env.API_URL : ''}/api/addBorrow`,
       data: {
         userId: this.props.match.params.userId,
         bookId: value
@@ -175,6 +175,8 @@ class UserOverviewPage extends React.Component {
         this.updateData();
       })
       .catch(err => {
+        console.log(err.message)
+        console.log('error', err)
         this.setState(state => ({
           ...state,
           error: 'Unable to borrow the book'

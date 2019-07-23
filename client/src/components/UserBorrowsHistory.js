@@ -5,6 +5,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
+import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Typography from "@material-ui/core/Typography";
@@ -85,6 +86,11 @@ const useStyles = makeStyles(theme => ({
   },
   expansionPanelRoot: {
     backgroundColor: '#fbfbfb'
+  },
+  currentlyMessage: {
+    margin: '3.2rem auto 3.2rem auto',
+    textAlign: "center",
+    color: "#7c7c7c"
   }
 }));
 
@@ -93,6 +99,9 @@ const UserBorrows = ({ borrowsHistory }) => {
   return (
     <Box mt={4}>
       <Typography variant="overline"> Borrows history: </Typography>
+      <Divider />
+      { Object.keys(borrowsHistory).length > 0 ? 
+      
       <List>
         {borrowsHistory.map((borrow, idx) => {
           return (
@@ -233,7 +242,12 @@ const UserBorrows = ({ borrowsHistory }) => {
             </ExpansionPanel>
           );
         })}
-      </List>
+      </List> 
+      :
+      <Typography variant="overline" component="p" className={classes.currentlyMessage}>
+        Currently no past borrows
+      </Typography>
+    }
     </Box>
   );
 };

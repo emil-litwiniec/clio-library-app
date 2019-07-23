@@ -8,8 +8,8 @@ import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-
-import { Grid, Hidden } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
+import Hidden from '@material-ui/core/Hidden'
 
 import makeStyles from '@material-ui/styles/makeStyles';
 
@@ -83,7 +83,7 @@ const Results = ({ results } = props) => {
     const classes = useStyles();
 
     if (results && results.message) {
-      return <p>{results.message}</p>;
+      return <Typography variant="body2">{results.message}</Typography>;
     } else if (results && !results.error) {
       return results.map((result, idx) => {
         const isAvailable = (isBorrowed, isReserved) => {

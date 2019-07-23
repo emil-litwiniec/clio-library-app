@@ -75,6 +75,11 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.only('xs')]: {
       marginTop: 0
     }
+  },
+  currentlyMessage: {
+    margin: '3.2rem auto 3.2rem auto',
+    textAlign: "center",
+    color: "#7c7c7c"
   }
 }));
 
@@ -84,6 +89,9 @@ const UserBorrows = ({ borrows, handleProlong, handleReturn }) => {
     <Box mt={2}>
       <Typography variant="overline"> User borrows: </Typography>
       <Divider />
+
+      { Object.keys(borrows).length > 0 ? 
+      
       <List>
         {borrows.map((borrow, idx) => {
           return (
@@ -195,6 +203,11 @@ const UserBorrows = ({ borrows, handleProlong, handleReturn }) => {
           );
         })}
       </List>
+      :
+      <Typography component="p" variant="overline" className={classes.currentlyMessage}>
+        currently no borrows
+        </Typography>
+    }
     </Box>
   );
 };

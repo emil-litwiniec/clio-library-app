@@ -48,38 +48,38 @@ app.patch('/api/updateUser', User.update);
 app.get("/api/getUser", User.getUser);
 
 
-app.put('/api/admin/addBook', Books.insert);
-app.delete('/api/admin/removeBook', Books.remove);
-app.patch('/api/admin/updateBook', Books.update);
+app.put('/api/addBook', Books.insert);
+app.delete('/api/removeBook', Books.remove);
+app.patch('/api/updateBook', Books.update);
 app.post('/api/getBook', Books.getBook);
 app.get('/api/searchBookId', Books.searchBookId);
 app.get('/api/searchAllBookId', Books.searchAllBookId);
 
-app.put('/api/admin/addAuthor', Authors.insert);
-app.delete('/api/admin/removeAuthor', Authors.remove);
-app.patch('/api/admin/updateAuthor', Authors.update);
+app.put('/api/addAuthor', Authors.insert);
+app.delete('/api/removeAuthor', Authors.remove);
+app.patch('/api/updateAuthor', Authors.update);
 app.post('/api/getAuthor', Authors.getAuthor);
 app.get('/api/getAllAuthors', Authors.getAllAuthors);
 app.post('/api/getAuthorAndBooks', Authors.getAuthorAndBooks);
 
 
-app.put('api/admin/addBorrow', Borrows.add);
-app.patch('api/admin/returnBook', Borrows.bookReturn);
-app.delete('api/admin/removeBorrow', Borrows.remove);
+app.put('/api/addBorrow', Borrows.add);
+app.patch('/api/returnBook', Borrows.bookReturn);
+app.delete('/api/removeBorrow', Borrows.remove);
 
-app.put('/api/admin/addGenre', Genres.add);
-app.delete('/api/admin/removeGenre', Genres.remove);
-app.patch('/api/admin/updateGenre', Genres.update);
+app.put('/api/addGenre', Genres.add);
+app.delete('/api/removeGenre', Genres.remove);
+app.patch('/api/updateGenre', Genres.update);
 app.get('/api/getAllGenres', Genres.getAll);
 
-app.put('/api/admin/addPublisher', Publishers.add);
-app.delete('/api/admin/removePublisher', Publishers.remove)
-app.patch('/api/admin/updatePublisher', Publishers.update)
+app.put('/api/addPublisher', Publishers.add);
+app.delete('/api/removePublisher', Publishers.remove)
+app.patch('/api/updatePublisher', Publishers.update)
 app.get('/api/getAllPubs', Publishers.getAll);
 
-app.put('/api/admin/addTranslator', Translators.add);
-app.delete('/api/admin/removeTranslator', Translators.remove);
-app.patch('/api/admin/updateTranslator', Translators.update);
+app.put('/api/addTranslator', Translators.add);
+app.delete('/api/removeTranslator', Translators.remove);
+app.patch('/api/updateTranslator', Translators.update);
 app.get('/api/getAllTranslators', Translators.getAll);
 
 app.patch('/api/user/prolong', Borrows.prolong);
@@ -88,7 +88,7 @@ app.delete('/api/user/removeReservation', Reservations.remove);
 
 app.get('/api/searchUsers', User.searchUsers)
 
-app.get('/api/admin/filters', Filters.getAll);
+app.get('/api/filters', Filters.getAll);
 
 app.post('/api/login', User.login);
 app.post('/api/decodeToken', Auth.decodeToken);

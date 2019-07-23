@@ -52,7 +52,12 @@ const useStyles = makeStyles(theme => ({
     marginBottom: 25
   },
   button: {
-    width: '88%'
+    width: '88%',
+    marginTop: 8
+  },
+  submitGridContainer: {
+    display: "flex",
+    justifyContent: 'flex-end'
   }
 }));
 
@@ -199,7 +204,7 @@ const CreateUser = () => {
               </Grid>
 
               <Grid item xs={false} sm={6} />
-              <Grid item container xs={12} sm={6}>
+              <Grid item container xs={12} sm={6} className={classes.submitGridContainer}>
                 <Grid item xs={6} sm={6}>
                   <Box className={classes.boxSubmit}>
                     <Button

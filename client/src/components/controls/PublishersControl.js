@@ -124,7 +124,7 @@ class PublishersControl extends React.Component {
   handleUpdate(values) {
     axios({
       method: 'PATCH',
-      url: `${process.env.API_URL ? process.env.API_URL : ''}/api/admin/updatePublisher`,
+      url: `${process.env.API_URL ? process.env.API_URL : ''}/api/updatePublisher`,
       data: {
         pubId: values.pubId,
         ...(values.name && {
@@ -156,7 +156,7 @@ class PublishersControl extends React.Component {
   handleCreate(values) {
     axios({
       method: 'PUT',
-      url: `${process.env.API_URL ? process.env.API_URL : ''}/api/admin/addPublisher`,
+      url: `${process.env.API_URL ? process.env.API_URL : ''}/api/addPublisher`,
       data: {
         ...(values.name && {
           name: values.name
@@ -185,7 +185,7 @@ class PublishersControl extends React.Component {
   handleDelete(value) {
     axios({
       method: 'DELETE',
-      url:`${process.env.API_URL ? process.env.API_URL : ''}/api/admin/removePublisher`,
+      url:`${process.env.API_URL ? process.env.API_URL : ''}/api/removePublisher`,
       data: {
         pubId: value
       }

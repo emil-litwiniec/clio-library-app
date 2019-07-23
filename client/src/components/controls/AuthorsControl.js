@@ -121,7 +121,7 @@ class AuthorControl extends React.Component {
   handleUpdate(values) {
     axios({
       method: 'PATCH',
-      url: `${process.env.API_URL ? process.env.API_URL : ''}/api/admin/updateAuthor`,
+      url: `${process.env.API_URL ? process.env.API_URL : ''}/api/updateAuthor`,
       data: {
         authorId: values.authorId,
         ...(values.firstName && {
@@ -152,7 +152,7 @@ class AuthorControl extends React.Component {
   handleCreate(values) {
     axios({
       method: 'PUT',
-      url: `${process.env.API_URL ? process.env.API_URL : ''}/api/admin/addAuthor`,
+      url: `${process.env.API_URL ? process.env.API_URL : ''}/api/addAuthor`,
       data: {
         ...(values.firstName && { firstName: values.firstName }),
         ...(values.lastName && { lastName: values.lastName }),
@@ -178,7 +178,7 @@ class AuthorControl extends React.Component {
   handleDelete(value) {
     axios({
       method: 'DELETE',
-      url: `${process.env.API_URL ? process.env.API_URL : ''}/api/admin/removeAuthor`,
+      url: `${process.env.API_URL ? process.env.API_URL : ''}/api/removeAuthor`,
       data: {
         authorId: value
       }

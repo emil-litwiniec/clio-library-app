@@ -75,6 +75,11 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.only('xs')]: {
       marginTop: 0
     }
+  },
+  currentlyMessage: {
+    margin: '3.2rem auto 3.2rem auto',
+    textAlign: "center",
+    color: "#7c7c7c"
   }
 }));
 
@@ -84,6 +89,11 @@ const UserReservations = ({ reservations, handleRemoveReservation }) => {
     <Box mt={4}>
       <Typography variant="overline"> Reservations: </Typography>
       <Divider />
+
+      {
+        Object.keys(reservations).length > 0 ? 
+        
+
       <List>
         {reservations.map((reservation, idx) => {
           return (
@@ -168,7 +178,11 @@ const UserReservations = ({ reservations, handleRemoveReservation }) => {
             </Box>
           );
         })}
-      </List>
+      </List> :
+      <Typography component="p" variant="overline" className={classes.currentlyMessage}>
+        Currently no reservations
+      </Typography>
+      }
     </Box>
   );
 };
