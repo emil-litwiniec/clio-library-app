@@ -34,6 +34,10 @@ app.use(express.urlencoded({ extended: false}));
 
 app.use(cookieParser());
 
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/public/index.html'));
+});
+
 app.use('/', expressStaticGzip(path.join(__dirname, "..",'/client/public'), {
   index: false,
   enableBrotli: true,
@@ -114,9 +118,7 @@ cron.schedule('0 */6 * * *', () => {
 //  });
 
 // app.use(express.static(path.join(__dirname, "..",'/client/public')));
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, '../client/public/index.html'));
-// });
+
 
 
 app.listen(PORT);
