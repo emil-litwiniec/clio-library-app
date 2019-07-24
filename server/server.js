@@ -34,20 +34,20 @@ app.use(express.urlencoded({ extended: false}));
 
 app.use(cookieParser());
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/public/index.html'));
-});
 
 app.use('/', expressStaticGzip(path.join(__dirname, "..",'/client/public'), {
   index: false,
   enableBrotli: true,
   customCompressions: [{
-      encodingName: 'gzip',
-      fileExtension: 'gz'
+    encodingName: 'gzip',
+    fileExtension: 'gz'
   }],
   orderPreference: ['br']
 }));
-  
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/public/index.html'));
+});
 
 app.get('/api/search', Search.search);
 app.put('/api/createUser', User.create);
