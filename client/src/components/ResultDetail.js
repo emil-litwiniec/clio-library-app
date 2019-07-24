@@ -8,6 +8,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 
 
 import makeStyles from "@material-ui/styles/makeStyles";
+import Button from "@material-ui/core/Button";
 
 
 const useStyles = makeStyles(theme => ({
@@ -40,7 +41,9 @@ const ResultDetail = props => {
     genre,
     translator,
     is_borrowed: isBorrowed,
-    is_reserved: isReserved
+    is_reserved: isReserved,
+    handleReservation,
+    isUser
   } = props;
 
   const classes = useStyles();
@@ -50,6 +53,19 @@ const ResultDetail = props => {
     }
     return 'Available';
   };
+  const canReserve = () => {
+    console.log('is user: ', isUser)
+    if(isUser) {
+      if(isBorrowed == 'true' || isReserved == 'true') {
+        return false
+      } 
+        return true
+    } else {
+      return false
+    }
+  }
+
+
   return (
     <>
       <List aria-label="Result details" className={classes.list}>
@@ -105,6 +121,15 @@ const ResultDetail = props => {
           <ListItemText primary={isAvailable()} />
         </ListItem>
       </List>
+      {console.log(canReserve())}
+      {canReserve() &&
+        <Button 
+          onClick={handleReservation}
+          variant="outlined"
+          margin="dense">
+          Reserve
+        </Button>
+      }
     </>
   );
 };

@@ -4,8 +4,11 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: true
+  connectionString:
+    process.env.DATABASE_URL === 'postgres://Emil'
+      ? process.env.DATABASE_URL2
+      : process.env.DATABASE_URL,
+      SSL: true
 });
 
 export default {

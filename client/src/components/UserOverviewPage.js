@@ -72,7 +72,6 @@ class UserOverviewPage extends React.Component {
       }
     })
       .then(res => {
-        console.log('res data: ', res.data);
         this.setState(state => ({
           ...state,
           user: res.data.user,
@@ -89,7 +88,7 @@ class UserOverviewPage extends React.Component {
   handleReturn(value) {
     axios({
       method: 'PATCH',
-      url: `http://localhost:5000/api/returnBook`,
+      url: `${process.env.API_URL ? process.env.API_URL : ''}/api/returnBook`,
       data: {
         borrowId: value
       }

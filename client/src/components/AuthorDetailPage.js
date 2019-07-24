@@ -47,11 +47,9 @@ class AuthorDetailPage extends React.Component {
 
     render() {
         return (
-            <div>
-            <h3>Hello, author detail result page!</h3>
+            
                 <AuthorDetail {...this.state.results.data} handleGoBack={this.handleGoBack}/>
             
-        </div>
         )
     }
 }
