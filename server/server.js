@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import '@babel/polyfill';
 import cors from "cors";
+import expressStaticGzip from "express-static-gzip";
 import express from 'express';
 import path from "path";
 
@@ -33,7 +34,15 @@ app.use(express.urlencoded({ extended: false}));
 
 app.use(cookieParser());
 
-
+app.use('/', expressStaticGzip(path.join(__dirname, "..",'/client/public'), {
+  index: false,
+  enableBrotli: true,
+  customCompressions: [{
+      encodingName: 'gzip',
+      fileExtension: 'gz'
+  }],
+  orderPreference: ['br']
+}));
   
 
 app.get('/api/search', Search.search);
@@ -97,17 +106,17 @@ cron.schedule('0 */6 * * *', () => {
     Reservations.removeOutdated();
 })
 
-app.get('*.js', function(req, res, next) {
-  req.url = req.url + '.gz';
-  res.set('Content-Encoding', 'gzip');
-  res.set('Content-Type', 'text/javascript');
-  next();
- });
+// app.get('*.js', function(req, res, next) {
+//   req.url = req.url + '.gz';
+//   res.set('Content-Encoding', 'gzip');
+//   res.set('Content-Type', 'text/javascript');
+//   next();
+//  });
 
-app.use(express.static(path.join(__dirname, "..",'/client/public')));
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/public/index.html'));
-});
+// app.use(express.static(path.join(__dirname, "..",'/client/public')));
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, '../client/public/index.html'));
+// });
 
 
 app.listen(PORT);
