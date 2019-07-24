@@ -34,7 +34,6 @@ app.use(express.urlencoded({ extended: false}));
 app.use(cookieParser());
 
 
-app.use(express.static(path.join(__dirname, "..",'/client/public')));
   
 
 app.get('/api/search', Search.search);
@@ -98,6 +97,14 @@ cron.schedule('0 */6 * * *', () => {
     Reservations.removeOutdated();
 })
 
+app.get('*.js', function(req, res, next) {
+  req.url = req.url + '.gz';
+  res.set('Content-Encoding', 'gzip');
+  res.set('Content-Type', 'text/javascript');
+  next();
+ });
+
+app.use(express.static(path.join(__dirname, "..",'/client/public')));
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/public/index.html'));
 });

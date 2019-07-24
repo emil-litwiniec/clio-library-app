@@ -49,7 +49,6 @@ const AuthorDetail = ({author, books} = props) => {
 
            <Typography variant="overline">Author's books in catalogue:</Typography>
            <Divider />
-           {console.log('books : ', books)}
             {
                 areBooks() ? 
 
