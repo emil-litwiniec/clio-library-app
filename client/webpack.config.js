@@ -2,7 +2,6 @@
 const path = require('path');
 const webpack = require('webpack');
 const CompressionPlugin = require('compression-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const dotenv = require('dotenv');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
@@ -11,7 +10,6 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 module.exports = env => {
 
   const isProduction = env === 'production';
-  
 
   let envvar;
   if(!isProduction) {
@@ -35,23 +33,20 @@ module.exports = env => {
       new CompressionPlugin({
         filename: '[path].gz[query]',
         algorithm: 'gzip',
-        test: /\.js$|css|html|svg/,
+        test: /\.js$/,
         threshold: 10240,
         minRatio: 0.8
       }),
       new CompressionPlugin({
         filename: '[path].br[query]',
         algorithm: 'brotliCompress',
-        test: /\.(js|css|html|svg)$/,
+        test: /\.js$/,
         compressionOptions: { level: 11 },
         threshold: 10240,
         minRatio: 0.8,
         deleteOriginalAssets: false,
       }),
-      // new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
-      // new BundleAnalyzerPlugin()
     ] : [
-      // new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
       new webpack.DefinePlugin(envvar)
     ],
     module: {
@@ -78,19 +73,6 @@ module.exports = env => {
 		},
 		optimization: {
       concatenateModules: isProduction ? true : false,
-      // splitChunks: {
-      //   chunks: 'all',
-      //   minChunks: 2
-      // },
-      splitChunks: {
-        cacheGroups: {
-          vendor: {
-            test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
-            name: 'vendor',
-            chunks: 'all',
-          }
-        }
-      }
 		},
   }
 }
