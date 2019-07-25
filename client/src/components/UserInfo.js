@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { Person } from '@material-ui/icons';
+
+import Person from "@material-ui/icons/Person"
 
 
 

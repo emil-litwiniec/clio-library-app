@@ -13,10 +13,9 @@ import Hidden from '@material-ui/core/Hidden'
 
 import makeStyles from '@material-ui/styles/makeStyles';
 
-import {
-  LibraryBooksOutlined as Book,
-  PersonOutlineOutlined as Person
-} from '@material-ui/icons';
+
+import Book from "@material-ui/icons/LibraryBooksOutlined";
+import Person from "@material-ui/icons/PersonOutlineOutlined";
 
 const useStyles = makeStyles(theme => ({
   root: {

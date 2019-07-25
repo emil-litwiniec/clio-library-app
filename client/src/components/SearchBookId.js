@@ -1,7 +1,9 @@
 import React, { useEffect } from "react";
 import axios from "axios";
 
-import { Add, Search } from "@material-ui/icons";
+
+import Add from "@material-ui/icons/Add";
+import Search from "@material-ui/icons/Search";
 
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";

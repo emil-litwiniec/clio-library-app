@@ -1,5 +1,5 @@
 import React from 'react';
-import moment from "moment";
+// import moment from "moment";
 import { Link as RouterLink} from "react-router-dom";
 
 import TwoPhaseButton from './TwoPhaseButton';
@@ -14,14 +14,15 @@ import Typography from "@material-ui/core/Typography";
 
 import makeStyles from "@material-ui/styles/makeStyles";
 
-import { LibraryBooksOutlined as Book } from '@material-ui/icons';
+
+import Book from "@material-ui/icons/LibraryBooksOutlined"
 
 
-moment.locale('en-gb');
+// moment.locale('en-gb');
 
-const formatDate = (date) => {
-  return moment(date).format('L');
-}
+// const formatDate = (date) => {
+//   return moment(date).format('L');
+// }
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -153,7 +154,7 @@ const UserBorrows = ({ borrows, handleProlong, handleReturn }) => {
                           className={classes.typoElement}
                         >
                           <span className={classes.span}>Taken date: </span>
-                          {formatDate(borrow.taken_date)}
+                          {/* {formatDate(borrow.taken_date)} */}
                         </Typography>
                         <Typography
                           variant="body1"
@@ -162,7 +163,7 @@ const UserBorrows = ({ borrows, handleProlong, handleReturn }) => {
                           <span className={classes.span}>
                             Expected brought date:
                           </span>
-                          {formatDate(borrow.exp_brought_date)}
+                          {/* {formatDate(borrow.exp_brought_date)} */}
                         </Typography>
 
                         <Typography

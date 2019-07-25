@@ -6,7 +6,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import { SearchOutlined as Search } from "@material-ui/icons"
+import Serach from '@material-ui/icons/SearchOutlined';
 
 
 

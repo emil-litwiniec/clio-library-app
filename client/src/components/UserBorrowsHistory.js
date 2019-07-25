@@ -1,5 +1,5 @@
 import React from 'react';
-import moment from 'moment';
+// import moment from 'moment';
 import { Link as RouterLink } from 'react-router-dom';
 
 import Link from "@material-ui/core/Link";
@@ -15,14 +15,17 @@ import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 
 import makeStyles from "@material-ui/styles/makeStyles";
 
-import { LibraryBooksOutlined as Book, ExpandMore } from '@material-ui/icons';
+
+import Book from "@material-ui/icons/LibraryBooksOutlined"
+import ExpandMore from "@material-ui/icons/ExpandMore"
 
 
-moment.locale('en-gb');
 
-const formatDate = date => {
-  return moment(date).format('L');
-};
+// moment.locale('en-gb');
+
+// const formatDate = date => {
+//   return moment(date).format('L');
+// };
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -168,7 +171,7 @@ const UserBorrows = ({ borrowsHistory }) => {
                       Brought date:
                     </Typography>
                     <Typography variant="body1" className={classes.typoElement}>
-                      {formatDate(borrow.brought_date)}
+                      {/* {formatDate(borrow.brought_date)} */}
                     </Typography>
                   </Box>
 
@@ -236,7 +239,7 @@ const UserBorrows = ({ borrowsHistory }) => {
                               className={classes.typoElement}
                             >
                               <span className={classes.span}>Taken date: </span>
-                              {formatDate(borrow.taken_date)}
+                              {/* {formatDate(borrow.taken_date)} */}
                             </Typography>
                             <Typography
                               variant="body1"
@@ -245,7 +248,7 @@ const UserBorrows = ({ borrowsHistory }) => {
                               <span className={classes.span}>
                                 Brought date:
                               </span>
-                              {formatDate(borrow.brought_date)}
+                              {/* {formatDate(borrow.brought_date)} */}
                             </Typography>
 
                             <Typography

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { history } from '../../routers/AppRouter';
 
-import { Menu as MenuIcon, AccountCircle } from '@material-ui/icons';
+import MenuIcon from "@material-ui/icons/Menu";
+import AccountCircle from "@material-ui/icons/AccountCircle";
 
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";

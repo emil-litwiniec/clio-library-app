@@ -9,10 +9,10 @@ import utils from '../utils/utils';
 
 import makeStyles from '@material-ui/core/styles/makeStyles';
 
-import {
-  Search as SearchIcon,
-  ExpandMore as ExpandMoreIcon,
-} from '@material-ui/icons';
+
+import SearchIcon from "@material-ui/icons/Search";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+
 import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
 import Grid from "@material-ui/core/Grid";

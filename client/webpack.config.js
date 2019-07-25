@@ -2,6 +2,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const CompressionPlugin = require('compression-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const dotenv = require('dotenv');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
@@ -47,9 +48,10 @@ module.exports = env => {
         minRatio: 0.8,
         deleteOriginalAssets: false,
       }),
-      new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/)
+      // new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
+      new BundleAnalyzerPlugin()
     ] : [
-      new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
+      // new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
       new webpack.DefinePlugin(envvar)
     ],
     module: {
@@ -75,7 +77,20 @@ module.exports = env => {
       publicPath: '/dist/'
 		},
 		optimization: {
-			concatenateModules: isProduction ? true : false,
+      concatenateModules: isProduction ? true : false,
+      // splitChunks: {
+      //   chunks: 'all',
+      //   minChunks: 2
+      // },
+      splitChunks: {
+        cacheGroups: {
+          vendor: {
+            test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+            name: 'vendor',
+            chunks: 'all',
+          }
+        }
+      }
 		},
   }
 }
