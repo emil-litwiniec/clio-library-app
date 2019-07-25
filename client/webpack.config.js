@@ -49,7 +49,7 @@ module.exports = env => {
         deleteOriginalAssets: false,
       }),
       // new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
-      new BundleAnalyzerPlugin()
+      // new BundleAnalyzerPlugin()
     ] : [
       // new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
       new webpack.DefinePlugin(envvar)
