@@ -1,5 +1,4 @@
 import React from 'react';
-// import moment from "moment";
 import { Link as RouterLink} from "react-router-dom";
 
 import TwoPhaseButton from './TwoPhaseButton';
@@ -17,12 +16,6 @@ import makeStyles from "@material-ui/styles/makeStyles";
 
 import Book from "@material-ui/icons/LibraryBooksOutlined"
 
-
-// moment.locale('en-gb');
-
-// const formatDate = (date) => {
-//   return moment(date).format('L');
-// }
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -156,7 +149,7 @@ const UserReservations = ({ reservations, handleRemoveReservation }) => {
                           className={classes.typoElement}
                         >
                           <span className={classes.span}>Reservation date: </span>
-                          {/* {formatDate(reservation.res_date)} */}
+                          {reservation.res_date.slice(0,10)}
                         </Typography>
                         
                       </Grid>

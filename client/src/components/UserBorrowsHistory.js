@@ -1,5 +1,4 @@
 import React from 'react';
-// import moment from 'moment';
 import { Link as RouterLink } from 'react-router-dom';
 
 import Link from "@material-ui/core/Link";
@@ -19,13 +18,6 @@ import makeStyles from "@material-ui/styles/makeStyles";
 import Book from "@material-ui/icons/LibraryBooksOutlined"
 import ExpandMore from "@material-ui/icons/ExpandMore"
 
-
-
-// moment.locale('en-gb');
-
-// const formatDate = date => {
-//   return moment(date).format('L');
-// };
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -171,7 +163,7 @@ const UserBorrows = ({ borrowsHistory }) => {
                       Brought date:
                     </Typography>
                     <Typography variant="body1" className={classes.typoElement}>
-                      {/* {formatDate(borrow.brought_date)} */}
+                      {borrow.brought_date.slice(0,10)}
                     </Typography>
                   </Box>
 
@@ -239,7 +231,7 @@ const UserBorrows = ({ borrowsHistory }) => {
                               className={classes.typoElement}
                             >
                               <span className={classes.span}>Taken date: </span>
-                              {/* {formatDate(borrow.taken_date)} */}
+                              {borrow.taken_date.slice(0,10)}
                             </Typography>
                             <Typography
                               variant="body1"
@@ -248,7 +240,7 @@ const UserBorrows = ({ borrowsHistory }) => {
                               <span className={classes.span}>
                                 Brought date:
                               </span>
-                              {/* {formatDate(borrow.brought_date)} */}
+                              {borrow.brought_date.slice(0,10)}
                             </Typography>
 
                             <Typography
