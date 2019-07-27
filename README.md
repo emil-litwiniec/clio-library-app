@@ -46,7 +46,7 @@ caa393ed-f288-47b0-abff-7ce37c1ea759
 You can also obtain book ID entering search detail for a book. ID is the last element in the URL's path.
 ## About
 
-Clio is a full feature librarian app with user authorization system providing access for registered users, librarians and unregistered guests.
+Clio is a full feature librarian app with user authentication system providing access for registered users, librarians and unregistered guests.
 It consists of React client, Express Rest API and PostgreSQL DB.
 
 Made as a project to train my skills in constructing Rest APIs and working with relational databases.
@@ -56,7 +56,7 @@ Also I wanted to make full grown application as an autonomous entity.
 - Made with Material-UI components to create simple intuitive interface
 - Fully responsive user interface
 - App provides all CRUD operations
-- Authorization made using Json Web Token with separate routes for: admin, registered user and guest
+- Authentication made using Json Web Token with separate routes for: admin, registered user and guest
 - Sensitive data such as passwords is secured with hash algorithms
 - Advanced search panel with filters 
 - API's routes secured with JWT middleware utility
