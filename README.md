@@ -117,13 +117,14 @@ Also I wanted to make full grown application as an autonomous entity.
 
 ## Screenshots
 
-<img src="readme_screenshots/screenshot_01.png" alt="Screenshot from Clio Library App" width="600"/>
-<img src="readme_screenshots/screenshot_03.png" alt="Screenshot from Clio Library App" width="600"/>
-<img src="readme_screenshots/screenshot_04.png" alt="Screenshot from Clio Library App" width="600"/>
-<img src="readme_screenshots/screenshot_05.png" alt="Screenshot from Clio Library App" width="600"/>
-<img src="readme_screenshots/screenshot_08.png" alt="Screenshot from Clio Library App" width="600"/>
-<img src="readme_screenshots/screenshot_09.png" alt="Screenshot from Clio Library App" width="600"/>
-<img src="readme_screenshots/screenshot_13.png" alt="Screenshot from Clio Library App" width="600"/>
+<img src="readme_screenshots/screenshot_16.png" alt="Screenshot from Clio Library App" width="700"/>
+<img src="readme_screenshots/screenshot_01.png" alt="Screenshot from Clio Library App" width="700"/>
+<img src="readme_screenshots/screenshot_03.png" alt="Screenshot from Clio Library App" width="700"/>
+<img src="readme_screenshots/screenshot_04.png" alt="Screenshot from Clio Library App" width="700"/>
+<img src="readme_screenshots/screenshot_05.png" alt="Screenshot from Clio Library App" width="700"/>
+<img src="readme_screenshots/screenshot_08.png" alt="Screenshot from Clio Library App" width="700"/>
+<img src="readme_screenshots/screenshot_09.png" alt="Screenshot from Clio Library App" width="700"/>
+<img src="readme_screenshots/screenshot_13.png" alt="Screenshot from Clio Library App" width="375"/>
 
 
 
