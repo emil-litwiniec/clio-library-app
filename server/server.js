@@ -99,24 +99,11 @@ app.get('/api/filters', Filters.getAll);
 app.post('/api/login', User.login);
 app.post('/api/decodeToken', Auth.decodeToken);
 
-// app.get('/api/admin/', Auth.verifyAdminToken, (req, res) => {
-//     res.status(200).send({ 'message': "admin works" })
-// });
 
 // check for outdated reservations every 6 hours
 cron.schedule('0 */6 * * *', () => {
     Reservations.removeOutdated();
 })
-
-// app.get('*.js', function(req, res, next) {
-//   req.url = req.url + '.gz';
-//   res.set('Content-Encoding', 'gzip');
-//   res.set('Content-Type', 'text/javascript');
-//   next();
-//  });
-
-// app.use(express.static(path.join(__dirname, "..",'/client/public')));
-
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/public/index.html'));
 });
