@@ -120,27 +120,35 @@ Also I wanted to make full grown application as an autonomous entity.
 
 
 ## Screenshots
+</br>
 <sup>Sign in</sup> </br>
 <img src="readme_screenshots/screenshot_16.png" alt="Screenshot from Clio Library App" width="700"/>
 
+</br>
 <sup>Search and current user info</sup> </br>
 <img src="readme_screenshots/screenshot_01.png" alt="Screenshot from Clio Library App" width="700"/>
 
+</br>
 <sup>Search with filters</sup> </br>
 <img src="readme_screenshots/screenshot_03.png" alt="Screenshot from Clio Library App" width="700"/>
 
+</br>
 <sup>Detail result</sup> </br>
 <img src="readme_screenshots/screenshot_04.png" alt="Screenshot from Clio Library App" width="700"/>
 
+</br>
 <sup>Adding book</sup> </br>
 <img src="readme_screenshots/screenshot_05.png" alt="Screenshot from Clio Library App" width="700"/>
 
+</br>
 <sup>Modify categories</sup> </br>
 <img src="readme_screenshots/screenshot_08.png" alt="Screenshot from Clio Library App" width="700"/>
 
+</br>
 <sup>User stats</sup> </br>
 <img src="readme_screenshots/screenshot_09.png" alt="Screenshot from Clio Library App" width="700"/>
 
+</br>
 <sup>Responsive search</sup> </br>
 <img src="readme_screenshots/screenshot_13.png" alt="Screenshot from Clio Library App" width="375"/>
 
