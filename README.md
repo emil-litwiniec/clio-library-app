@@ -7,6 +7,10 @@ Simple UI library app for searching and managing books.
 The name is inspired by the Greek muse of history - "Clio".
 She is often represented with an open parchment scroll, a book, or a set of tablets.
 
+## Live 
+https://clio-library.herokuapp.com/
+> Notice: The app is hosted on Heroku, so the initial load may take some time. Please, give it a few seconds.
+
 ## Guide
 Usage is easy!
 
@@ -116,14 +120,28 @@ Also I wanted to make full grown application as an autonomous entity.
 
 
 ## Screenshots
-
+<sup>Sign in</sup> </br>
 <img src="readme_screenshots/screenshot_16.png" alt="Screenshot from Clio Library App" width="700"/>
+
+<sup>Search and current user info</sup> </br>
 <img src="readme_screenshots/screenshot_01.png" alt="Screenshot from Clio Library App" width="700"/>
+
+<sup>Search with filters</sup> </br>
 <img src="readme_screenshots/screenshot_03.png" alt="Screenshot from Clio Library App" width="700"/>
+
+<sup>Detail result</sup> </br>
 <img src="readme_screenshots/screenshot_04.png" alt="Screenshot from Clio Library App" width="700"/>
+
+<sup>Adding book</sup> </br>
 <img src="readme_screenshots/screenshot_05.png" alt="Screenshot from Clio Library App" width="700"/>
+
+<sup>Modify categories</sup> </br>
 <img src="readme_screenshots/screenshot_08.png" alt="Screenshot from Clio Library App" width="700"/>
+
+<sup>User stats</sup> </br>
 <img src="readme_screenshots/screenshot_09.png" alt="Screenshot from Clio Library App" width="700"/>
+
+<sup>Responsive search</sup> </br>
 <img src="readme_screenshots/screenshot_13.png" alt="Screenshot from Clio Library App" width="375"/>
 
 
