@@ -7,10 +7,6 @@ Simple UI library app for searching and managing books.
 The name is inspired by the Greek muse of history - "Clio".
 She is often represented with an open parchment scroll, a book, or a set of tablets.
 
-## Live 
-https://clio-library.herokuapp.com/
-> Notice: The app is hosted on Heroku, so the initial load may take some time. Please, give it a few seconds.
-
 ## Guide
 Usage is easy!
 
