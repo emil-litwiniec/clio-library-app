@@ -149,14 +149,6 @@ Also I wanted to make full grown application as an autonomous entity.
 <img src="readme_screenshots/screenshot_13.png" alt="Screenshot from Clio Library App" width="375"/>
 
 
-
-## Links
-
-- Live: https://clio-library.herokuapp.com/
-> Notice: The app is hosted on Heroku, so the initial load may take some time. Please, give it a few seconds.
-- Repository: https://github.com/EmilTheSadCat/clio-library-app
-
-
 ## Licensing
 
 The code in this project is licensed under ISC license.
